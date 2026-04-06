@@ -1,79 +1,154 @@
 import Link from 'next/link'
-import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from 'lucide-react'
+import Image from 'next/image'
+import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram, ArrowUpRight } from 'lucide-react'
+
+const services = [
+  'Proyectos de Arquitectura',
+  'Ingeniería Civil',
+  'Certificación Energética',
+  'Licencias de Actividad',
+  'Dirección de Obra',
+  'Estudios Técnicos',
+]
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-3 gap-12 mb-8">
-          {/* Company Info */}
-          <div>
-            <h3 className="text-2xl font-bold mb-4">LRP Proyectos Técnicos</h3>
-            <p className="text-gray-400 mb-4">
-              Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional.
+    <footer className="bg-charcoal-900 text-white">
+      {/* Gold top line */}
+      <div className="h-px bg-gold/60" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-16">
+
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <div className="relative w-52 h-14 mb-6">
+              <Image
+                src="/logo_proyectos_tecnicos.png"
+                alt="LRP Proyectos Técnicos"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed mb-8">
+              Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional desde 2008.
             </p>
+            <div className="flex gap-4">
+              <a
+                href="#"
+                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Navigation */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Enlaces Rápidos</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/sobre-nosotros" className="text-gray-400 hover:text-white transition-colors">
-                  Sobre Nosotros
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicios" className="text-gray-400 hover:text-white transition-colors">
-                  Servicios
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio" className="text-gray-400 hover:text-white transition-colors">
-                  Portfolio
-                </Link>
-              </li>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+              Navegación
+            </h4>
+            <ul className="space-y-3">
+              {[
+                { href: '/', label: 'Inicio' },
+                { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
+                { href: '/servicios', label: 'Servicios' },
+                { href: '/portfolio', label: 'Portfolio' },
+                { href: '/contacto', label: 'Contacto' },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contacto</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+              Servicios
+            </h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
-                <a href="mailto:info@lrpproyectostecnicos.com" className="text-gray-400 hover:text-white transition-colors">
-                  info@lrpproyectostecnicos.com
+              {services.map((service) => (
+                <li key={service}>
+                  <Link
+                    href="/servicios"
+                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
+                    {service}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+              Contacto
+            </h4>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  href="mailto:info@lrpproyectostecnicos.com"
+                  className="flex items-start gap-3 text-white/55 hover:text-gold transition-colors duration-300 group"
+                >
+                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 group-hover:text-gold" />
+                  <span className="text-sm">info@lrpproyectostecnicos.com</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">+34 XXX XXX XXX</span>
+              <li className="flex items-start gap-3 text-white/55">
+                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span className="text-sm">+34 XXX XXX XXX</span>
               </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">España</span>
+              <li className="flex items-start gap-3 text-white/55">
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span className="text-sm">España</span>
               </li>
             </ul>
+
+            <div className="mt-8">
+              <Link
+                href="/contacto"
+                className="inline-flex items-center gap-2 btn-outline-gold text-xs"
+              >
+                Solicitar Presupuesto
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
+        {/* Bottom */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-xs tracking-wide">
             © {new Date()?.getFullYear?.()} LRP Proyectos Técnicos. Todos los derechos reservados.
           </p>
-          <div className="flex gap-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
-              <Facebook className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
-              <Instagram className="w-5 h-5" />
-            </a>
-          </div>
+          <p className="text-white/20 text-xs">
+            Arquitectura · Ingeniería · Innovación
+          </p>
         </div>
       </div>
     </footer>

@@ -9,17 +9,31 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+      fontFamily: {
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
+        gold: {
+          DEFAULT: '#C9A84C',
+          light: '#E2C97A',
+          dark: '#A07C2E',
+          50: '#FBF6E9',
+          100: '#F5EAC8',
+        },
+        charcoal: {
+          DEFAULT: '#0D0D0D',
+          900: '#111111',
+          800: '#1A1A1A',
+          700: '#262626',
+          600: '#333333',
+          500: '#444444',
+        },
+        cream: {
+          DEFAULT: '#F8F5F0',
+          100: '#FAF8F4',
+          200: '#F0EBE3',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -61,27 +75,37 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      letterSpacing: {
+        widest: '0.25em',
+        'ultra-wide': '0.35em',
+      },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'line-grow': {
+          from: { width: '0' },
+          to: { width: '100%' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'line-grow': 'line-grow 0.8s ease-out forwards',
       },
     },
   },

@@ -1,6 +1,8 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import AnimatedSection from '@/components/animated-section'
-import { MapPin, Calendar, Building } from 'lucide-react'
+import { MapPin, Calendar, ArrowUpRight } from 'lucide-react'
+import AnimatedCounter from '@/components/animated-counter'
 
 export const metadata = {
   title: 'Portfolio | LRP Proyectos Técnicos',
@@ -15,6 +17,7 @@ const projects = [
     category: 'Residencial',
     description: 'Diseño y ejecución de complejo residencial de 120 viviendas con certificación energética A. Incluye zonas comunes, piscina y áreas verdes.',
     image: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyaminmellish-106399.jpg&fm=jpg',
+    size: 'large',
   },
   {
     title: 'Edificio Corporativo Internacional',
@@ -22,7 +25,8 @@ const projects = [
     year: '2022',
     category: 'Comercial',
     description: 'Proyecto integral de oficinas de 8.000 m² con tecnología BIM, instalaciones inteligentes y espacios sostenibles.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8b2ZmaWNlJTIwYnVpbGRpbmd8ZW58MHx8MHx8fDA%3D',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=60&w=3000',
+    size: 'small',
   },
   {
     title: 'Nave Industrial Logística',
@@ -31,6 +35,7 @@ const projects = [
     category: 'Industrial',
     description: 'Nave industrial de 5.000 m² con sistemas automatizados, instalación fotovoltaica y certificación LEED.',
     image: 'https://images.pexels.com/photos/3769292/pexels-photo-3769292.jpeg?cs=srgb&dl=pexels-timo-volz-837240-3769292.jpg&fm=jpg',
+    size: 'small',
   },
   {
     title: 'Rehabilitación Edificio Histórico',
@@ -38,7 +43,8 @@ const projects = [
     year: '2022',
     category: 'Rehabilitación',
     description: 'Rehabilitación integral manteniendo fachada histórica, adaptación a normativa actual y mejora de eficiencia energética.',
-    image: 'https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW9kZXJuJTIwaG91c2V8ZW58MHx8MHx8fDA%3D',
+    image: 'https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?fm=jpg&q=60&w=3000',
+    size: 'large',
   },
   {
     title: 'Centro Comercial Sostenible',
@@ -47,6 +53,7 @@ const projects = [
     category: 'Comercial',
     description: 'Centro comercial de 12.000 m² con enfoque en sostenibilidad, iluminación LED y sistemas de climatización eficientes.',
     image: 'https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg',
+    size: 'small',
   },
   {
     title: 'Infraestructura Vial Urbana',
@@ -54,57 +61,92 @@ const projects = [
     year: '2022',
     category: 'Ingeniería Civil',
     description: 'Proyecto de mejora de infraestructuras urbanas: viales, aceras, iluminación y sistemas de drenaje sostenible.',
-    image: 'https://plus.unsplash.com/premium_photo-1664474927853-900d5ee1fd80?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2l2aWwlMjBlbmdpbmVlcmluZ3xlbnwwfHwwfHx8MA%3D%3D',
+    image: 'https://plus.unsplash.com/premium_photo-1664474927853-900d5ee1fd80?fm=jpg&q=60&w=3000',
+    size: 'small',
   },
 ]
 
 export default function Portfolio() {
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-6xl mx-auto px-4">
+    <div>
+      {/* ── HERO ── */}
+      <section className="relative h-[65vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
+            alt="Portfolio LRP"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
           <AnimatedSection>
-            <div className="text-center">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">Nuestro Portfolio</h1>
-              <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                Proyectos que transforman espacios y mejoran vidas
-              </p>
-            </div>
+            <p className="section-label">Nuestro Trabajo</p>
+            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
+              Portfolio
+            </h1>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Projects Grid */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-8">
+      {/* ── INTRO ── */}
+      <section className="bg-cream py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="max-w-3xl">
+            <p className="text-charcoal/60 text-xl leading-relaxed">
+              Cada proyecto refleja nuestro compromiso con la excelencia técnica, la innovación y la satisfacción de nuestros clientes. Proyectos que transforman espacios y mejoran vidas.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROJECTS GRID ── */}
+      <section className="bg-white py-4 pb-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="grid md:grid-cols-2 gap-4">
             {projects?.map?.((project, index) => (
-              <AnimatedSection key={index} delay={index * 0.1}>
-                <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group">
-                  <div className="relative aspect-[3/2] overflow-hidden">
-                    <Image
-                      src={project?.image ?? ''}
-                      alt={project?.title ?? ''}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">
+              <AnimatedSection key={index} delay={index * 0.08}>
+                <div className="group relative overflow-hidden aspect-[4/3] cursor-pointer">
+                  <Image
+                    src={project?.image ?? ''}
+                    alt={project?.title ?? ''}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-106"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/40 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
+
+                  {/* Category badge */}
+                  <div className="absolute top-6 left-6">
+                    <span className="bg-gold text-charcoal text-xs font-semibold uppercase px-3 py-1.5 tracking-widest" style={{ letterSpacing: '0.15em' }}>
                       {project?.category ?? ''}
-                    </div>
+                    </span>
                   </div>
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{project?.title ?? ''}</h3>
-                    <p className="text-gray-600 mb-6">{project?.description ?? ''}</p>
-                    <div className="space-y-2 text-sm text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-blue-600" />
-                        <span>{project?.location ?? ''}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-blue-600" />
-                        <span>{project?.year ?? ''}</span>
-                      </div>
+
+                  {/* Arrow */}
+                  <div className="absolute top-6 right-6 w-10 h-10 border border-white/30 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:border-gold group-hover:text-gold">
+                    <ArrowUpRight className="w-4 h-4" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    <h3 className="font-serif text-2xl font-bold text-white mb-2 leading-tight">
+                      {project?.title ?? ''}
+                    </h3>
+                    <p className="text-white/50 text-sm mb-4 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                      {project?.description ?? ''}
+                    </p>
+                    <div className="flex items-center gap-6 text-xs text-white/40">
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5" />
+                        {project?.location ?? ''}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {project?.year ?? ''}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -114,35 +156,47 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-blue-600 text-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <AnimatedSection>
-              <div>
-                <div className="text-5xl font-bold mb-2">500+</div>
-                <p className="text-blue-100">Proyectos Completados</p>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection delay={0.1}>
-              <div>
-                <div className="text-5xl font-bold mb-2">25+</div>
-                <p className="text-blue-100">Países</p>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection delay={0.2}>
-              <div>
-                <div className="text-5xl font-bold mb-2">1M+</div>
-                <p className="text-blue-100">m² Construidos</p>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection delay={0.3}>
-              <div>
-                <div className="text-5xl font-bold mb-2">98%</div>
-                <p className="text-blue-100">Clientes Satisfechos</p>
-              </div>
-            </AnimatedSection>
+      {/* ── STATS ── */}
+      <section className="bg-charcoal-800 py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+            {[
+              { end: 500, suffix: '+', label: 'Proyectos Completados' },
+              { end: 25, suffix: '+', label: 'Países' },
+              { end: 1, suffix: 'M+ m²', label: 'Construidos' },
+              { end: 98, suffix: '%', label: 'Clientes Satisfechos' },
+            ].map((stat, i) => (
+              <AnimatedSection key={i} delay={i * 0.1}>
+                <div className="text-center px-8 py-4">
+                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-1">
+                    <AnimatedCounter end={stat.end} suffix={stat.suffix} />
+                  </div>
+                  <p className="text-white/40 text-xs uppercase tracking-widest mt-2" style={{ letterSpacing: '0.15em' }}>
+                    {stat.label}
+                  </p>
+                </div>
+              </AnimatedSection>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="bg-charcoal py-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
+          <AnimatedSection>
+            <div className="w-12 h-px bg-gold mx-auto mb-8" />
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
+              ¿Su proyecto podría ser el siguiente?
+            </h2>
+            <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
+              Hablemos de su visión y hagámosla realidad.
+            </p>
+            <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+              Iniciar Proyecto
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
     </div>

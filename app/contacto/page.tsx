@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import ContactForm from '@/components/contact-form'
 import { Mail, Phone, MapPin, Clock } from 'lucide-react'
 import AnimatedSection from '@/components/animated-section'
@@ -9,90 +10,107 @@ export const metadata = {
 
 export default function Contacto() {
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-6xl mx-auto px-4">
+    <div>
+      {/* ── HERO ── */}
+      <section className="relative h-[55vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=80&w=3000"
+            alt="Contacto LRP"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
           <AnimatedSection>
-            <div className="text-center">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">Contacto</h1>
-              <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                Estamos aquí para ayudarle con su proyecto
-              </p>
-            </div>
+            <p className="section-label">Hablemos</p>
+            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
+              Contacto
+            </h1>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Info */}
-            <AnimatedSection>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                  Información de Contacto
+      {/* ── CONTACT SECTION ── */}
+      <section className="bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="grid lg:grid-cols-5 gap-0">
+
+            {/* Left: Info */}
+            <div className="lg:col-span-2 bg-charcoal py-20 px-10 lg:px-12">
+              <AnimatedSection>
+                <p className="section-label">Información</p>
+                <h2 className="font-serif text-3xl font-bold text-white mb-10 leading-tight">
+                  Estamos aquí para ayudarle
                 </h2>
 
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4 bg-white p-6 rounded-xl shadow-md">
-                    <Mail className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
-                      <a
-                        href="mailto:info@lrpproyectostecnicos.com"
-                        className="text-blue-600 hover:text-blue-700"
-                      >
-                        info@lrpproyectostecnicos.com
-                      </a>
+                <div className="space-y-8">
+                  {[
+                    {
+                      icon: Mail,
+                      label: 'Email',
+                      value: 'info@lrpproyectostecnicos.com',
+                      href: 'mailto:info@lrpproyectostecnicos.com',
+                    },
+                    {
+                      icon: Phone,
+                      label: 'Teléfono',
+                      value: '+34 XXX XXX XXX',
+                      href: undefined,
+                    },
+                    {
+                      icon: MapPin,
+                      label: 'Ubicación',
+                      value: 'España',
+                      href: undefined,
+                    },
+                    {
+                      icon: Clock,
+                      label: 'Horario',
+                      value: 'Lunes – Viernes: 9:00 – 18:00',
+                      href: undefined,
+                    },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-5">
+                      <div className="w-10 h-10 border border-gold/30 flex items-center justify-center flex-shrink-0">
+                        <item.icon className="w-4 h-4 text-gold" />
+                      </div>
+                      <div>
+                        <p className="text-white/30 text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
+                          {item.label}
+                        </p>
+                        {item.href ? (
+                          <a href={item.href} className="text-white/70 hover:text-gold transition-colors text-sm">
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="text-white/70 text-sm">{item.value}</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 bg-white p-6 rounded-xl shadow-md">
-                    <Phone className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">Teléfono</h3>
-                      <p className="text-gray-600">+34 XXX XXX XXX</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 bg-white p-6 rounded-xl shadow-md">
-                    <MapPin className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">Ubicación</h3>
-                      <p className="text-gray-600">España</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 bg-white p-6 rounded-xl shadow-md">
-                    <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">Horario</h3>
-                      <p className="text-gray-600">Lunes - Viernes: 9:00 - 18:00</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
 
-                <div className="mt-8 bg-blue-50 p-6 rounded-xl border border-blue-100">
-                  <h3 className="font-semibold text-gray-900 mb-3">Protección de Datos</h3>
-                  <p className="text-sm text-gray-600">
-                    Los datos proporcionados serán almacenados de forma segura y utilizados únicamente
-                    para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
+                <div className="mt-14 pt-8 border-t border-white/10">
+                  <p className="text-white/25 text-xs leading-relaxed">
+                    Los datos proporcionados serán almacenados de forma segura y utilizados únicamente para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
                   </p>
                 </div>
-              </div>
-            </AnimatedSection>
+              </AnimatedSection>
+            </div>
 
-            {/* Contact Form */}
-            <AnimatedSection delay={0.2}>
-              <div className="bg-white p-8 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-900 mb-8">
-                  Envíenos un Mensaje
+            {/* Right: Form */}
+            <div className="lg:col-span-3 py-20 px-8 lg:px-16 bg-cream">
+              <AnimatedSection delay={0.15}>
+                <p className="section-label">Formulario</p>
+                <h2 className="font-serif text-3xl font-bold text-charcoal mb-10 leading-tight">
+                  Envíenos un mensaje
                 </h2>
                 <ContactForm />
-              </div>
-            </AnimatedSection>
+              </AnimatedSection>
+            </div>
           </div>
         </div>
       </section>
