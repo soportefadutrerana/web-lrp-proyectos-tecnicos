@@ -9,7 +9,16 @@ export const metadata = {
   description: 'Contacte con nosotros para su proyecto de arquitectura o ingeniería. Estamos disponibles para atenderle.',
 }
 
-export default function Contacto() {
+type ContactoPageProps = {
+  searchParams?: {
+    modo?: string | string[]
+  }
+}
+
+export default function Contacto({ searchParams }: ContactoPageProps) {
+  const modo = Array.isArray(searchParams?.modo) ? searchParams?.modo?.[0] : searchParams?.modo
+  const isPresupuestoMode = modo === 'presupuesto'
+
   return (
     <div>
       {/* ── HERO ── */}
@@ -31,10 +40,12 @@ export default function Contacto() {
           <AnimatedSection>
             <div className="max-w-4xl">
               <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
-                Contacto
+                {isPresupuestoMode ? 'Solicitar Presupuesto' : 'Contacto'}
               </h1>
               <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
-                Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.
+                {isPresupuestoMode
+                  ? 'Comparta los detalles de su proyecto y le enviaremos una propuesta tecnica y economica adaptada a sus necesidades.'
+                  : 'Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.'}
               </p>
               <Link href="#formulario-contacto" className="btn-gold inline-flex items-center gap-2">
                 Ir al formulario
@@ -121,7 +132,7 @@ export default function Contacto() {
                 </h2>
                 {/* Aseguramos que el div del formulario también sea w-full */}
                 <div className="w-full">
-                  <ContactForm />
+                  <ContactForm initialAsunto={isPresupuestoMode ? 'Solicitud de presupuesto' : 'Proyecto nuevo'} />
                 </div>  
               </AnimatedSection>
             </div>

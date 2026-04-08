@@ -1,20 +1,31 @@
 'use client'
 
 import { CheckCircle, Send } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function ContactForm() {
+type ContactFormProps = {
+  initialAsunto?: string
+}
+
+export default function ContactForm({ initialAsunto = 'Proyecto nuevo' }: ContactFormProps) {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     telefono: '',
-    asunto: 'Proyecto nuevo',
+    asunto: initialAsunto,
     mensaje: '',
   })
   const [adjuntos, setAdjuntos] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      asunto: initialAsunto,
+    }))
+  }, [initialAsunto])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e?.preventDefault?.()
@@ -34,7 +45,7 @@ export default function ContactForm() {
       if (!response?.ok) throw new Error('Error al enviar')
 
       setSubmitted(true)
-      setFormData({ nombre: '', email: '', telefono: '', asunto: 'Proyecto nuevo', mensaje: '' })
+      setFormData({ nombre: '', email: '', telefono: '', asunto: initialAsunto, mensaje: '' })
       setAdjuntos([])
     } catch (err) {
       setError('Hubo un error al enviar el formulario. Por favor, inténtelo de nuevo.')
@@ -145,7 +156,7 @@ export default function ContactForm() {
           <select
             id="asunto"
             name="asunto"
-            value={formData?.asunto ?? 'Proyecto nuevo'}
+            value={formData?.asunto ?? initialAsunto}
             onChange={handleChange}
             className={inputClass}
           >

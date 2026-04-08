@@ -333,7 +333,7 @@ export default function Home() {
                 Contáctenos hoy y descubra cómo podemos hacer realidad sus ideas con la más alta calidad técnica.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                <Link href="/contacto?modo=presupuesto" className="btn-gold inline-flex items-center gap-2">
                   Solicitar Presupuesto
                   <ArrowRight className="w-4 h-4" />
                 </Link>

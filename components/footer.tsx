@@ -134,7 +134,7 @@ export default function Footer() {
 
             <div className="mt-8">
               <Link
-                href="/contacto"
+                href="/contacto?modo=presupuesto"
                 className="inline-flex items-center gap-2 btn-outline-gold text-xs"
               >
                 Solicitar Presupuesto

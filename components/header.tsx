@@ -79,7 +79,7 @@ export default function Header() {
             )) ?? null}
 
             <Link
-              href="/contacto"
+              href="/contacto?modo=presupuesto"
               className="ml-6 btn-gold text-xs hover:bg-gold-dark transition-all duration-300 hover:shadow-lg"
             >
               Solicitar Presupuesto
@@ -118,7 +118,7 @@ export default function Header() {
             )) ?? null}
             <div className="pt-6 border-t border-white/10 mt-6">
               <Link
-                href="/contacto"
+                href="/contacto?modo=presupuesto"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block btn-gold text-center text-xs hover:bg-gold-dark transition-all duration-300"
               >
