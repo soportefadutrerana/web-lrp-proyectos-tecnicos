@@ -163,7 +163,7 @@ export default function Servicios() {
       </section>
 
       {/* ── SERVICES LIST ── */}
-      <section className="bg-white">
+      <section className="bg-white pb-16 sm:pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="space-y-10 lg:space-y-12">
             {services?.map?.((service, index) => (

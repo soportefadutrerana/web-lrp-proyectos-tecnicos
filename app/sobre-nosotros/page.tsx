@@ -126,7 +126,7 @@ export default function SobreNosotros() {
               <AnimatedSection key={index} delay={index * 0.12}>
                 <div className="h-full rounded-2xl border border-charcoal/10 bg-white p-10 group hover:border-gold/30 hover:bg-charcoal transition-all duration-500">
                   <div className="flex items-start justify-between mb-8">
-                    <span className="font-serif text-gold/25 text-5xl font-bold leading-none group-hover:text-gold/40 transition-colors duration-500">
+                    <span className="font-serif text-gold text-6xl font-bold leading-none tracking-tight drop-shadow-[0_8px_18px_rgba(201,168,76,0.32)] group-hover:text-gold-light transition-colors duration-500">
                       {item.number}
                     </span>
                     <item.icon className="w-6 h-6 text-gold/50 group-hover:text-gold transition-colors duration-500" />
