@@ -21,7 +21,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window?.scrollY > 60)
+      setIsScrolled(window?.scrollY > 24)
     }
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', handleScroll)
@@ -33,8 +33,8 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-charcoal-900/98 backdrop-blur-md border-b border-white/8 shadow-lg'
-          : 'bg-gradient-to-b from-charcoal/70 to-transparent'
+          ? 'bg-charcoal-900 border-b border-white/10 shadow-lg'
+          : 'bg-charcoal-900 border-b border-white/10 shadow-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
@@ -65,7 +65,7 @@ export default function Header() {
                 className={`relative text-xs font-semibold tracking-wider uppercase transition-all duration-300 group ${
                   pathname === item?.href
                     ? 'text-gold'
-                    : 'text-white/70 hover:text-white'
+                    : 'text-white hover:text-gold-light'
                 }`}
                 style={{ letterSpacing: '0.12em' }}
               >

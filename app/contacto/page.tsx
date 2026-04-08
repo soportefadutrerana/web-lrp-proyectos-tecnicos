@@ -124,13 +124,11 @@ export default function Contacto({ searchParams }: ContactoPageProps) {
 
             {/* Right: Form */}
             <div id="formulario-contacto" className="lg:col-span-3 py-20 px-6 sm:px-8 lg:px-12 bg-cream flex items-center">
-              {/* Añadimos w-full aquí para que el componente de animación se expanda */}
               <AnimatedSection delay={0.15} className="w-full">
                 <p className="text-gold text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-3">Formulario</p>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal mb-7 leading-tight">
                   Envíenos un mensaje
                 </h2>
-                {/* Aseguramos que el div del formulario también sea w-full */}
                 <div className="w-full">
                   <ContactForm initialAsunto={isPresupuestoMode ? 'Solicitud de presupuesto' : 'Proyecto nuevo'} />
                 </div>  
