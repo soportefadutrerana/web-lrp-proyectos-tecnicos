@@ -136,26 +136,22 @@ export default function Portfolio() {
                     </span>
                   </div>
 
-                  {/* Arrow */}
-                  <div className="absolute top-6 right-6 w-10 h-10 border border-white/30 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:border-gold group-hover:text-gold">
-                    <ArrowUpRight className="w-4 h-4" />
+                  {/* Project title badge */}
+                  <div className="absolute top-6 right-6 max-w-[60%] rounded-md bg-white px-3 py-1.5">
+                    <p className="text-charcoal text-[11px] font-semibold uppercase tracking-[0.08em] truncate">
+                      {project?.title ?? ''}
+                    </p>
                   </div>
 
                   {/* Content */}
                   <div className="absolute inset-x-0 bottom-0 p-8 translate-y-0 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="font-serif text-2xl font-bold text-white mb-2 leading-tight">
-                      {project?.title ?? ''}
-                    </h3>
-                    <p className="text-white/85 text-sm mb-4 leading-relaxed max-w-md opacity-100 transition-opacity duration-300">
-                      {project?.description ?? ''}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-white/75">
-                      <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5" />
+                    <div className="flex flex-wrap items-center gap-3 text-xs">
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-charcoal-900/95 px-3 py-1.5 text-white">
+                        <MapPin className="w-3.5 h-3.5 text-gold" />
                         {project?.location ?? ''}
                       </span>
-                      <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5" />
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-charcoal-900/95 px-3 py-1.5 text-white">
+                        <Calendar className="w-3.5 h-3.5 text-gold" />
                         {project?.year ?? ''}
                       </span>
                     </div>
