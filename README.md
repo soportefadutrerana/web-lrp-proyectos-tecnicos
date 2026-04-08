@@ -1,5 +1,9 @@
 npm install
-docker compese -d up
+
+docker compose up -d
+
 npx prisma generate
+
 npx prisma  db push
+
 npx run dev
