@@ -1,6 +1,6 @@
-import Link from 'next/link'
+import { ArrowUpRight, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react'
 import Image from 'next/image'
-import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram, ArrowUpRight } from 'lucide-react'
+import Link from 'next/link'
 
 const services = [
   'Proyectos de Arquitectura',
@@ -17,8 +17,8 @@ export default function Footer() {
       {/* Gold top line */}
       <div className="h-px bg-gold/60" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 mb-16">
 
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -33,34 +33,35 @@ export default function Footer() {
             <p className="text-white/50 text-sm leading-relaxed mb-8">
               Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional desde 2008.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="Instagram"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="Facebook"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
             </div>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Navegación
             </h4>
             <ul className="space-y-3">
@@ -74,9 +75,9 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                   >
-                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
+                    <span className="w-3 h-px bg-white/20 group-hover:bg-gold transition-all duration-300" />
                     {item.label}
                   </Link>
                 </li>
@@ -86,7 +87,8 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Servicios
             </h4>
             <ul className="space-y-3">
@@ -94,9 +96,9 @@ export default function Footer() {
                 <li key={service}>
                   <Link
                     href="/servicios"
-                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                   >
-                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
+                    <span className="w-3 h-px bg-white/20 group-hover:bg-gold transition-all duration-300" />
                     {service}
                   </Link>
                 </li>
@@ -106,25 +108,26 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Contacto
             </h4>
             <ul className="space-y-4">
               <li>
                 <a
                   href="mailto:info@lrpproyectostecnicos.com"
-                  className="flex items-start gap-3 text-white/55 hover:text-gold transition-colors duration-300 group"
+                  className="flex items-start gap-3 text-white/60 hover:text-gold transition-colors duration-300 group"
                 >
-                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 group-hover:text-gold" />
+                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40 group-hover:text-gold" />
                   <span className="text-sm">info@lrpproyectostecnicos.com</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-white/55">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <li className="flex items-start gap-3 text-white/60">
+                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
                 <span className="text-sm">+34 XXX XXX XXX</span>
               </li>
-              <li className="flex items-start gap-3 text-white/55">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <li className="flex items-start gap-3 text-white/60">
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
                 <span className="text-sm">España</span>
               </li>
             </ul>
