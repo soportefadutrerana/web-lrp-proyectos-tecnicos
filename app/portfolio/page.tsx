@@ -1,8 +1,8 @@
+import AnimatedCounter from '@/components/animated-counter'
+import AnimatedSection from '@/components/animated-section'
+import { ArrowUpRight, Calendar, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import AnimatedSection from '@/components/animated-section'
-import { MapPin, Calendar, ArrowUpRight } from 'lucide-react'
-import AnimatedCounter from '@/components/animated-counter'
 
 export const metadata = {
   title: 'Portfolio | LRP Proyectos Técnicos',
@@ -70,23 +70,34 @@ export default function Portfolio() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
             alt="Portfolio LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/88 via-charcoal/42 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_20%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <p className="section-label">Nuestro Trabajo</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
-              Portfolio
-            </h1>
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+                Portfolio
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9" style={{ color: '#FFFFFF' }}>
+                Una seleccion de proyectos que reflejan nuestra forma de trabajar: precision tecnica, diseno funcional y ejecucion con estandares exigentes.
+              </p>
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                Iniciar proyecto
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>

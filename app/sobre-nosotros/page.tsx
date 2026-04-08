@@ -1,7 +1,7 @@
+import AnimatedSection from '@/components/animated-section'
+import { ArrowRight, Award, CheckCircle, Eye, Target } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, Target, Eye, Award, ArrowRight } from 'lucide-react'
-import AnimatedSection from '@/components/animated-section'
 
 export const metadata = {
   title: 'Sobre Nosotros | LRP Proyectos Técnicos',
@@ -12,23 +12,34 @@ export default function SobreNosotros() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://plus.unsplash.com/premium_photo-1661418218904-86c202e5493d?fm=jpg&q=80&w=3000"
             alt="Equipo LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <p className="section-label">Nuestra Empresa</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
               Sobre Nosotros
-            </h1>
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Desde 2008 desarrollamos proyectos de arquitectura e ingenieria con una metodologia rigurosa, enfoque innovador y vision internacional.
+              </p>
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                Hablemos de su proyecto
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -154,17 +165,18 @@ export default function SobreNosotros() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-charcoal/88" />
+          <div className="absolute inset-0 bg-charcoal/94" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/88 to-charcoal/96" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(201,168,76,0.12),transparent_38%)]" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection>
-              <p className="section-label">Alcance Global</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
                 Experiencia Internacional
               </h2>
-              <p className="text-white/55 text-lg mb-10 leading-relaxed">
+              <p className="text-white/82 text-lg mb-10 leading-relaxed max-w-xl">
                 Nuestra trayectoria nos ha llevado a desarrollar proyectos en más de 25 países, trabajando con clientes de diversos sectores y adaptándonos a normativas y contextos culturales variados.
               </p>
               <ul className="space-y-5">
@@ -190,9 +202,9 @@ export default function SobreNosotros() {
                   { number: '500+', label: 'Proyectos' },
                   { number: '98%', label: 'Satisfacción' },
                 ].map((stat, i) => (
-                  <div key={i} className="border border-white/15 p-8 text-center hover:border-gold/50 transition-colors duration-300">
+                  <div key={i} className="min-h-40 bg-white/8 backdrop-blur-sm border border-white/15 p-8 text-center flex flex-col items-center justify-center hover:border-gold/50 transition-colors duration-300">
                     <p className="font-serif text-4xl font-bold text-gold mb-2">{stat.number}</p>
-                    <p className="text-white/40 text-xs uppercase tracking-widest" style={{ letterSpacing: '0.15em' }}>{stat.label}</p>
+                    <p className="text-white/72 text-xs uppercase tracking-widest" style={{ letterSpacing: '0.15em' }}>{stat.label}</p>
                   </div>
                 ))}
               </div>

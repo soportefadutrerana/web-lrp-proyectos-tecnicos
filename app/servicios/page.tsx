@@ -1,7 +1,7 @@
+import AnimatedSection from '@/components/animated-section'
+import { ArrowRight, Building2, Check, ClipboardCheck, Factory, FileText, HardHat, Leaf, UserCheck, Zap } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Building2, HardHat, Zap, Leaf, FileText, UserCheck, Factory, ClipboardCheck, ArrowRight, Check } from 'lucide-react'
-import AnimatedSection from '@/components/animated-section'
 
 export const metadata = {
   title: 'Servicios | LRP Proyectos Técnicos',
@@ -119,23 +119,34 @@ export default function Servicios() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg"
             alt="Servicios LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/28" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/88 via-charcoal/44 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <p className="section-label">Lo Que Ofrecemos</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
-              Nuestros Servicios
-            </h1>
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+                Nuestros Servicios
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Cobertura tecnica integral para todas las fases del proyecto: diseno, calculo, tramitacion, direccion y certificacion.
+              </p>
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                Solicitar asesoramiento
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -168,12 +179,6 @@ export default function Servicios() {
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-105"
                     />
-                    {/* Service number overlay */}
-                    <div className="absolute top-6 left-6 bg-charcoal/80 backdrop-blur-sm px-4 py-2">
-                      <span className="text-gold text-xs font-semibold uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>
-                        {service.number}
-                      </span>
-                    </div>
                   </div>
 
                   {/* Content */}

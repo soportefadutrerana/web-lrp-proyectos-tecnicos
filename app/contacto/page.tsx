@@ -1,7 +1,8 @@
-import Image from 'next/image'
-import ContactForm from '@/components/contact-form'
-import { Mail, Phone, MapPin, Clock } from 'lucide-react'
 import AnimatedSection from '@/components/animated-section'
+import ContactForm from '@/components/contact-form'
+import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const metadata = {
   title: 'Contacto | LRP Proyectos Técnicos',
@@ -12,23 +13,33 @@ export default function Contacto() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[55vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[66vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=80&w=3000"
             alt="Contacto LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-14 sm:py-18 w-full">
           <AnimatedSection>
-            <p className="section-label">Hablemos</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
-              Contacto
-            </h1>
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+                Contacto
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.
+              </p>
+              <Link href="#formulario-contacto" className="btn-gold inline-flex items-center gap-2">
+                Ir al formulario
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -102,7 +113,7 @@ export default function Contacto() {
             </div>
 
             {/* Right: Form */}
-            <div className="lg:col-span-3 py-20 px-8 lg:px-16 bg-cream">
+            <div id="formulario-contacto" className="lg:col-span-3 py-20 px-8 lg:px-16 bg-cream">
               <AnimatedSection delay={0.15}>
                 <p className="section-label">Formulario</p>
                 <h2 className="font-serif text-3xl font-bold text-charcoal mb-10 leading-tight">

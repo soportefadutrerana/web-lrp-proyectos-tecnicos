@@ -39,7 +39,7 @@ export default function Home() {
               </h1>
 
               {/* Subtext */}
-              <p className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl mb-10 sm:mb-12 font-light leading-relaxed">
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl mb-10 sm:mb-12 font-light leading-relaxed">
                 Especialistas en arquitectura, proyectos tecnicos e ingenieria, con una ejecucion precisa y presencia nacional e internacional.
               </p>
 
