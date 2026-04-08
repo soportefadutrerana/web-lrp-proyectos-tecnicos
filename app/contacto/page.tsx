@@ -51,7 +51,7 @@ export default function Contacto() {
 
             {/* Left: Info */}
             <div className="lg:col-span-2 bg-charcoal-900 py-20 px-8 sm:px-10 lg:px-12">
-              <AnimatedSection> 
+              <AnimatedSection>
                 <h2 className="font-serif text-3xl font-bold text-white mb-10 leading-tight">
                   Estamos aquí para ayudarle
                 </h2>
@@ -88,15 +88,15 @@ export default function Contacto() {
                         <item.icon className="w-4 h-4 text-gold" />
                       </div>
                       <div>
-                        <p className="text-white/45 text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
+                        <p className="text-white text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
                           {item.label}
                         </p>
                         {item.href ? (
-                          <a href={item.href} className="text-white hover:text-gold transition-colors text-sm">
+                          <a href={item.href} className="text-cream hover:text-gold transition-colors text-sm">
                             {item.value}
                           </a>
                         ) : (
-                          <p className="text-white text-sm">{item.value}</p>
+                          <p className="text-cream text-sm">{item.value}</p>
                         )}
                       </div>
                     </div>
@@ -104,7 +104,7 @@ export default function Contacto() {
                 </div>
 
                 <div className="mt-14 pt-8 border-t border-white/10">
-                  <p className="text-white/45 text-xs leading-relaxed">
+                  <p className="text-white/60 text-xs leading-relaxed">
                     Los datos proporcionados serán almacenados de forma segura y utilizados únicamente para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
                   </p>
                 </div>
@@ -112,15 +112,17 @@ export default function Contacto() {
             </div>
 
             {/* Right: Form */}
-            <div id="formulario-contacto" className="lg:col-span-3 py-14 sm:py-16 px-6 sm:px-8 lg:px-12 bg-cream">
-              <AnimatedSection delay={0.15}>
-                <p className="section-label">Formulario</p>
+            <div id="formulario-contacto" className="lg:col-span-3 py-20 px-6 sm:px-8 lg:px-12 bg-cream flex items-center">
+              {/* Añadimos w-full aquí para que el componente de animación se expanda */}
+              <AnimatedSection delay={0.15} className="w-full">
+                <p className="text-gold text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-3">Formulario</p>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal mb-7 leading-tight">
                   Envíenos un mensaje
                 </h2>
-                <div className="max-w-2xl">
+                {/* Aseguramos que el div del formulario también sea w-full */}
+                <div className="w-full">
                   <ContactForm />
-                </div>
+                </div>  
               </AnimatedSection>
             </div>
           </div>

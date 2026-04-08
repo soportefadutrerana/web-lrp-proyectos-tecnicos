@@ -8,8 +8,10 @@ export default function ContactForm() {
     nombre: '',
     email: '',
     telefono: '',
+    asunto: 'Proyecto nuevo',
     mensaje: '',
   })
+  const [adjuntos, setAdjuntos] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -23,13 +25,17 @@ export default function ContactForm() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          adjuntos: adjuntos?.map(file => file?.name ?? ''),
+        }),
       })
 
       if (!response?.ok) throw new Error('Error al enviar')
 
       setSubmitted(true)
-      setFormData({ nombre: '', email: '', telefono: '', mensaje: '' })
+      setFormData({ nombre: '', email: '', telefono: '', asunto: 'Proyecto nuevo', mensaje: '' })
+      setAdjuntos([])
     } catch (err) {
       setError('Hubo un error al enviar el formulario. Por favor, inténtelo de nuevo.')
     } finally {
@@ -37,11 +43,16 @@ export default function ContactForm() {
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
       ...prev,
       [e?.target?.name ?? '']: e?.target?.value ?? '',
     }))
+  }
+
+  const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e?.target?.files ?? [])
+    setAdjuntos(files)
   }
 
   if (submitted) {
@@ -76,9 +87,9 @@ export default function ContactForm() {
   `
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div>
+    <form onSubmit={handleSubmit} className="w-full space-y-6">
+      <div className="w-full grid md:grid-cols-2 gap-6">
+        <div className="w-full">
           <label htmlFor="nombre" className={labelClass} style={{ letterSpacing: '0.15em' }}>
             Nombre *
           </label>
@@ -94,7 +105,7 @@ export default function ContactForm() {
           />
         </div>
 
-        <div>
+        <div className="w-full">
           <label htmlFor="email" className={labelClass} style={{ letterSpacing: '0.15em' }}>
             Email *
           </label>
@@ -111,22 +122,44 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="telefono" className={labelClass} style={{ letterSpacing: '0.15em' }}>
-          Teléfono
-        </label>
-        <input
-          type="tel"
-          id="telefono"
-          name="telefono"
-          value={formData?.telefono ?? ''}
-          onChange={handleChange}
-          className={inputClass}
-          placeholder="+34 XXX XXX XXX"
-        />
+      <div className="w-full grid md:grid-cols-2 gap-6">
+        <div className="w-full">
+          <label htmlFor="telefono" className={labelClass} style={{ letterSpacing: '0.15em' }}>
+            Teléfono
+          </label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            value={formData?.telefono ?? ''}
+            onChange={handleChange}
+            className={inputClass}
+            placeholder="+34 XXX XXX XXX"
+          />
+        </div>
+
+        <div className="w-full">
+          <label htmlFor="asunto" className={labelClass} style={{ letterSpacing: '0.15em' }}>
+            Motivo del Contacto
+          </label>
+          <select
+            id="asunto"
+            name="asunto"
+            value={formData?.asunto ?? 'Proyecto nuevo'}
+            onChange={handleChange}
+            className={inputClass}
+          >
+            <option value="Proyecto nuevo">Proyecto nuevo</option>
+            <option value="Solicitud de presupuesto">Solicitud de presupuesto</option>
+            <option value="Consulta técnica">Consulta técnica</option>
+            <option value="Seguimiento de proyecto">Seguimiento de proyecto</option>
+            <option value="Duda general">Duda general</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </div>
       </div>
 
-      <div>
+      <div className="w-full">
         <label htmlFor="mensaje" className={labelClass} style={{ letterSpacing: '0.15em' }}>
           Mensaje *
         </label>
@@ -134,12 +167,33 @@ export default function ContactForm() {
           id="mensaje"
           name="mensaje"
           required
-          rows={4}
+          rows={8}
           value={formData?.mensaje ?? ''}
           onChange={handleChange}
-          className={inputClass + ' resize-none'}
+          className={inputClass + ' min-h-[220px] resize-y'}
           placeholder="Cuéntenos sobre su proyecto..."
         />
+      </div>
+
+      <div>
+        <label htmlFor="adjuntos" className={labelClass} style={{ letterSpacing: '0.15em' }}>
+          Adjuntar imágenes y/o archivos
+        </label>
+        <input
+          id="adjuntos"
+          name="adjuntos"
+          type="file"
+          multiple
+          accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx"
+          onChange={handleFilesChange}
+          className="w-full text-sm text-charcoal/70 file:mr-4 file:rounded-md file:border-0 file:bg-charcoal file:px-4 file:py-2 file:text-xs file:uppercase file:tracking-wider file:text-white hover:file:bg-charcoal-800"
+          style={{ letterSpacing: '0.03em' }}
+        />
+        {adjuntos?.length > 0 && (
+          <p className="text-xs text-charcoal/50 mt-2">
+            {adjuntos.length} archivo(s) seleccionado(s): {adjuntos.map(file => file.name).join(', ')}
+          </p>
+        )}
       </div>
 
       {error && (
