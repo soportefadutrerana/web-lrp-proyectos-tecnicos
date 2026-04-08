@@ -65,9 +65,9 @@ export default function Home() {
       </section>
 
       {/* ── STATS BAR ── */}
-      <section className="bg-charcoal-800 py-14">
+      <section className="bg-charcoal-800 py-16 sm:py-18">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
             {[
               { end: 15, suffix: '+', label: 'Años de Experiencia' },
               { end: 500, suffix: '+', label: 'Proyectos Completados' },
@@ -75,11 +75,12 @@ export default function Home() {
               { end: 25, suffix: '+', label: 'Países' },
             ].map((stat, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="text-center px-8 py-4">
-                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-1">
+                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm text-center px-6 sm:px-8 py-8 sm:py-10 shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
+                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-2">
                     <AnimatedCounter end={stat.end} suffix={stat.suffix} />
                   </div>
-                  <p className="text-white/40 text-xs uppercase tracking-widest mt-2" style={{ letterSpacing: '0.15em' }}>
+                  <p className="text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.16em]" style={{ letterSpacing: '0.15em' }}>
                     {stat.label}
                   </p>
                 </div>

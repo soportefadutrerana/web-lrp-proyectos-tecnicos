@@ -170,7 +170,7 @@ export default function Portfolio() {
       {/* ── STATS ── */}
       <section className="bg-charcoal-800 py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
             {[
               { end: 500, suffix: '+', label: 'Proyectos Completados' },
               { end: 25, suffix: '+', label: 'Países' },
@@ -178,11 +178,11 @@ export default function Portfolio() {
               { end: 98, suffix: '%', label: 'Clientes Satisfechos' },
             ].map((stat, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="text-center px-8 py-4">
-                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-1">
+                <div className="rounded-2xl border border-white/10 bg-charcoal/95 text-center px-6 sm:px-8 py-8 sm:py-10">
+                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-2">
                     <AnimatedCounter end={stat.end} suffix={stat.suffix} />
                   </div>
-                  <p className="text-white/40 text-xs uppercase tracking-widest mt-2" style={{ letterSpacing: '0.15em' }}>
+                  <p className="text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.16em]" style={{ letterSpacing: '0.15em' }}>
                     {stat.label}
                   </p>
                 </div>
