@@ -1,62 +1,65 @@
+import AnimatedCounter from '@/components/animated-counter'
+import AnimatedSection from '@/components/animated-section'
+import { ArrowRight, ArrowUpRight, Award, Building2, ChevronDown, FileCheck, Globe, Ruler } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Building2, Ruler, FileCheck, Award, Globe, ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react'
-import AnimatedSection from '@/components/animated-section'
-import AnimatedCounter from '@/components/animated-counter'
 
 export default function Home() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative h-screen flex items-end overflow-hidden">
+      <section className="relative min-h-screen flex items-start overflow-hidden pt-20 sm:pt-24">
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <Image
             src="https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?fm=jpg&q=80&w=3000"
             alt="Arquitectura moderna"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/30 to-transparent" />
+          {/* Layered overlays for cleaner text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(201,168,76,0.18),transparent_42%)]" />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pb-24">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-8 sm:pt-10 pb-14 sm:pb-16">
           <AnimatedSection>
-            {/* Eyebrow */}
-            <p className="section-label mb-6">Arquitectura · Ingeniería · Proyectos Técnicos</p>
+            <div className="max-w-4xl">
+              
+              {/* Heading */}
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.98] mb-7 max-w-4xl text-balance">
+                Transformamos
+                <br />
+                <em className="not-italic text-gold">Ideas</em> en
+                <br />
+                Realidades
+              </h1>
 
-            {/* Heading */}
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.0] mb-8 max-w-4xl">
-              Transformamos<br />
-              <em className="not-italic text-gold">Ideas</em> en<br />
-              Realidades
-            </h1>
+              {/* Subtext */}
+              <p className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl mb-10 sm:mb-12 font-light leading-relaxed">
+                Especialistas en arquitectura, proyectos tecnicos e ingenieria, con una ejecucion precisa y presencia nacional e internacional.
+              </p>
 
-            {/* Subtext */}
-            <p className="text-white/60 text-lg md:text-xl max-w-xl mb-12 font-light leading-relaxed">
-              Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4">
-              <Link href="/servicios" className="btn-gold inline-flex items-center gap-2">
-                Nuestros Servicios
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/contacto" className="btn-outline-white inline-flex items-center gap-2">
-                Iniciar Proyecto
-              </Link>
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 mb-10">
+                <Link href="/servicios" className="btn-gold inline-flex items-center justify-center gap-2 min-w-[220px]">
+                  Nuestros Servicios
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="/contacto" className="btn-outline-white inline-flex items-center justify-center gap-2 min-w-[220px]">
+                  Iniciar Proyecto
+                </Link>
+              </div>
             </div>
           </AnimatedSection>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/30">
-          <span className="text-xs uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>Scroll</span>
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/35">
+          <span className="text-[10px] uppercase tracking-[0.24em]">Scroll</span>
           <ChevronDown className="w-4 h-4 animate-bounce" />
         </div>
       </section>
