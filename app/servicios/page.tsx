@@ -165,14 +165,14 @@ export default function Servicios() {
       {/* ── SERVICES LIST ── */}
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="space-y-0 divide-y divide-charcoal/8">
+          <div className="space-y-10 lg:space-y-12">
             {services?.map?.((service, index) => (
               <AnimatedSection key={index}>
-                <div className={`py-20 grid md:grid-cols-2 gap-12 lg:gap-20 items-center ${
+                <div className={`grid md:grid-cols-2 gap-10 lg:gap-16 items-center ${
                   index % 2 === 1 ? '' : ''
                 }`}>
                   {/* Image */}
-                  <div className={`relative aspect-[4/3] overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                  <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl border border-charcoal/10 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                     <Image
                       src={service?.image ?? ''}
                       alt={service?.title ?? ''}
@@ -182,7 +182,7 @@ export default function Servicios() {
                   </div>
 
                   {/* Content */}
-                  <div className={index % 2 === 1 ? 'md:order-1' : ''}>
+                  <div className={`max-w-xl ${index % 2 === 1 ? 'md:order-1 md:justify-self-start' : 'md:justify-self-end'}`}>
                     <div className="flex items-center gap-3 mb-6">
                       <service.icon className="w-6 h-6 text-gold" />
                       <div className="h-px flex-1 bg-gold/20" />
@@ -190,10 +190,10 @@ export default function Servicios() {
                     <h2 className="font-serif text-3xl md:text-4xl font-bold text-charcoal mb-5 leading-tight">
                       {service?.title ?? ''}
                     </h2>
-                    <p className="text-charcoal/55 text-lg mb-8 leading-relaxed">{service?.description ?? ''}</p>
-                    <ul className="space-y-3">
+                    <p className="text-charcoal/60 text-lg mb-8 leading-relaxed max-w-lg">{service?.description ?? ''}</p>
+                    <ul className="space-y-3 max-w-lg">
                       {service?.features?.map?.((feature, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-charcoal/70">
+                        <li key={idx} className="flex items-center gap-3 text-charcoal/75">
                           <Check className="w-4 h-4 text-gold flex-shrink-0" />
                           <span className="text-sm">{feature ?? ''}</span>
                         </li>

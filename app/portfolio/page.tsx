@@ -119,7 +119,7 @@ export default function Portfolio() {
           <div className="grid md:grid-cols-2 gap-4">
             {projects?.map?.((project, index) => (
               <AnimatedSection key={index} delay={index * 0.08}>
-                <div className="group relative overflow-hidden aspect-[4/3] cursor-pointer">
+                <div className="group relative overflow-hidden aspect-[4/3] cursor-pointer rounded-2xl border border-charcoal/10">
                   <Image
                     src={project?.image ?? ''}
                     alt={project?.title ?? ''}
@@ -127,7 +127,7 @@ export default function Portfolio() {
                     className="object-cover transition-transform duration-700 group-hover:scale-106"
                   />
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/95 via-charcoal/40 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/96 via-charcoal/70 to-charcoal/15 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
 
                   {/* Category badge */}
                   <div className="absolute top-6 left-6">
@@ -142,14 +142,14 @@ export default function Portfolio() {
                   </div>
 
                   {/* Content */}
-                  <div className="absolute inset-x-0 bottom-0 p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute inset-x-0 bottom-0 p-8 translate-y-0 group-hover:translate-y-0 transition-transform duration-500">
                     <h3 className="font-serif text-2xl font-bold text-white mb-2 leading-tight">
                       {project?.title ?? ''}
                     </h3>
-                    <p className="text-white/50 text-sm mb-4 leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                    <p className="text-white/85 text-sm mb-4 leading-relaxed max-w-md opacity-100 transition-opacity duration-300">
                       {project?.description ?? ''}
                     </p>
-                    <div className="flex items-center gap-6 text-xs text-white/40">
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-white/75">
                       <span className="flex items-center gap-1.5">
                         <MapPin className="w-3.5 h-3.5" />
                         {project?.location ?? ''}

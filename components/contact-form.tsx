@@ -1,7 +1,7 @@
 'use client'
 
+import { CheckCircle, Send } from 'lucide-react'
 import { useState } from 'react'
-import { Send, CheckCircle } from 'lucide-react'
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -66,7 +66,7 @@ export default function ContactForm() {
   }
 
   const inputClass = `
-    w-full bg-transparent border-b border-charcoal/20 px-0 py-3
+    w-full bg-transparent border-b border-charcoal/20 px-0 py-2.5
     text-charcoal placeholder:text-charcoal/30 text-sm
     focus:outline-none focus:border-gold transition-colors duration-300
   `
@@ -76,8 +76,8 @@ export default function ContactForm() {
   `
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <div className="grid md:grid-cols-2 gap-8">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <div>
           <label htmlFor="nombre" className={labelClass} style={{ letterSpacing: '0.15em' }}>
             Nombre *
@@ -134,7 +134,7 @@ export default function ContactForm() {
           id="mensaje"
           name="mensaje"
           required
-          rows={5}
+          rows={4}
           value={formData?.mensaje ?? ''}
           onChange={handleChange}
           className={inputClass + ' resize-none'}
@@ -143,7 +143,7 @@ export default function ContactForm() {
       </div>
 
       {error && (
-        <div className="border border-red-300 text-red-600 p-4 text-xs">
+        <div className="border border-red-300 text-red-600 p-3 text-xs">
           {error}
         </div>
       )}

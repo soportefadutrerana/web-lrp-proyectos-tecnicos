@@ -95,7 +95,7 @@ export default function SobreNosotros() {
             </h2>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-px bg-charcoal/10">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 icon: Target,
@@ -124,7 +124,7 @@ export default function SobreNosotros() {
               },
             ].map((item, index) => (
               <AnimatedSection key={index} delay={index * 0.12}>
-                <div className="bg-white p-10 h-full group hover:bg-charcoal transition-all duration-500">
+                <div className="h-full rounded-2xl border border-charcoal/10 bg-white p-10 group hover:border-gold/30 hover:bg-charcoal transition-all duration-500">
                   <div className="flex items-start justify-between mb-8">
                     <span className="font-serif text-gold/25 text-5xl font-bold leading-none group-hover:text-gold/40 transition-colors duration-500">
                       {item.number}
@@ -135,14 +135,14 @@ export default function SobreNosotros() {
                     {item.title}
                   </h3>
                   {item.description && (
-                    <p className="text-charcoal/55 group-hover:text-white/45 leading-relaxed text-sm transition-colors duration-500">
+                    <p className="text-charcoal/60 group-hover:text-white/75 leading-relaxed text-sm transition-colors duration-500">
                       {item.description}
                     </p>
                   )}
                   {item.values && (
-                    <ul className="space-y-3">
+                    <ul className="space-y-3 mt-4">
                       {item.values.map((value, vi) => (
-                        <li key={vi} className="flex items-center gap-3 text-charcoal/60 group-hover:text-white/50 transition-colors duration-500">
+                        <li key={vi} className="flex items-center gap-3 text-charcoal/60 group-hover:text-white/75 transition-colors duration-500">
                           <CheckCircle className="w-4 h-4 text-gold flex-shrink-0" />
                           <span className="text-sm">{value}</span>
                         </li>

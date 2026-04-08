@@ -45,19 +45,18 @@ export default function Contacto() {
       </section>
 
       {/* ── CONTACT SECTION ── */}
-      <section className="bg-white">
+      <section className="bg-cream py-20 sm:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-5 gap-0">
+          <div className="grid lg:grid-cols-5 gap-0 overflow-hidden rounded-3xl border border-charcoal/10 bg-white shadow-[0_18px_40px_rgba(13,13,13,0.08)]">
 
             {/* Left: Info */}
-            <div className="lg:col-span-2 bg-charcoal py-20 px-10 lg:px-12">
-              <AnimatedSection>
-                <p className="section-label">Información</p>
+            <div className="lg:col-span-2 bg-charcoal-900 py-20 px-8 sm:px-10 lg:px-12">
+              <AnimatedSection> 
                 <h2 className="font-serif text-3xl font-bold text-white mb-10 leading-tight">
                   Estamos aquí para ayudarle
                 </h2>
 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {[
                     {
                       icon: Mail,
@@ -84,20 +83,20 @@ export default function Contacto() {
                       href: undefined,
                     },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-5">
-                      <div className="w-10 h-10 border border-gold/30 flex items-center justify-center flex-shrink-0">
+                    <div key={i} className="flex items-start gap-5 rounded-2xl border border-white/10 bg-white/5 p-5">
+                      <div className="w-10 h-10 bg-gold/10 border border-gold/25 flex items-center justify-center flex-shrink-0">
                         <item.icon className="w-4 h-4 text-gold" />
                       </div>
                       <div>
-                        <p className="text-white/30 text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
+                        <p className="text-white/45 text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
                           {item.label}
                         </p>
                         {item.href ? (
-                          <a href={item.href} className="text-white/70 hover:text-gold transition-colors text-sm">
+                          <a href={item.href} className="text-white hover:text-gold transition-colors text-sm">
                             {item.value}
                           </a>
                         ) : (
-                          <p className="text-white/70 text-sm">{item.value}</p>
+                          <p className="text-white text-sm">{item.value}</p>
                         )}
                       </div>
                     </div>
@@ -105,7 +104,7 @@ export default function Contacto() {
                 </div>
 
                 <div className="mt-14 pt-8 border-t border-white/10">
-                  <p className="text-white/25 text-xs leading-relaxed">
+                  <p className="text-white/45 text-xs leading-relaxed">
                     Los datos proporcionados serán almacenados de forma segura y utilizados únicamente para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
                   </p>
                 </div>
@@ -113,13 +112,15 @@ export default function Contacto() {
             </div>
 
             {/* Right: Form */}
-            <div id="formulario-contacto" className="lg:col-span-3 py-20 px-8 lg:px-16 bg-cream">
+            <div id="formulario-contacto" className="lg:col-span-3 py-14 sm:py-16 px-6 sm:px-8 lg:px-12 bg-cream">
               <AnimatedSection delay={0.15}>
                 <p className="section-label">Formulario</p>
-                <h2 className="font-serif text-3xl font-bold text-charcoal mb-10 leading-tight">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal mb-7 leading-tight">
                   Envíenos un mensaje
                 </h2>
-                <ContactForm />
+                <div className="max-w-2xl">
+                  <ContactForm />
+                </div>
               </AnimatedSection>
             </div>
           </div>
