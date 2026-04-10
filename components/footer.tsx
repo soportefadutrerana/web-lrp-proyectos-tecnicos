@@ -1,6 +1,19 @@
-import { ArrowUpRight, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react'
+'use client'
+
+import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin, Phone } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 const services = [
   'Proyectos de Arquitectura',
@@ -12,6 +25,25 @@ const services = [
 ]
 
 export default function Footer() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false)
+  const isAdmin = Boolean(session?.user)
+
+  function handleAdminAccess() {
+    if (isAdmin) {
+      setIsLogoutOpen(true)
+      return
+    }
+
+    router.push('/admin/login')
+  }
+
+  async function handleLogout() {
+    setIsLogoutOpen(false)
+    await signOut({ callbackUrl: '/' })
+  }
+
   return (
     <footer className="bg-charcoal-900 text-white">
       {/* Gold top line */}
@@ -153,15 +185,56 @@ export default function Footer() {
             <p className="text-white/20 text-xs">
               Arquitectura · Ingeniería · Innovación
             </p>
-            <Link
-              href="/admin/login"
-              aria-label="Acceso administrador"
-              title="Acceso administrador"
-              className="h-2 w-2 rounded-full bg-white/10 hover:bg-gold/90 transition-colors duration-300"
-            />
+            <button
+              type="button"
+              onClick={handleAdminAccess}
+              aria-label={isAdmin ? 'Cerrar sesión de administrador' : 'Acceso administrador'}
+              title={isAdmin ? 'Cerrar sesión de administrador' : 'Acceso administrador'}
+              className={`inline-flex h-7 w-7 items-center justify-center rounded-full border transition-all duration-300 ${
+                isAdmin
+                  ? 'border-white/20 bg-white/5 text-white/55 hover:border-white/35 hover:text-white/80'
+                  : 'border-white/10 bg-white/5 text-white/18 hover:border-gold/50 hover:text-white/55'
+              }`}
+            >
+              {status === 'loading' ? (
+                <span className="h-2.5 w-2.5 rounded-full border border-white/35 border-t-transparent animate-spin" />
+              ) : isAdmin ? (
+                <Check className="h-4 w-4" strokeWidth={2.5} />
+              ) : (
+                <span className="h-2 w-2 rounded-full bg-current" />
+              )}
+            </button>
           </div>
         </div>
       </div>
+
+      <Dialog open={isLogoutOpen} onOpenChange={setIsLogoutOpen}>
+        <DialogContent className="border-white/10 bg-charcoal-900 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white">Cerrar sesi&oacute;n de administrador</DialogTitle>
+            <DialogDescription className="text-white/60">
+              Vas a salir de la sesi&oacute;n actual. Si contin&uacute;as, volver&aacute;s al estado p&uacute;blico.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <button
+              type="button"
+              onClick={() => setIsLogoutOpen(false)}
+              className="inline-flex h-10 items-center justify-center rounded-md border border-white/10 px-4 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn-gold inline-flex h-10 items-center justify-center gap-2 px-4 text-sm"
+            >
+              <LogOut className="h-4 w-4" />
+              Cerrar sesi&oacute;n
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </footer>
   )
 }

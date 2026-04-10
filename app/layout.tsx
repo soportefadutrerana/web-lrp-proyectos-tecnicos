@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import AppSessionProvider from '@/components/session-provider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -46,9 +47,11 @@ export default function RootLayout({
         <script src="https://apps.abacus.ai/chatllm/appllm-lib.js"></script>
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <AppSessionProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </AppSessionProvider>
       </body>
     </html>
   )
