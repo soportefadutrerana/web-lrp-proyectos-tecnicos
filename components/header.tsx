@@ -7,10 +7,10 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const navItems = [
-  { href: '/', label: 'Inicio' },
   { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
   { href: '/servicios', label: 'Servicios' },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/equipo-tecnico', label: 'Equipo' },
   { href: '/contacto', label: 'Contacto' },
 ]
 
