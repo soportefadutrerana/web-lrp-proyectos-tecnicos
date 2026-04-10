@@ -1,79 +1,29 @@
 import AnimatedCounter from '@/components/animated-counter'
 import AnimatedSection from '@/components/animated-section'
+import { authOptions } from '@/lib/auth'
+import { portfolioProjectService } from '@/lib/portfolio-project.service'
 import { ArrowUpRight, Calendar, MapPin } from 'lucide-react'
+import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Portfolio | LRP Proyectos Técnicos',
   description: 'Descubre nuestros proyectos destacados de arquitectura e ingeniería a nivel nacional e internacional.',
 }
 
-const projects = [
-  {
-    title: 'Complejo Residencial Moderno',
-    location: 'Madrid, España',
-    year: '2023',
-    category: 'Residencial',
-    description: 'Diseño y ejecución de complejo residencial de 120 viviendas con certificación energética A. Incluye zonas comunes, piscina y áreas verdes.',
-    image: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyaminmellish-106399.jpg&fm=jpg',
-    size: 'large',
-  },
-  {
-    title: 'Edificio Corporativo Internacional',
-    location: 'Barcelona, España',
-    year: '2022',
-    category: 'Comercial',
-    description: 'Proyecto integral de oficinas de 8.000 m² con tecnología BIM, instalaciones inteligentes y espacios sostenibles.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=60&w=3000',
-    size: 'small',
-  },
-  {
-    title: 'Nave Industrial Logística',
-    location: 'Zaragoza, España',
-    year: '2023',
-    category: 'Industrial',
-    description: 'Nave industrial de 5.000 m² con sistemas automatizados, instalación fotovoltaica y certificación LEED.',
-    image: 'https://images.pexels.com/photos/3769292/pexels-photo-3769292.jpeg?cs=srgb&dl=pexels-timo-volz-837240-3769292.jpg&fm=jpg',
-    size: 'small',
-  },
-  {
-    title: 'Rehabilitación Edificio Histórico',
-    location: 'Sevilla, España',
-    year: '2022',
-    category: 'Rehabilitación',
-    description: 'Rehabilitación integral manteniendo fachada histórica, adaptación a normativa actual y mejora de eficiencia energética.',
-    image: 'https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?fm=jpg&q=60&w=3000',
-    size: 'large',
-  },
-  {
-    title: 'Centro Comercial Sostenible',
-    location: 'Valencia, España',
-    year: '2021',
-    category: 'Comercial',
-    description: 'Centro comercial de 12.000 m² con enfoque en sostenibilidad, iluminación LED y sistemas de climatización eficientes.',
-    image: 'https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg',
-    size: 'small',
-  },
-  {
-    title: 'Infraestructura Vial Urbana',
-    location: 'Bilbao, España',
-    year: '2022',
-    category: 'Ingeniería Civil',
-    description: 'Proyecto de mejora de infraestructuras urbanas: viales, aceras, iluminación y sistemas de drenaje sostenible.',
-    image: 'https://plus.unsplash.com/premium_photo-1664474927853-900d5ee1fd80?fm=jpg&q=60&w=3000',
-    size: 'small',
-  },
-]
+export default async function Portfolio() {
+  const session = await getServerSession(authOptions)
+  const projects = await portfolioProjectService.listPublic()
 
-export default function Portfolio() {
   return (
     <div>
-      {/* ── HERO ── */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
+            src={projects?.[0]?.imagenPrincipal ?? 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000'}
             alt="Portfolio LRP"
             fill
             className="object-cover scale-[1.03]"
@@ -90,8 +40,8 @@ export default function Portfolio() {
               <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
                 Portfolio
               </h1>
-              <p className="text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9" style={{ color: '#FFFFFF' }}>
-                Una seleccion de proyectos que reflejan nuestra forma de trabajar: precision tecnica, diseno funcional y ejecucion con estandares exigentes.
+              <p className="text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9 text-white/90">
+                Una selección de proyectos reales que reflejan nuestra forma de trabajar: precisión técnica, diseño funcional y ejecución con estándares exigentes.
               </p>
               <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
                 Iniciar proyecto
@@ -102,7 +52,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── INTRO ── */}
       <section className="bg-cream py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="max-w-3xl">
@@ -113,57 +62,63 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── PROJECTS GRID ── */}
       <section className="bg-white py-4 pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
+          {session?.user ? (
+            <div className="mb-6 flex justify-end">
+              <Link href="/admin?new=1" className="btn-gold inline-flex items-center gap-2 text-sm">
+                Crear nuevo proyecto
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
+          ) : null}
+
           <div className="grid md:grid-cols-2 gap-4">
             {projects?.map?.((project, index) => (
-              <AnimatedSection key={index} delay={index * 0.08}>
-                <div className="group relative overflow-hidden aspect-[4/3] cursor-pointer rounded-2xl border border-charcoal/10">
+              <AnimatedSection key={project.id} delay={index * 0.08}>
+                <Link
+                  href={`/portfolio/${project.slug}`}
+                  className="group relative block overflow-hidden aspect-[4/3] cursor-pointer rounded-2xl border border-charcoal/10"
+                >
                   <Image
-                    src={project?.image ?? ''}
-                    alt={project?.title ?? ''}
+                    src={project.imagenPrincipal}
+                    alt={project.titulo}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-106"
                   />
-                  {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal/96 via-charcoal/70 to-charcoal/15 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  {/* Category badge */}
                   <div className="absolute top-6 left-6">
                     <span className="bg-gold text-charcoal text-xs font-semibold uppercase px-3 py-1.5 tracking-widest" style={{ letterSpacing: '0.15em' }}>
-                      {project?.category ?? ''}
+                      {project.categoria}
                     </span>
                   </div>
 
-                  {/* Project title badge */}
                   <div className="absolute top-6 right-6 max-w-[60%] rounded-md bg-white px-3 py-1.5">
                     <p className="text-charcoal text-[11px] font-semibold uppercase tracking-[0.08em] truncate">
-                      {project?.title ?? ''}
+                      {project.titulo}
                     </p>
                   </div>
 
-                  {/* Content */}
-                  <div className="absolute inset-x-0 bottom-0 p-8 translate-y-0 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute inset-x-0 bottom-0 p-8">
                     <div className="flex flex-wrap items-center gap-3 text-xs">
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-charcoal-900/95 px-3 py-1.5 text-white">
                         <MapPin className="w-3.5 h-3.5 text-gold" />
-                        {project?.location ?? ''}
+                        {project.ubicacion}
                       </span>
                       <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-charcoal-900/95 px-3 py-1.5 text-white">
                         <Calendar className="w-3.5 h-3.5 text-gold" />
-                        {project?.year ?? ''}
+                        {project.anio}
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               </AnimatedSection>
             )) ?? null}
           </div>
         </div>
       </section>
 
-      {/* ── STATS ── */}
       <section className="bg-charcoal-800 py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
@@ -173,7 +128,7 @@ export default function Portfolio() {
               { end: 1, suffix: 'M+ m²', label: 'Construidos' },
               { end: 98, suffix: '%', label: 'Clientes Satisfechos' },
             ].map((stat, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
+              <AnimatedSection key={stat.label} delay={i * 0.1}>
                 <div className="rounded-2xl border border-white/10 bg-charcoal/95 text-center px-6 sm:px-8 py-8 sm:py-10">
                   <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-2">
                     <AnimatedCounter end={stat.end} suffix={stat.suffix} />
@@ -188,7 +143,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ── CTA ── */}
       <section className="bg-charcoal py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <AnimatedSection>
