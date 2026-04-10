@@ -1,9 +1,9 @@
 import AnimatedSection from '@/components/animated-section'
 import { authOptions } from '@/lib/auth'
 import { teamMemberService } from '@/lib/team-member.service'
+import type { TeamMember } from '@prisma/client'
 import { ArrowRight, HardHat } from 'lucide-react'
 import { getServerSession } from 'next-auth'
-import type { TeamMember } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
 
