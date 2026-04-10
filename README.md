@@ -6,4 +6,4 @@ npx prisma generate
 
 npx prisma  db push
 
-npx run dev
+npm run dev
