@@ -83,7 +83,7 @@ export default function Header() {
               href={session?.user ? "/admin" : "/contacto"}
               className="ml-6 btn-gold text-xs hover:bg-gold-dark transition-all duration-300 hover:shadow-lg"
             >
-              {session?.user ? "Panel Admin" : "Contacta con nosotros"}
+              {session?.user ? "Panel Administrador" : "Contacta con nosotros"}
             </Link>
           </nav>
 
@@ -123,7 +123,7 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block btn-gold text-center text-xs hover:bg-gold-dark transition-all duration-300"
               >
-                {session?.user ? "Panel Admin" : "Contacta con nosotros"}
+                {session?.user ? "Panel Administrador" : "Contacta con nosotros"}
               </Link>
             </div>
           </nav>

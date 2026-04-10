@@ -3,22 +3,22 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog'
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'
-import { Eye, Image as ImageIcon, Pencil, Plus, RefreshCw, Trash2, Upload, X } from 'lucide-react'
+import { Eye, Image as ImageIcon, Pencil, Plus, Trash2, Upload, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react'
@@ -238,26 +238,22 @@ export default function TeamAdminPanel() {
   return (
     <section className="bg-cream min-h-[calc(100vh-160px)] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-8">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-charcoal/45 mb-3">Administración</p>
-            <h1 className="font-serif text-4xl text-charcoal mb-3">Equipo técnico</h1>
-            <p className="text-charcoal/70 max-w-2xl">
-              Gestiona las tarjetas del equipo visibles para usuarios públicos.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline" className="gap-2" onClick={loadMembers}>
-              <RefreshCw className="h-4 w-4" />
-              Refrescar
-            </Button>
-            <Button className="btn-gold gap-2" onClick={openCreateDialog}>
-              <Plus className="h-4 w-4" />
-              Nuevo miembro
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/admin">Ir a Portfolio</Link>
-            </Button>
+        <div className="mb-6 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)]">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-charcoal/45 mb-3">Administración</p>
+              <h1 className="font-serif text-4xl text-charcoal mb-3">Equipo técnico</h1>
+              <p className="text-charcoal/70 max-w-2xl">
+                Gestiona las tarjetas del equipo visibles para usuarios públicos.
+              </p>
+            </div>
+            <div className="grid w-full gap-2 sm:grid-cols-2 lg:max-w-xl lg:w-auto">
+              <Button className="btn-gold w-full gap-2 justify-center" onClick={openCreateDialog}>
+                <Plus className="h-4 w-4" />
+                Nuevo miembro
+              </Button>
+              <div className="hidden sm:block" />
+            </div>
           </div>
         </div>
 
@@ -321,7 +317,7 @@ export default function TeamAdminPanel() {
                     <TableCell>
                       <div className="flex items-center justify-end gap-2">
                         <Button asChild variant="ghost" size="icon" className="h-9 w-9">
-                          <Link href="/equipo-tecnico" target="_blank" aria-label="Ver equipo">
+                          <Link href={`/admin/equipo/${member.id}`} aria-label="Ver detalle del miembro">
                             <Eye className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -351,6 +347,12 @@ export default function TeamAdminPanel() {
               )}
             </TableBody>
           </Table>
+        </div>
+
+        <div className="mt-5 flex justify-center">
+          <Button asChild variant="outline" className="min-w-48 justify-center">
+            <Link href="/admin">Volver al panel</Link>
+          </Button>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import AnimatedSection from '@/components/animated-section'
 import ContactForm from '@/components/contact-form'
+import { getContactInfo } from '@/lib/contact-info.service'
 import { Clock, Mail, MapPin, Phone } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,15 +10,10 @@ export const metadata = {
   description: 'Contacte con nosotros para su proyecto de arquitectura o ingeniería. Estamos disponibles para atenderle.',
 }
 
-type ContactoPageProps = {
-  searchParams?: {
-    modo?: string | string[]
-  }
-}
+export const dynamic = 'force-dynamic'
 
-export default function Contacto({ searchParams }: ContactoPageProps) {
-  const modo = Array.isArray(searchParams?.modo) ? searchParams?.modo?.[0] : searchParams?.modo
-  const isPresupuestoMode = modo === 'presupuesto'
+export default async function Contacto() {
+  const contactInfo = await getContactInfo()
 
   return (
     <div>
@@ -40,12 +36,10 @@ export default function Contacto({ searchParams }: ContactoPageProps) {
           <AnimatedSection>
             <div className="max-w-4xl">
               <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
-                {isPresupuestoMode ? 'Solicitar Presupuesto' : 'Contacto'}
+                Contacto
               </h1>
               <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
-                {isPresupuestoMode
-                  ? 'Comparta los detalles de su proyecto y le enviaremos una propuesta tecnica y economica adaptada a sus necesidades.'
-                  : 'Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.'}
+                Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.
               </p>
               <Link href="#formulario-contacto" className="btn-gold inline-flex items-center gap-2">
                 Ir al formulario
@@ -72,25 +66,25 @@ export default function Contacto({ searchParams }: ContactoPageProps) {
                     {
                       icon: Mail,
                       label: 'Email',
-                      value: 'info@lrpproyectostecnicos.com',
-                      href: 'mailto:info@lrpproyectostecnicos.com',
+                      value: contactInfo.email,
+                      href: `mailto:${contactInfo.email}`,
                     },
                     {
                       icon: Phone,
                       label: 'Teléfono',
-                      value: '+34 XXX XXX XXX',
+                      value: contactInfo.telefono,
                       href: undefined,
                     },
                     {
                       icon: MapPin,
                       label: 'Ubicación',
-                      value: 'España',
+                      value: contactInfo.ubicacion,
                       href: undefined,
                     },
                     {
                       icon: Clock,
                       label: 'Horario',
-                      value: 'Lunes – Viernes: 9:00 – 18:00',
+                      value: contactInfo.horario,
                       href: undefined,
                     },
                   ].map((item, i) => (
@@ -116,7 +110,7 @@ export default function Contacto({ searchParams }: ContactoPageProps) {
 
                 <div className="mt-14 pt-8 border-t border-white/10">
                   <p className="text-white/60 text-xs leading-relaxed">
-                    Los datos proporcionados serán almacenados de forma segura y utilizados únicamente para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
+                    {contactInfo.legalTexto}
                   </p>
                 </div>
               </AnimatedSection>
@@ -130,7 +124,7 @@ export default function Contacto({ searchParams }: ContactoPageProps) {
                   Envíenos un mensaje
                 </h2>
                 <div className="w-full">
-                  <ContactForm initialAsunto={isPresupuestoMode ? 'Solicitud de presupuesto' : 'Proyecto nuevo'} />
+                  <ContactForm initialAsunto="Proyecto nuevo" />
                 </div>  
               </AnimatedSection>
             </div>

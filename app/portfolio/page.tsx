@@ -66,7 +66,7 @@ export default async function Portfolio() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           {session?.user ? (
             <div className="mb-6 flex justify-end">
-              <Link href="/admin?new=1" className="btn-gold inline-flex items-center gap-2 text-sm">
+              <Link href="/admin/portfolio?new=1" className="btn-gold inline-flex items-center gap-2 text-sm">
                 Crear nuevo proyecto
                 <ArrowUpRight className="w-4 h-4" />
               </Link>

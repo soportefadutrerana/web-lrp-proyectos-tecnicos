@@ -18,7 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { Eye, Image as ImageIcon, Pencil, Plus, RefreshCw, Trash2, Upload, X } from 'lucide-react'
+import { Eye, Image as ImageIcon, Pencil, Plus, Trash2, Upload, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -118,7 +118,7 @@ export default function PortfolioAdminPanel() {
 
     if (shouldOpenCreate) {
       openCreateDialog()
-      router.replace('/admin')
+      router.replace('/admin/portfolio')
     }
   }, [searchParams, router])
 
@@ -314,26 +314,22 @@ export default function PortfolioAdminPanel() {
   return (
     <section className="bg-cream min-h-[calc(100vh-160px)] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-8">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-charcoal/45 mb-3">Administración</p>
-            <h1 className="font-serif text-4xl text-charcoal mb-3">Portfolio de proyectos</h1>
-            <p className="text-charcoal/70 max-w-2xl">
-              Gestiona los proyectos visibles al público. Aquí puedes crear, editar, publicar o eliminar proyectos del portfolio.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline" className="gap-2" onClick={loadProjects}>
-              <RefreshCw className="h-4 w-4" />
-              Refrescar
-            </Button>
-            <Button className="btn-gold gap-2" onClick={openCreateDialog}>
-              <Plus className="h-4 w-4" />
-              Nuevo proyecto
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/admin/equipo">Gestionar equipo</Link>
-            </Button>
+        <div className="mb-6 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)]">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-charcoal/45 mb-3">Administración</p>
+              <h1 className="font-serif text-4xl text-charcoal mb-3">Portfolio de proyectos</h1>
+              <p className="text-charcoal/70 max-w-2xl">
+                Gestiona los proyectos visibles al público. Aquí puedes crear, editar, publicar o eliminar proyectos del portfolio.
+              </p>
+            </div>
+            <div className="grid w-full gap-2 sm:grid-cols-2 lg:max-w-xl lg:w-auto">
+              <Button className="btn-gold w-full gap-2 justify-center" onClick={openCreateDialog}>
+                <Plus className="h-4 w-4" />
+                Nuevo proyecto
+              </Button>
+              <div className="hidden sm:block" />
+            </div>
           </div>
         </div>
 
@@ -406,7 +402,7 @@ export default function PortfolioAdminPanel() {
                     <TableCell>
                       <div className="flex items-center justify-end gap-2">
                         <Button asChild variant="ghost" size="icon" className="h-9 w-9">
-                          <Link href={`/portfolio/${project.slug}`} target="_blank" aria-label="Ver proyecto">
+                          <Link href={`/admin/portfolio/${project.id}`} aria-label="Ver detalle del proyecto">
                             <Eye className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -436,6 +432,12 @@ export default function PortfolioAdminPanel() {
               )}
             </TableBody>
           </Table>
+        </div>
+
+        <div className="mt-5 flex justify-center">
+          <Button asChild variant="outline" className="min-w-48 justify-center">
+            <Link href="/admin">Volver al panel</Link>
+          </Button>
         </div>
       </div>
 
