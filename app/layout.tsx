@@ -1,9 +1,9 @@
+import Footer from '@/components/footer'
+import Header from '@/components/header'
+import AppSessionProvider from '@/components/session-provider'
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/header'
-import Footer from '@/components/footer'
-import AppSessionProvider from '@/components/session-provider'
 
 const inter = Inter({
   subsets: ['latin'],

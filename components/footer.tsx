@@ -1,11 +1,5 @@
 'use client'
 
-import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin, Phone } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -14,6 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin, Phone } from 'lucide-react'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const services = [
   'Proyectos de Arquitectura',
