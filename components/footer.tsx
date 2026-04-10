@@ -54,13 +54,21 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="relative w-52 h-14 mb-6">
-              <Image
-                src="/logo_proyectos_tecnicos.png"
-                alt="LRP Proyectos Técnicos"
-                fill
-                className="object-contain"
-              />
+            <div className="mb-6 flex items-center gap-3">
+              <div className="relative w-16 h-16 rounded-full overflow-hidden border border-white/20 bg-white/10 shadow-sm flex-shrink-0">
+                <Image
+                  src="/logo_proyectos_tecnicos.png"
+                  alt="LRP Proyectos Técnicos"
+                  fill
+                  className="object-cover scale-110"
+                />
+              </div>
+              <div className="leading-tight">
+                <span className="block text-white font-serif font-bold text-lg tracking-wide">LRP</span>
+                <span className="block text-white/50 font-sans text-[10px] uppercase tracking-widest" style={{ letterSpacing: '0.15em' }}>
+                  Proyectos Técnicos
+                </span>
+              </div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-8">
               Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional desde 2008.

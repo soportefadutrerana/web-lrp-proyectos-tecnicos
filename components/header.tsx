@@ -41,12 +41,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-14 h-14 flex-shrink-0">
+            <div className="relative w-16 h-16 flex-shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/10 shadow-sm">
               <Image
                 src="/logo_proyectos_tecnicos.png"
                 alt="LRP Proyectos Técnicos"
                 fill
-                className="object-contain"
+                className="object-cover scale-110"
                 priority
               />
             </div>
