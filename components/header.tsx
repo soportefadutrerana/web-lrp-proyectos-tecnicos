@@ -1,6 +1,7 @@
 'use client'
 
 import { Menu, X } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -11,13 +12,13 @@ const navItems = [
   { href: '/servicios', label: 'Servicios' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/equipo-tecnico', label: 'Equipo' },
-  { href: '/contacto', label: 'Contacto' },
 ]
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const { data: session } = useSession()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,10 +80,10 @@ export default function Header() {
             )) ?? null}
 
             <Link
-              href="/contacto?modo=presupuesto"
+              href={session?.user ? "/admin" : "/contacto"}
               className="ml-6 btn-gold text-xs hover:bg-gold-dark transition-all duration-300 hover:shadow-lg"
             >
-              Solicitar Presupuesto
+              {session?.user ? "Panel Admin" : "Contacta con nosotros"}
             </Link>
           </nav>
 
@@ -118,11 +119,11 @@ export default function Header() {
             )) ?? null}
             <div className="pt-6 border-t border-white/10 mt-6">
               <Link
-                href="/contacto?modo=presupuesto"
+                href={session?.user ? "/admin" : "/contacto"}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block btn-gold text-center text-xs hover:bg-gold-dark transition-all duration-300"
               >
-                Solicitar Presupuesto
+                {session?.user ? "Panel Admin" : "Contacta con nosotros"}
               </Link>
             </div>
           </nav>
