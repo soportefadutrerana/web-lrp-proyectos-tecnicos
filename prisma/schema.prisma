@@ -52,3 +52,20 @@ model AdminUser {
 
     @@index([activo])
 }
+
+model TeamMember {
+    id            Int      @id @default(autoincrement())
+    nombre        String
+    slug          String   @unique
+    puesto        String
+    bio           String   @db.Text
+    fotoUrl       String
+    especialidades String[]
+    activo        Boolean  @default(true)
+    orden         Int      @default(0)
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    @@index([activo, orden])
+    @@index([puesto])
+}

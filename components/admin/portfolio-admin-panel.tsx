@@ -331,6 +331,9 @@ export default function PortfolioAdminPanel() {
               <Plus className="h-4 w-4" />
               Nuevo proyecto
             </Button>
+            <Button asChild variant="outline">
+              <Link href="/admin/equipo">Gestionar equipo</Link>
+            </Button>
           </div>
         </div>
 
