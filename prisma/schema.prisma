@@ -40,3 +40,15 @@ model PortfolioProject {
     @@index([categoria])
     @@index([anio])
 }
+
+model AdminUser {
+    id           Int      @id @default(autoincrement())
+    nombre       String
+    email        String   @unique
+    passwordHash String
+    activo       Boolean  @default(true)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([activo])
+}

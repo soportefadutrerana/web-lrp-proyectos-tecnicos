@@ -149,9 +149,17 @@ export default function Footer() {
           <p className="text-white/30 text-xs tracking-wide">
             © {new Date()?.getFullYear?.()} LRP Proyectos Técnicos. Todos los derechos reservados.
           </p>
-          <p className="text-white/20 text-xs">
-            Arquitectura · Ingeniería · Innovación
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-white/20 text-xs">
+              Arquitectura · Ingeniería · Innovación
+            </p>
+            <Link
+              href="/admin/login"
+              aria-label="Acceso administrador"
+              title="Acceso administrador"
+              className="h-2 w-2 rounded-full bg-white/10 hover:bg-gold/90 transition-colors duration-300"
+            />
+          </div>
         </div>
       </div>
     </footer>
