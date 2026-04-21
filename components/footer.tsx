@@ -13,7 +13,15 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type ContactInfo = {
+  email: string
+  telefono: string
+  ubicacion: string
+  horario: string
+  legalTexto: string
+}
 
 const services = [
   'Proyectos de Arquitectura',
@@ -28,7 +36,30 @@ export default function Footer() {
   const router = useRouter()
   const { data: session, status } = useSession()
   const [isLogoutOpen, setIsLogoutOpen] = useState(false)
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({
+    email: 'info@lrpproyectostecnicos.com',
+    telefono: '+34 XXX XXX XXX',
+    ubicacion: 'España',
+    horario: 'Lunes - Viernes: 9:00 - 18:00',
+    legalTexto: '',
+  })
   const isAdmin = Boolean(session?.user)
+
+  useEffect(() => {
+    const loadContactInfo = async () => {
+      try {
+        const response = await fetch('/api/contact-info')
+        if (response.ok) {
+          const data = await response.json()
+          setContactInfo(data?.data || contactInfo)
+        }
+      } catch (error) {
+        // Si hay error, mantiene los valores por defecto
+        console.error('Error cargando datos de contacto:', error)
+      }
+    }
+    loadContactInfo()
+  }, [])
 
   function handleAdminAccess() {
     if (isAdmin) {
@@ -155,20 +186,20 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:info@lrpproyectostecnicos.com"
+                  href={`mailto:${contactInfo.email}`}
                   className="flex items-start gap-3 text-white/60 hover:text-gold transition-colors duration-300 group"
                 >
                   <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40 group-hover:text-gold" />
-                  <span className="text-sm">info@lrpproyectostecnicos.com</span>
+                  <span className="text-sm">{contactInfo.email}</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-white/60">
                 <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
-                <span className="text-sm">+34 XXX XXX XXX</span>
+                <span className="text-sm">{contactInfo.telefono}</span>
               </li>
               <li className="flex items-start gap-3 text-white/60">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
-                <span className="text-sm">España</span>
+                <span className="text-sm">{contactInfo.ubicacion}</span>
               </li>
             </ul>
 

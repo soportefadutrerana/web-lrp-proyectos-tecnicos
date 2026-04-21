@@ -54,7 +54,7 @@ const emptyForm: FormState = {
   fotoUrl: '',
   especialidades: '',
   activo: true,
-  orden: '0',
+  orden: '1',
 }
 
 function normalizeForm(member?: TeamMember | null): FormState {
@@ -362,7 +362,7 @@ export default function TeamAdminPanel() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingId ? 'Editar miembro' : 'Nuevo miembro'}</DialogTitle>
+            <DialogTitle className="text-3xl font-serif text-charcoal">{editingId ? 'Editar miembro' : 'Nuevo miembro'}</DialogTitle>
             <DialogDescription>
               Completa los datos para publicar este perfil en la sección de equipo técnico.
             </DialogDescription>

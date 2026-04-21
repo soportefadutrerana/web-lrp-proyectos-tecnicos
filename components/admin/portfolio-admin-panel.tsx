@@ -64,7 +64,7 @@ const emptyForm: FormState = {
   imagenes: '',
   destacado: false,
   publicado: true,
-  orden: '0',
+  orden: '1',
 }
 
 function normalizeForm(project?: PortfolioProject | null): FormState {
@@ -447,7 +447,7 @@ export default function PortfolioAdminPanel() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingId ? 'Editar proyecto' : 'Nuevo proyecto'}</DialogTitle>
+            <DialogTitle className="text-3xl font-serif text-charcoal">{editingId ? 'Editar proyecto' : 'Nuevo proyecto'}</DialogTitle>
             <DialogDescription>
               Completa los datos para publicar el proyecto en el portfolio.
             </DialogDescription>
