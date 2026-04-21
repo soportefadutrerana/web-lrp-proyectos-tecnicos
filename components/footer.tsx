@@ -24,12 +24,14 @@ type ContactInfo = {
 }
 
 const services = [
-  'Proyectos de Arquitectura',
-  'Ingeniería Civil',
+  'Proyectos de Arquitectura y Edificación',
+  'Ingeniería Civil y Estructural',
+  'Instalaciones',
   'Certificación Energética',
-  'Licencias de Actividad',
+  'Licencias de Actividad y Apertura',
   'Dirección de Obra',
   'Estudios Técnicos',
+  'Proyectos Industriales',
 ]
 
 export default function Footer() {
@@ -51,7 +53,7 @@ export default function Footer() {
         const response = await fetch('/api/contact-info')
         if (response.ok) {
           const data = await response.json()
-          setContactInfo(data?.data || contactInfo)
+          setContactInfo((current) => data?.data ?? current)
         }
       } catch (error) {
         // Si hay error, mantiene los valores por defecto
@@ -141,7 +143,7 @@ export default function Footer() {
                 { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
                 { href: '/servicios', label: 'Servicios' },
                 { href: '/portfolio', label: 'Portfolio' },
-                { href: '/contacto', label: 'Contacto' },
+                { href: '/equipo-tecnico', label: 'Equipo' },
               ].map((item) => (
                 <li key={item.href}>
                   <Link
@@ -205,10 +207,10 @@ export default function Footer() {
 
             <div className="mt-8">
               <Link
-                href="/contacto?modo=presupuesto"
+                href="/contacto"
                 className="inline-flex items-center gap-2 btn-outline-gold text-xs"
               >
-                Solicitar Presupuesto
+                Contáctanos
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </Link>
             </div>
