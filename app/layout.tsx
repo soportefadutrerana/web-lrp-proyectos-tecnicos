@@ -25,8 +25,9 @@ export const metadata: Metadata = {
   description: 'Empresa especializada en arquitectura, proyectos técnicos e ingeniería civil a nivel nacional e internacional. Servicios profesionales de certificación energética, dirección de obra, licencias y estudios técnicos.',
   keywords: ['arquitectura', 'ingeniería', 'proyectos técnicos', 'certificación energética', 'dirección de obra', 'licencias de actividad'],
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
+    icon: '/logo_proyectos_tecnicos.png',
+    shortcut: '/logo_proyectos_tecnicos.png',
+    apple: '/logo_proyectos_tecnicos.png',
   },
   openGraph: {
     title: 'LRP Proyectos Técnicos | Arquitectura, Proyectos e Ingeniería',
