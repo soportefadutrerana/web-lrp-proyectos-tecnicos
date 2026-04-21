@@ -107,6 +107,14 @@ export default function PortfolioAdminPanel() {
     [projects, editingId]
   )
 
+  const featuredCount = useMemo(
+    () => projects.filter((project) => project.destacado).length,
+    [projects]
+  )
+
+  const canMarkAsFeatured =
+    featuredCount < 2 || Boolean(editingProject?.destacado)
+
   useEffect(() => {
     if (status === 'authenticated') {
       void loadProjects()
@@ -169,6 +177,12 @@ export default function PortfolioAdminPanel() {
     event.preventDefault()
     setSaving(true)
     setMessage('')
+
+    if (form.destacado && !canMarkAsFeatured) {
+      setSaving(false)
+      setMessage('Solo pueden existir 2 proyectos destacados como máximo.')
+      return
+    }
 
     const payload = {
       titulo: form.titulo.trim(),
@@ -575,9 +589,15 @@ export default function PortfolioAdminPanel() {
                   type="checkbox"
                   checked={form.destacado}
                   onChange={(event) => setForm((current) => ({ ...current, destacado: event.target.checked }))}
+                  disabled={!canMarkAsFeatured && !form.destacado}
                 />
                 Destacado
               </label>
+              {!canMarkAsFeatured && !form.destacado ? (
+                <p className="text-xs text-charcoal/50">
+                  Ya existen 2 proyectos destacados. Desmarca uno para destacar otro.
+                </p>
+              ) : null}
               <label className="flex items-center gap-2 text-sm text-charcoal/70">
                 <input
                   type="checkbox"

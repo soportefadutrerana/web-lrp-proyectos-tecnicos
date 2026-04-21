@@ -2,7 +2,7 @@ import AnimatedSection from '@/components/animated-section'
 import { authOptions } from '@/lib/auth'
 import { teamMemberService } from '@/lib/team-member.service'
 import type { TeamMember } from '@prisma/client'
-import { ArrowRight, HardHat } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -92,11 +92,10 @@ export default async function EquipoTecnicoPage() {
                         <p className="text-charcoal/65 leading-relaxed mb-5">{member.bio}</p>
 
                         {(member.especialidades ?? []).length > 0 ? (
-                          <ul className="space-y-2 text-charcoal/70">
-                            {member.especialidades.map((item: string) => (
-                              <li key={item} className="flex items-start gap-3">
-                                <HardHat className="w-4 h-4 mt-0.5 text-gold flex-shrink-0" />
-                                <span>{item}</span>
+                          <ul className="list-disc pl-5 space-y-2 text-charcoal/70 marker:text-[#b39a70]">
+                            {member.especialidades.map((item: string, itemIndex: number) => (
+                              <li key={`${member.id}-${item}-${itemIndex}`}>
+                                {item}
                               </li>
                             ))}
                           </ul>

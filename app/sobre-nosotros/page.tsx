@@ -45,7 +45,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── HISTORIA ── */}
-      <section className="bg-white py-28">
+      <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <AnimatedSection>
@@ -86,11 +86,11 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── PRINCIPLES ── */}
-      <section className="bg-cream py-28">
+      <section className="bg-cream py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <AnimatedSection>
             <p className="section-label">Nuestros Fundamentos</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-16 max-w-xl leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-12 max-w-xl leading-tight">
               Principios que guían nuestro trabajo
             </h2>
           </AnimatedSection>
@@ -126,10 +126,10 @@ export default function SobreNosotros() {
               <AnimatedSection key={index} delay={index * 0.12}>
                 <div className="h-full rounded-2xl border border-charcoal/10 bg-white p-10 group hover:border-gold/30 hover:bg-charcoal transition-all duration-500">
                   <div className="flex items-start justify-between mb-8">
-                    <span className="font-serif text-gold text-6xl font-bold leading-none tracking-tight drop-shadow-[0_8px_18px_rgba(201,168,76,0.32)] group-hover:text-gold-light transition-colors duration-500">
+                    <span className="font-serif text-[#b39a70] text-6xl font-bold leading-none tracking-tight group-hover:text-[#c8b088] transition-colors duration-500">
                       {item.number}
                     </span>
-                    <item.icon className="w-6 h-6 text-gold/50 group-hover:text-gold transition-colors duration-500" />
+                    <item.icon className="w-6 h-6 text-[#b39a70] group-hover:text-[#c8b088] transition-colors duration-500" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-charcoal group-hover:text-white mb-5 transition-colors duration-500">
                     {item.title}
@@ -157,7 +157,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── INTERNATIONAL EXPERIENCE ── */}
-      <section className="relative py-28 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
@@ -214,11 +214,11 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── TEAM ── */}
-      <section className="bg-white py-28">
+      <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <AnimatedSection>
             <p className="section-label">Nuestros Profesionales</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-16 leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-12 leading-tight">
               Nuestro Equipo
             </h2>
           </AnimatedSection>
@@ -243,7 +243,7 @@ export default function SobreNosotros() {
             ].map((role, index) => (
               <AnimatedSection key={index} delay={index * 0.12}>
                 <div className="bg-cream p-10 h-full group hover:bg-charcoal transition-all duration-500">
-                  <span className="font-serif text-gold/25 text-5xl font-bold leading-none block mb-6 group-hover:text-gold/40 transition-colors duration-500">
+                  <span className="font-serif text-[#b39a70] text-5xl font-bold leading-none block mb-6 group-hover:text-[#c8b088] transition-colors duration-500">
                     {role.icon}
                   </span>
                   <h3 className="font-serif text-2xl font-bold text-charcoal group-hover:text-white mb-4 transition-colors duration-500">
@@ -260,7 +260,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="bg-charcoal py-24">
+      <section className="bg-charcoal py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <AnimatedSection>
             <div className="w-12 h-px bg-gold mx-auto mb-8" />

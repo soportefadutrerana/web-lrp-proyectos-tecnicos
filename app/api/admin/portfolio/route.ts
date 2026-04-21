@@ -65,6 +65,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (Boolean(destacado)) {
+      const featuredCount = await portfolioProjectService.countFeatured()
+
+      if (featuredCount >= 2) {
+        return NextResponse.json(
+          { success: false, error: 'Solo pueden existir 2 proyectos destacados como máximo.' },
+          { status: 400 }
+        )
+      }
+    }
+
     const project = await portfolioProjectService.create({
       titulo: String(titulo),
       slug: slug ? String(slug) : undefined,

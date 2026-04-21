@@ -33,6 +33,23 @@ export class PortfolioProjectService {
     })
   }
 
+  async listFeaturedPublic(limit = 2) {
+    return prisma.portfolioProject.findMany({
+      where: { publicado: true, destacado: true },
+      orderBy: [{ orden: 'asc' }, { createdAt: 'desc' }],
+      take: limit,
+    })
+  }
+
+  async countFeatured(excludeId?: number) {
+    return prisma.portfolioProject.count({
+      where: {
+        destacado: true,
+        ...(excludeId ? { id: { not: excludeId } } : {}),
+      },
+    })
+  }
+
   async getPublicBySlug(slug: string) {
     return prisma.portfolioProject.findFirst({
       where: { slug, publicado: true },

@@ -1,5 +1,6 @@
 import { authOptions } from '@/lib/auth'
 import { portfolioProjectService } from '@/lib/portfolio-project.service'
+import { cleanupManagedUploads } from '@/lib/upload-cleanup.service'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -85,6 +86,43 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       )
     }
 
+    const existingProject = await portfolioProjectService.getAdminById(id)
+
+    if (!existingProject) {
+      return NextResponse.json(
+        { success: false, error: 'Proyecto no encontrado' },
+        { status: 404 }
+      )
+    }
+
+    if (body.destacado !== undefined) {
+      const wantsFeatured = Boolean(body.destacado)
+
+      if (wantsFeatured && !existingProject.destacado) {
+        const featuredCount = await portfolioProjectService.countFeatured(id)
+
+        if (featuredCount >= 2) {
+          return NextResponse.json(
+            { success: false, error: 'Solo pueden existir 2 proyectos destacados como máximo.' },
+            { status: 400 }
+          )
+        }
+      }
+    }
+
+    const nextMainImage =
+      body.imagenPrincipal !== undefined
+        ? String(body.imagenPrincipal)
+        : existingProject.imagenPrincipal
+
+    const nextGalleryImages = Array.isArray(body.imagenes)
+      ? body.imagenes.map((item: unknown) => String(item))
+      : existingProject.imagenes
+
+    const previousImageUrls = [existingProject.imagenPrincipal, ...(existingProject.imagenes ?? [])]
+    const nextImageSet = new Set([nextMainImage, ...nextGalleryImages])
+    const removedImageUrls = previousImageUrls.filter((url) => !nextImageSet.has(url))
+
     const project = await portfolioProjectService.update(id, {
       titulo: body.titulo !== undefined ? String(body.titulo) : undefined,
       slug: body.slug !== undefined ? String(body.slug) : undefined,
@@ -101,6 +139,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       publicado: body.publicado !== undefined ? Boolean(body.publicado) : undefined,
       orden: body.orden !== undefined ? Number(body.orden) : undefined,
     })
+
+    if (removedImageUrls.length > 0) {
+      await cleanupManagedUploads(removedImageUrls, { excludePortfolioProjectId: id })
+    }
 
     return NextResponse.json({ success: true, data: project }, { status: 200 })
   } catch (error) {
@@ -133,7 +175,22 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
       )
     }
 
+    const existingProject = await portfolioProjectService.getAdminById(id)
+
+    if (!existingProject) {
+      return NextResponse.json(
+        { success: false, error: 'Proyecto no encontrado' },
+        { status: 404 }
+      )
+    }
+
+    const imageUrls = [existingProject.imagenPrincipal, ...(existingProject.imagenes ?? [])]
+
     await portfolioProjectService.delete(id)
+
+    if (imageUrls.length > 0) {
+      await cleanupManagedUploads(imageUrls, { excludePortfolioProjectId: id })
+    }
 
     return NextResponse.json({ success: true }, { status: 200 })
   } catch (error) {
