@@ -238,23 +238,26 @@ export default function TeamAdminPanel() {
   return (
     <section className="bg-cream min-h-[calc(100vh-160px)] pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="mb-6 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)]">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-4 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)] relative overflow-hidden">
+          <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-gold via-gold-light to-gold-dark" />
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-charcoal/45 mb-3">Administración</p>
-              <h1 className="font-serif text-4xl text-charcoal mb-3">Equipo técnico</h1>
-              <p className="text-charcoal/70 max-w-2xl">
-                Gestiona las tarjetas del equipo visibles para usuarios públicos.
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold mb-3">Administración</p>
+              <h1 className="font-serif text-4xl text-charcoal mb-3">
+                <span className="text-charcoal/60"></span> Equipo
+              </h1>
+              <p className="text-charcoal/70 max-w-2xl leading-relaxed">
+                Gestiona los miembros del equipo. Crea, elimina, actualiza y visualice quienes conforman LRP proyectos técnicos.
               </p>
             </div>
-            <div className="grid w-full gap-2 sm:grid-cols-2 lg:max-w-xl lg:w-auto">
-              <Button className="btn-gold w-full gap-2 justify-center" onClick={openCreateDialog}>
-                <Plus className="h-4 w-4" />
-                Nuevo miembro
-              </Button>
-              <div className="hidden sm:block" />
-            </div>
           </div>
+        </div>
+
+        <div className="mb-6 bg-transparent p-0 sm:pl-3">
+          <Button className="btn-gold w-full gap-2 justify-center rounded-md sm:w-auto" onClick={openCreateDialog}>
+            <Plus className="h-4 w-4" />
+            Nuevo miembro
+          </Button>
         </div>
 
         {message ? (

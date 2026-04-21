@@ -20,7 +20,7 @@ export default async function AdminPage() {
           <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-gold via-gold-light to-gold-dark" />
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold mb-3">Administración</p>
           <h1 className="font-serif text-4xl text-charcoal mb-3">
-            <span className="text-charcoal/60">Panel de</span> gestión
+            <span className="text-charcoal/60"></span> Panel de gestión
           </h1>
           <p className="text-charcoal/70 max-w-3xl leading-relaxed">
             Elige una sección para gestionar el contenido del sitio. El acceso está pensado como un panel claro, directo y acorde al lenguaje visual de la web.

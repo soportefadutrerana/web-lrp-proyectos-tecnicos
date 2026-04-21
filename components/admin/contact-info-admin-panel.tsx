@@ -74,29 +74,26 @@ export default function ContactInfoAdminPanel() {
   return (
     <section className="bg-cream min-h-[calc(100vh-160px)] pt-28 pb-16">
       <div className="max-w-5xl mx-auto px-6 lg:px-10">
-        <div className="mb-6 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)] relative overflow-hidden">
+        <div className="mb-4 rounded-[1.75rem] border border-charcoal/10 bg-white p-6 sm:p-8 shadow-[0_18px_40px_rgba(13,13,13,0.06)] relative overflow-hidden">
           <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-gold via-gold-light to-gold-dark" />
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold mb-3">Administración</p>
               <h1 className="font-serif text-4xl text-charcoal mb-3">
-                <span className="text-charcoal/60">Datos de</span> contacto
+                <span className="text-charcoal/60"></span> Datos de contacto
               </h1>
               <p className="text-charcoal/70 max-w-2xl leading-relaxed">
                 Edita la información de contacto pública mostrada en la web.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 lg:justify-end">
-              <Button asChild variant="outline" className="justify-center">
-                <Link href="/admin/portfolio">Portfolio</Link>
-              </Button>
-              <Button asChild variant="outline" className="justify-center">
-                <Link href="/admin/equipo">Equipo</Link>
-              </Button>
-              <Button asChild variant="outline" className="justify-center">
-                <Link href="/admin">Volver al panel</Link>
-              </Button>
-            </div>
+          </div>
+        </div>
+
+        <div className="mb-6 bg-transparent p-0 sm:pl-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Button type="submit" form="contact-info-form" className="btn-gold w-full rounded-md sm:w-auto" disabled={saving || loading}>
+              {saving ? 'Guardando...' : 'Guardar cambios'}
+            </Button>
           </div>
         </div>
 
@@ -110,7 +107,7 @@ export default function ContactInfoAdminPanel() {
           {loading ? (
             <p className="text-charcoal/60">Cargando datos de contacto...</p>
           ) : (
-            <form className="grid gap-4 md:grid-cols-2" onSubmit={onSubmit}>
+            <form id="contact-info-form" className="grid gap-4 md:grid-cols-2" onSubmit={onSubmit}>
               <label className="space-y-2 md:col-span-1">
                 <span className="text-sm font-medium text-charcoal/70">Email público</span>
                 <input
@@ -161,13 +158,14 @@ export default function ContactInfoAdminPanel() {
                 />
               </label>
 
-              <div className="pt-2 md:col-span-2 flex justify-end">
-                <Button type="submit" className="btn-gold min-w-44" disabled={saving}>
-                  {saving ? 'Guardando...' : 'Guardar cambios'}
-                </Button>
-              </div>
             </form>
           )}
+        </div>
+
+        <div className="mt-5 flex justify-center">
+          <Button asChild variant="outline" className="min-w-48 justify-center">
+            <Link href="/admin">Volver al panel</Link>
+          </Button>
         </div>
       </div>
     </section>
