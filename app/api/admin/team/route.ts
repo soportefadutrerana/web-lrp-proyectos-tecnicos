@@ -1,5 +1,5 @@
-import { authOptions } from '@/lib/auth'
 import { validateTeamPayload } from '@/lib/admin-api-validation'
+import { authOptions } from '@/lib/auth'
 import { teamMemberService } from '@/lib/team-member.service'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
