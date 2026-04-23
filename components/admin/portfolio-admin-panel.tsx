@@ -53,6 +53,8 @@ type FormState = {
   orden: string
 }
 
+type PortfolioFormErrors = Partial<Record<keyof FormState, string>>
+
 const emptyForm: FormState = {
   titulo: '',
   slug: '',
@@ -65,6 +67,84 @@ const emptyForm: FormState = {
   destacado: false,
   publicado: true,
   orden: '1',
+}
+
+const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+function isValidResourceReference(value: string) {
+  if (!value) {
+    return false
+  }
+
+  if (value.startsWith('/')) {
+    return true
+  }
+
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function validatePortfolioForm(form: FormState): PortfolioFormErrors {
+  const errors: PortfolioFormErrors = {}
+  const titulo = form.titulo.trim()
+  const slug = form.slug.trim()
+  const categoria = form.categoria.trim()
+  const ubicacion = form.ubicacion.trim()
+  const descripcion = form.descripcion.trim()
+  const imagenPrincipal = form.imagenPrincipal.trim()
+  const anio = Number(form.anio)
+  const orden = Number(form.orden)
+  const maxYear = new Date().getFullYear() + 1
+  const imagenes = form.imagenes
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean)
+
+  if (titulo.length < 3 || titulo.length > 160) {
+    errors.titulo = 'El título debe tener entre 3 y 160 caracteres.'
+  }
+
+  if (slug && !slugRegex.test(slug)) {
+    errors.slug = 'El slug solo puede contener minúsculas, números y guiones.'
+  }
+
+  if (categoria.length < 2 || categoria.length > 80) {
+    errors.categoria = 'La categoría debe tener entre 2 y 80 caracteres.'
+  }
+
+  if (ubicacion.length < 2 || ubicacion.length > 120) {
+    errors.ubicacion = 'La ubicación debe tener entre 2 y 120 caracteres.'
+  }
+
+  if (!Number.isInteger(anio) || anio < 1900 || anio > maxYear) {
+    errors.anio = `El año debe estar entre 1900 y ${maxYear}.`
+  }
+
+  if (descripcion.length < 20 || descripcion.length > 8000) {
+    errors.descripcion = 'La descripción debe tener entre 20 y 8000 caracteres.'
+  }
+
+  if (!isValidResourceReference(imagenPrincipal)) {
+    errors.imagenPrincipal = 'La imagen principal debe ser una URL válida o una ruta interna.'
+  }
+
+  if (imagenes.length > 30) {
+    errors.imagenes = 'Solo se permiten hasta 30 imágenes secundarias.'
+  }
+
+  if (imagenes.some((item) => !isValidResourceReference(item))) {
+    errors.imagenes = 'Todas las imágenes secundarias deben ser URLs válidas o rutas internas.'
+  }
+
+  if (!Number.isInteger(orden) || orden < 0 || orden > 9999) {
+    errors.orden = 'El orden debe ser un número entero entre 0 y 9999.'
+  }
+
+  return errors
 }
 
 function normalizeForm(project?: PortfolioProject | null): FormState {
@@ -99,6 +179,7 @@ export default function PortfolioAdminPanel() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [message, setMessage] = useState('')
   const [form, setForm] = useState<FormState>(emptyForm)
+  const [formErrors, setFormErrors] = useState<PortfolioFormErrors>({})
   const [uploadingMain, setUploadingMain] = useState(false)
   const [uploadingGallery, setUploadingGallery] = useState(false)
 
@@ -158,12 +239,14 @@ export default function PortfolioAdminPanel() {
   function openCreateDialog() {
     setEditingId(null)
     setForm(emptyForm)
+    setFormErrors({})
     setDialogOpen(true)
   }
 
   function openEditDialog(project: PortfolioProject) {
     setEditingId(project.id)
     setForm(normalizeForm(project))
+    setFormErrors({})
     setDialogOpen(true)
   }
 
@@ -171,12 +254,21 @@ export default function PortfolioAdminPanel() {
     setDialogOpen(false)
     setEditingId(null)
     setForm(emptyForm)
+    setFormErrors({})
   }
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSaving(true)
     setMessage('')
+
+    const validationErrors = validatePortfolioForm(form)
+    setFormErrors(validationErrors)
+
+    if (Object.keys(validationErrors).length > 0) {
+      return
+    }
+
+    setSaving(true)
 
     if (form.destacado && !canMarkAsFeatured) {
       setSaving(false)
@@ -184,51 +276,55 @@ export default function PortfolioAdminPanel() {
       return
     }
 
-    const payload = {
-      titulo: form.titulo.trim(),
-      slug: form.slug.trim(),
-      categoria: form.categoria.trim(),
-      ubicacion: form.ubicacion.trim(),
-      anio: Number(form.anio),
-      descripcion: form.descripcion.trim(),
-      imagenPrincipal: form.imagenPrincipal.trim(),
-      imagenes: form.imagenes
-        .split('\n')
-        .map((item) => item.trim())
-        .filter(Boolean),
-      destacado: form.destacado,
-      publicado: form.publicado,
-      orden: Number(form.orden),
-    }
-
-    const response = await fetch(
-      editingId ? `/api/admin/portfolio/${editingId}` : '/api/admin/portfolio',
-      {
-        method: editingId ? 'PATCH' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+    try {
+      const payload = {
+        titulo: form.titulo.trim(),
+        slug: form.slug.trim(),
+        categoria: form.categoria.trim(),
+        ubicacion: form.ubicacion.trim(),
+        anio: Number(form.anio),
+        descripcion: form.descripcion.trim(),
+        imagenPrincipal: form.imagenPrincipal.trim(),
+        imagenes: form.imagenes
+          .split('\n')
+          .map((item) => item.trim())
+          .filter(Boolean),
+        destacado: form.destacado,
+        publicado: form.publicado,
+        orden: Number(form.orden),
       }
-    )
 
-    const result = await response.json()
+      const response = await fetch(
+        editingId ? `/api/admin/portfolio/${editingId}` : '/api/admin/portfolio',
+        {
+          method: editingId ? 'PATCH' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }
+      )
 
-    if (!response.ok) {
+      const result = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        setMessage(result?.error ?? 'No se pudo guardar el proyecto.')
+        return
+      }
+
+      const nextProject = result?.data as PortfolioProject
+
+      setProjects((current) => {
+        const withoutEdited = current.filter((item) => item.id !== nextProject.id)
+        return [nextProject, ...withoutEdited].sort((a, b) => a.orden - b.orden)
+      })
+
+      closeDialog()
+      setMessage(editingId ? 'Proyecto actualizado correctamente.' : 'Proyecto creado correctamente.')
+      router.refresh()
+    } catch {
+      setMessage('No se pudo guardar el proyecto. Revise su conexión e inténtelo de nuevo.')
+    } finally {
       setSaving(false)
-      setMessage(result?.error ?? 'No se pudo guardar el proyecto.')
-      return
     }
-
-    const nextProject = result?.data as PortfolioProject
-
-    setProjects((current) => {
-      const withoutEdited = current.filter((item) => item.id !== nextProject.id)
-      return [nextProject, ...withoutEdited].sort((a, b) => a.orden - b.orden)
-    })
-
-    setSaving(false)
-    closeDialog()
-    setMessage(editingId ? 'Proyecto actualizado correctamente.' : 'Proyecto creado correctamente.')
-    router.refresh()
   }
 
   async function deleteProject(id: number) {
@@ -472,40 +568,64 @@ export default function PortfolioAdminPanel() {
               <span className="text-sm font-medium text-charcoal/70">Título</span>
               <input
                 value={form.titulo}
-                onChange={(event) => setForm((current) => ({ ...current, titulo: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, titulo: event.target.value }))
+                  setFormErrors((current) => ({ ...current, titulo: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={3}
+                maxLength={160}
                 required
               />
+              {formErrors.titulo ? <p className="text-xs text-red-600">{formErrors.titulo}</p> : null}
             </label>
 
             <label className="space-y-2">
               <span className="text-sm font-medium text-charcoal/70">Slug</span>
               <input
                 value={form.slug}
-                onChange={(event) => setForm((current) => ({ ...current, slug: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, slug: event.target.value }))
+                  setFormErrors((current) => ({ ...current, slug: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="se genera automáticamente si lo dejas vacío"
+                pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                title="Use minúsculas, números y guiones"
               />
+              {formErrors.slug ? <p className="text-xs text-red-600">{formErrors.slug}</p> : null}
             </label>
 
             <label className="space-y-2">
               <span className="text-sm font-medium text-charcoal/70">Categoría</span>
               <input
                 value={form.categoria}
-                onChange={(event) => setForm((current) => ({ ...current, categoria: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, categoria: event.target.value }))
+                  setFormErrors((current) => ({ ...current, categoria: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={2}
+                maxLength={80}
                 required
               />
+              {formErrors.categoria ? <p className="text-xs text-red-600">{formErrors.categoria}</p> : null}
             </label>
 
             <label className="space-y-2">
               <span className="text-sm font-medium text-charcoal/70">Ubicación</span>
               <input
                 value={form.ubicacion}
-                onChange={(event) => setForm((current) => ({ ...current, ubicacion: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, ubicacion: event.target.value }))
+                  setFormErrors((current) => ({ ...current, ubicacion: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={2}
+                maxLength={120}
                 required
               />
+              {formErrors.ubicacion ? <p className="text-xs text-red-600">{formErrors.ubicacion}</p> : null}
             </label>
 
             <label className="space-y-2">
@@ -513,31 +633,49 @@ export default function PortfolioAdminPanel() {
               <input
                 type="number"
                 value={form.anio}
-                onChange={(event) => setForm((current) => ({ ...current, anio: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, anio: event.target.value }))
+                  setFormErrors((current) => ({ ...current, anio: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                min={1900}
+                max={new Date().getFullYear() + 1}
+                step={1}
                 required
               />
+              {formErrors.anio ? <p className="text-xs text-red-600">{formErrors.anio}</p> : null}
             </label>
 
             <label className="space-y-2 md:col-span-2">
               <span className="text-sm font-medium text-charcoal/70">Descripción</span>
               <textarea
                 value={form.descripcion}
-                onChange={(event) => setForm((current) => ({ ...current, descripcion: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, descripcion: event.target.value }))
+                  setFormErrors((current) => ({ ...current, descripcion: undefined }))
+                }}
                 className="min-h-28 w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={20}
+                maxLength={8000}
                 required
               />
+              {formErrors.descripcion ? <p className="text-xs text-red-600">{formErrors.descripcion}</p> : null}
             </label>
 
             <label className="space-y-2 md:col-span-2">
               <span className="text-sm font-medium text-charcoal/70">Imagen principal</span>
               <input
                 value={form.imagenPrincipal}
-                onChange={(event) => setForm((current) => ({ ...current, imagenPrincipal: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, imagenPrincipal: event.target.value }))
+                  setFormErrors((current) => ({ ...current, imagenPrincipal: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="Se autocompleta al subir archivo"
+                maxLength={500}
                 required
               />
+              {formErrors.imagenPrincipal ? <p className="text-xs text-red-600">{formErrors.imagenPrincipal}</p> : null}
               <label className="inline-flex items-center gap-2 rounded-md border border-charcoal/15 px-3 py-2 text-sm text-charcoal/70 hover:border-gold cursor-pointer">
                 <Upload className="h-4 w-4" />
                 {uploadingMain ? 'Subiendo imagen principal...' : 'Subir imagen principal desde tu PC'}
@@ -555,10 +693,15 @@ export default function PortfolioAdminPanel() {
               <span className="text-sm font-medium text-charcoal/70">Imágenes secundarias</span>
               <textarea
                 value={form.imagenes}
-                onChange={(event) => setForm((current) => ({ ...current, imagenes: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, imagenes: event.target.value }))
+                  setFormErrors((current) => ({ ...current, imagenes: undefined }))
+                }}
                 className="min-h-24 w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="Se añaden automáticamente al subir archivos (una URL por línea)"
+                maxLength={6000}
               />
+              {formErrors.imagenes ? <p className="text-xs text-red-600">{formErrors.imagenes}</p> : null}
               <label className="inline-flex items-center gap-2 rounded-md border border-charcoal/15 px-3 py-2 text-sm text-charcoal/70 hover:border-gold cursor-pointer">
                 <Upload className="h-4 w-4" />
                 {uploadingGallery ? 'Subiendo imágenes secundarias...' : 'Subir imágenes secundarias desde tu PC'}
@@ -578,9 +721,16 @@ export default function PortfolioAdminPanel() {
               <input
                 type="number"
                 value={form.orden}
-                onChange={(event) => setForm((current) => ({ ...current, orden: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, orden: event.target.value }))
+                  setFormErrors((current) => ({ ...current, orden: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                min={0}
+                max={9999}
+                step={1}
               />
+              {formErrors.orden ? <p className="text-xs text-red-600">{formErrors.orden}</p> : null}
             </label>
 
             <div className="space-y-3 pt-8">

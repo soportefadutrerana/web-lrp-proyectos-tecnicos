@@ -46,6 +46,8 @@ type FormState = {
   orden: string
 }
 
+type TeamFormErrors = Partial<Record<keyof FormState, string>>
+
 const emptyForm: FormState = {
   nombre: '',
   slug: '',
@@ -55,6 +57,73 @@ const emptyForm: FormState = {
   especialidades: '',
   activo: true,
   orden: '1',
+}
+
+const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+function isValidResourceReference(value: string) {
+  if (!value) {
+    return false
+  }
+
+  if (value.startsWith('/')) {
+    return true
+  }
+
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function validateTeamForm(form: FormState): TeamFormErrors {
+  const errors: TeamFormErrors = {}
+  const nombre = form.nombre.trim()
+  const slug = form.slug.trim()
+  const puesto = form.puesto.trim()
+  const bio = form.bio.trim()
+  const fotoUrl = form.fotoUrl.trim()
+  const orden = Number(form.orden)
+  const especialidades = form.especialidades
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean)
+
+  if (nombre.length < 2 || nombre.length > 120) {
+    errors.nombre = 'El nombre debe tener entre 2 y 120 caracteres.'
+  }
+
+  if (slug && !slugRegex.test(slug)) {
+    errors.slug = 'El slug solo puede contener minúsculas, números y guiones.'
+  }
+
+  if (puesto.length < 2 || puesto.length > 120) {
+    errors.puesto = 'El puesto debe tener entre 2 y 120 caracteres.'
+  }
+
+  if (bio.length < 20 || bio.length > 5000) {
+    errors.bio = 'La biografía debe tener entre 20 y 5000 caracteres.'
+  }
+
+  if (!isValidResourceReference(fotoUrl)) {
+    errors.fotoUrl = 'La foto de perfil debe ser una URL válida o una ruta interna.'
+  }
+
+  if (!Number.isInteger(orden) || orden < 0 || orden > 9999) {
+    errors.orden = 'El orden debe ser un número entero entre 0 y 9999.'
+  }
+
+  if (especialidades.length > 20) {
+    errors.especialidades = 'Solo se permiten hasta 20 especialidades.'
+  }
+
+  if (especialidades.some((item) => item.length < 2 || item.length > 80)) {
+    errors.especialidades = 'Cada especialidad debe tener entre 2 y 80 caracteres.'
+  }
+
+  return errors
 }
 
 function normalizeForm(member?: TeamMember | null): FormState {
@@ -85,6 +154,7 @@ export default function TeamAdminPanel() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [message, setMessage] = useState('')
   const [form, setForm] = useState<FormState>(emptyForm)
+  const [formErrors, setFormErrors] = useState<TeamFormErrors>({})
 
   useEffect(() => {
     void loadMembers()
@@ -110,12 +180,14 @@ export default function TeamAdminPanel() {
   function openCreateDialog() {
     setEditingId(null)
     setForm(emptyForm)
+    setFormErrors({})
     setDialogOpen(true)
   }
 
   function openEditDialog(member: TeamMember) {
     setEditingId(member.id)
     setForm(normalizeForm(member))
+    setFormErrors({})
     setDialogOpen(true)
   }
 
@@ -123,6 +195,7 @@ export default function TeamAdminPanel() {
     setDialogOpen(false)
     setEditingId(null)
     setForm(emptyForm)
+    setFormErrors({})
   }
 
   async function uploadProfilePhoto(event: ChangeEvent<HTMLInputElement>) {
@@ -165,48 +238,60 @@ export default function TeamAdminPanel() {
 
   async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSaving(true)
     setMessage('')
 
-    const payload = {
-      nombre: form.nombre.trim(),
-      slug: form.slug.trim(),
-      puesto: form.puesto.trim(),
-      bio: form.bio.trim(),
-      fotoUrl: form.fotoUrl.trim(),
-      especialidades: form.especialidades
-        .split('\n')
-        .map((item) => item.trim())
-        .filter(Boolean),
-      activo: form.activo,
-      orden: Number(form.orden),
-    }
+    const validationErrors = validateTeamForm(form)
+    setFormErrors(validationErrors)
 
-    const response = await fetch(editingId ? `/api/admin/team/${editingId}` : '/api/admin/team', {
-      method: editingId ? 'PATCH' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-
-    const result = await response.json()
-
-    if (!response.ok) {
-      setSaving(false)
-      setMessage(result?.error ?? 'No se pudo guardar el miembro.')
+    if (Object.keys(validationErrors).length > 0) {
       return
     }
 
-    const nextMember = result?.data as TeamMember
+    setSaving(true)
 
-    setMembers((current) => {
-      const withoutEdited = current.filter((item) => item.id !== nextMember.id)
-      return [nextMember, ...withoutEdited].sort((a, b) => a.orden - b.orden)
-    })
+    try {
+      const payload = {
+        nombre: form.nombre.trim(),
+        slug: form.slug.trim(),
+        puesto: form.puesto.trim(),
+        bio: form.bio.trim(),
+        fotoUrl: form.fotoUrl.trim(),
+        especialidades: form.especialidades
+          .split('\n')
+          .map((item) => item.trim())
+          .filter(Boolean),
+        activo: form.activo,
+        orden: Number(form.orden),
+      }
 
-    setSaving(false)
-    closeDialog()
-    setMessage(editingId ? 'Miembro actualizado correctamente.' : 'Miembro creado correctamente.')
-    router.refresh()
+      const response = await fetch(editingId ? `/api/admin/team/${editingId}` : '/api/admin/team', {
+        method: editingId ? 'PATCH' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      const result = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        setMessage(result?.error ?? 'No se pudo guardar el miembro.')
+        return
+      }
+
+      const nextMember = result?.data as TeamMember
+
+      setMembers((current) => {
+        const withoutEdited = current.filter((item) => item.id !== nextMember.id)
+        return [nextMember, ...withoutEdited].sort((a, b) => a.orden - b.orden)
+      })
+
+      closeDialog()
+      setMessage(editingId ? 'Miembro actualizado correctamente.' : 'Miembro creado correctamente.')
+      router.refresh()
+    } catch {
+      setMessage('No se pudo guardar el miembro. Revise su conexión e inténtelo de nuevo.')
+    } finally {
+      setSaving(false)
+    }
   }
 
   async function deleteMember(id: number) {
@@ -373,51 +458,80 @@ export default function TeamAdminPanel() {
               <span className="text-sm font-medium text-charcoal/70">Nombre</span>
               <input
                 value={form.nombre}
-                onChange={(event) => setForm((current) => ({ ...current, nombre: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, nombre: event.target.value }))
+                  setFormErrors((current) => ({ ...current, nombre: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={2}
+                maxLength={120}
                 required
               />
+              {formErrors.nombre ? <p className="text-xs text-red-600">{formErrors.nombre}</p> : null}
             </label>
 
             <label className="space-y-2">
               <span className="text-sm font-medium text-charcoal/70">Slug</span>
               <input
                 value={form.slug}
-                onChange={(event) => setForm((current) => ({ ...current, slug: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, slug: event.target.value }))
+                  setFormErrors((current) => ({ ...current, slug: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="se genera automáticamente"
+                pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                title="Use minúsculas, números y guiones"
               />
+              {formErrors.slug ? <p className="text-xs text-red-600">{formErrors.slug}</p> : null}
             </label>
 
             <label className="space-y-2 md:col-span-2">
               <span className="text-sm font-medium text-charcoal/70">Puesto</span>
               <input
                 value={form.puesto}
-                onChange={(event) => setForm((current) => ({ ...current, puesto: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, puesto: event.target.value }))
+                  setFormErrors((current) => ({ ...current, puesto: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={2}
+                maxLength={120}
                 required
               />
+              {formErrors.puesto ? <p className="text-xs text-red-600">{formErrors.puesto}</p> : null}
             </label>
 
             <label className="space-y-2 md:col-span-2">
               <span className="text-sm font-medium text-charcoal/70">Biografía</span>
               <textarea
                 value={form.bio}
-                onChange={(event) => setForm((current) => ({ ...current, bio: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, bio: event.target.value }))
+                  setFormErrors((current) => ({ ...current, bio: undefined }))
+                }}
                 className="min-h-28 w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                minLength={20}
+                maxLength={5000}
                 required
               />
+              {formErrors.bio ? <p className="text-xs text-red-600">{formErrors.bio}</p> : null}
             </label>
 
             <label className="space-y-2 md:col-span-2">
               <span className="text-sm font-medium text-charcoal/70">Foto de perfil</span>
               <input
                 value={form.fotoUrl}
-                onChange={(event) => setForm((current) => ({ ...current, fotoUrl: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, fotoUrl: event.target.value }))
+                  setFormErrors((current) => ({ ...current, fotoUrl: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="Se autocompleta al subir archivo"
+                maxLength={500}
                 required
               />
+              {formErrors.fotoUrl ? <p className="text-xs text-red-600">{formErrors.fotoUrl}</p> : null}
               <label className="inline-flex items-center gap-2 rounded-md border border-charcoal/15 px-3 py-2 text-sm text-charcoal/70 hover:border-gold cursor-pointer">
                 <Upload className="h-4 w-4" />
                 {uploading ? 'Subiendo foto...' : 'Subir foto desde tu PC'}
@@ -435,10 +549,15 @@ export default function TeamAdminPanel() {
               <span className="text-sm font-medium text-charcoal/70">Especialidades</span>
               <textarea
                 value={form.especialidades}
-                onChange={(event) => setForm((current) => ({ ...current, especialidades: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, especialidades: event.target.value }))
+                  setFormErrors((current) => ({ ...current, especialidades: undefined }))
+                }}
                 className="min-h-24 w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
                 placeholder="Una especialidad por línea"
+                maxLength={2000}
               />
+              {formErrors.especialidades ? <p className="text-xs text-red-600">{formErrors.especialidades}</p> : null}
             </label>
 
             <label className="space-y-2">
@@ -446,9 +565,16 @@ export default function TeamAdminPanel() {
               <input
                 type="number"
                 value={form.orden}
-                onChange={(event) => setForm((current) => ({ ...current, orden: event.target.value }))}
+                onChange={(event) => {
+                  setForm((current) => ({ ...current, orden: event.target.value }))
+                  setFormErrors((current) => ({ ...current, orden: undefined }))
+                }}
                 className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
+                min={0}
+                max={9999}
+                step={1}
               />
+              {formErrors.orden ? <p className="text-xs text-red-600">{formErrors.orden}</p> : null}
             </label>
 
             <div className="space-y-3 pt-8">

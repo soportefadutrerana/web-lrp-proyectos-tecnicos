@@ -52,23 +52,27 @@ export default function ContactInfoAdminPanel() {
     setSaving(true)
     setMessage('')
 
-    const response = await fetch('/api/admin/contact-info', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
+    try {
+      const response = await fetch('/api/admin/contact-info', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
 
-    const payload = await response.json()
+      const payload = await response.json().catch(() => null)
 
-    if (!response.ok) {
+      if (!response.ok) {
+        setMessage(payload?.error ?? 'No se pudo guardar la información de contacto.')
+        return
+      }
+
+      setForm(payload?.data ?? form)
+      setMessage('Datos de contacto actualizados correctamente.')
+    } catch {
+      setMessage('No se pudo guardar la información de contacto. Revise su conexión e inténtelo de nuevo.')
+    } finally {
       setSaving(false)
-      setMessage(payload?.error ?? 'No se pudo guardar la información de contacto.')
-      return
     }
-
-    setForm(payload?.data ?? form)
-    setSaving(false)
-    setMessage('Datos de contacto actualizados correctamente.')
   }
 
   return (

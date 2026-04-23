@@ -1,4 +1,5 @@
 import { authOptions } from '@/lib/auth'
+import { validatePortfolioPayload } from '@/lib/admin-api-validation'
 import { portfolioProjectService } from '@/lib/portfolio-project.service'
 import { cleanupManagedUploads } from '@/lib/upload-cleanup.service'
 import { getServerSession } from 'next-auth'
@@ -79,12 +80,16 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
     const body = await request.json()
 
-    if (!body || typeof body !== 'object') {
+    const validation = validatePortfolioPayload(body, 'update')
+
+    if (!validation.success) {
       return NextResponse.json(
-        { success: false, error: 'Body inválido' },
+        { success: false, error: validation.error },
         { status: 400 }
       )
     }
+
+    const data = validation.data
 
     const existingProject = await portfolioProjectService.getAdminById(id)
 
@@ -95,8 +100,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       )
     }
 
-    if (body.destacado !== undefined) {
-      const wantsFeatured = Boolean(body.destacado)
+    if (data.destacado !== undefined) {
+      const wantsFeatured = Boolean(data.destacado)
 
       if (wantsFeatured && !existingProject.destacado) {
         const featuredCount = await portfolioProjectService.countFeatured(id)
@@ -111,12 +116,12 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     const nextMainImage =
-      body.imagenPrincipal !== undefined
-        ? String(body.imagenPrincipal)
+      data.imagenPrincipal !== undefined
+        ? String(data.imagenPrincipal)
         : existingProject.imagenPrincipal
 
-    const nextGalleryImages = Array.isArray(body.imagenes)
-      ? body.imagenes.map((item: unknown) => String(item))
+    const nextGalleryImages = Array.isArray(data.imagenes)
+      ? data.imagenes.map((item: unknown) => String(item))
       : existingProject.imagenes
 
     const previousImageUrls = [existingProject.imagenPrincipal, ...(existingProject.imagenes ?? [])]
@@ -124,20 +129,17 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const removedImageUrls = previousImageUrls.filter((url) => !nextImageSet.has(url))
 
     const project = await portfolioProjectService.update(id, {
-      titulo: body.titulo !== undefined ? String(body.titulo) : undefined,
-      slug: body.slug !== undefined ? String(body.slug) : undefined,
-      categoria: body.categoria !== undefined ? String(body.categoria) : undefined,
-      ubicacion: body.ubicacion !== undefined ? String(body.ubicacion) : undefined,
-      anio: body.anio !== undefined ? Number(body.anio) : undefined,
-      descripcion: body.descripcion !== undefined ? String(body.descripcion) : undefined,
-      imagenPrincipal:
-        body.imagenPrincipal !== undefined ? String(body.imagenPrincipal) : undefined,
-      imagenes: Array.isArray(body.imagenes)
-        ? body.imagenes.map((item: unknown) => String(item))
-        : undefined,
-      destacado: body.destacado !== undefined ? Boolean(body.destacado) : undefined,
-      publicado: body.publicado !== undefined ? Boolean(body.publicado) : undefined,
-      orden: body.orden !== undefined ? Number(body.orden) : undefined,
+      titulo: data.titulo,
+      slug: data.slug,
+      categoria: data.categoria,
+      ubicacion: data.ubicacion,
+      anio: data.anio,
+      descripcion: data.descripcion,
+      imagenPrincipal: data.imagenPrincipal,
+      imagenes: data.imagenes,
+      destacado: data.destacado,
+      publicado: data.publicado,
+      orden: data.orden,
     })
 
     if (removedImageUrls.length > 0) {

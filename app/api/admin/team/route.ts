@@ -1,4 +1,5 @@
 import { authOptions } from '@/lib/auth'
+import { validateTeamPayload } from '@/lib/admin-api-validation'
 import { teamMemberService } from '@/lib/team-member.service'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
@@ -38,24 +39,24 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { nombre, slug, puesto, bio, fotoUrl, especialidades, activo, orden } = body ?? {}
+    const validation = validateTeamPayload(body, 'create')
 
-    if (!nombre || !puesto || !bio || !fotoUrl) {
+    if (!validation.success) {
       return NextResponse.json(
-        { success: false, error: 'Faltan campos requeridos' },
+        { success: false, error: validation.error },
         { status: 400 }
       )
     }
 
+    const { nombre, slug, puesto, bio, fotoUrl, especialidades, activo, orden } = validation.data
+
     const member = await teamMemberService.create({
       nombre: String(nombre),
-      slug: slug ? String(slug) : undefined,
+      slug: slug,
       puesto: String(puesto),
       bio: String(bio),
       fotoUrl: String(fotoUrl),
-      especialidades: Array.isArray(especialidades)
-        ? especialidades.map((item: unknown) => String(item))
-        : [],
+      especialidades: especialidades ?? [],
       activo: activo === undefined ? true : Boolean(activo),
       orden: orden === undefined ? 0 : Number(orden),
     })

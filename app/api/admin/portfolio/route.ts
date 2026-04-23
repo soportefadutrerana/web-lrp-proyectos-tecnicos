@@ -1,4 +1,5 @@
 import { authOptions } from '@/lib/auth'
+import { validatePortfolioPayload } from '@/lib/admin-api-validation'
 import { portfolioProjectService } from '@/lib/portfolio-project.service'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
@@ -44,6 +45,15 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
+    const validation = validatePortfolioPayload(body, 'create')
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, error: validation.error },
+        { status: 400 }
+      )
+    }
+
     const {
       titulo,
       slug,
@@ -56,14 +66,7 @@ export async function POST(request: NextRequest) {
       destacado,
       publicado,
       orden,
-    } = body ?? {}
-
-    if (!titulo || !categoria || !ubicacion || !anio || !descripcion || !imagenPrincipal) {
-      return NextResponse.json(
-        { success: false, error: 'Faltan campos requeridos' },
-        { status: 400 }
-      )
-    }
+    } = validation.data
 
     if (Boolean(destacado)) {
       const featuredCount = await portfolioProjectService.countFeatured()

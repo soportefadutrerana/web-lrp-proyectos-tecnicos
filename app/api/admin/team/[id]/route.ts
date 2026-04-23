@@ -1,4 +1,5 @@
 import { authOptions } from '@/lib/auth'
+import { validateTeamPayload } from '@/lib/admin-api-validation'
 import { teamMemberService } from '@/lib/team-member.service'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
@@ -71,18 +72,26 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
 
     const body = await request.json()
+    const validation = validateTeamPayload(body, 'update')
+
+    if (!validation.success) {
+      return NextResponse.json(
+        { success: false, error: validation.error },
+        { status: 400 }
+      )
+    }
+
+    const data = validation.data
 
     const member = await teamMemberService.update(id, {
-      nombre: body.nombre !== undefined ? String(body.nombre) : undefined,
-      slug: body.slug !== undefined ? String(body.slug) : undefined,
-      puesto: body.puesto !== undefined ? String(body.puesto) : undefined,
-      bio: body.bio !== undefined ? String(body.bio) : undefined,
-      fotoUrl: body.fotoUrl !== undefined ? String(body.fotoUrl) : undefined,
-      especialidades: Array.isArray(body.especialidades)
-        ? body.especialidades.map((item: unknown) => String(item))
-        : undefined,
-      activo: body.activo !== undefined ? Boolean(body.activo) : undefined,
-      orden: body.orden !== undefined ? Number(body.orden) : undefined,
+      nombre: data.nombre,
+      slug: data.slug,
+      puesto: data.puesto,
+      bio: data.bio,
+      fotoUrl: data.fotoUrl,
+      especialidades: data.especialidades,
+      activo: data.activo,
+      orden: data.orden,
     })
 
     return NextResponse.json({ success: true, data: member }, { status: 200 })
