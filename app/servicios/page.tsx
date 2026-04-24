@@ -10,6 +10,7 @@ export const metadata = {
 
 const services = [
   {
+    id: 'proyectos-arquitectura-edificacion',
     icon: Building2,
     number: '01',
     title: 'Proyectos de Arquitectura y Edificación',
@@ -23,6 +24,7 @@ const services = [
     ],
   },
   {
+    id: 'ingenieria-civil-estructural',
     icon: HardHat,
     number: '02',
     title: 'Ingeniería Civil y Estructural',
@@ -36,6 +38,7 @@ const services = [
     ],
   },
   {
+    id: 'instalaciones',
     icon: Zap,
     number: '03',
     title: 'Instalaciones',
@@ -49,6 +52,7 @@ const services = [
     ],
   },
   {
+    id: 'certificacion-energetica',
     icon: Leaf,
     number: '04',
     title: 'Certificación Energética',
@@ -62,6 +66,7 @@ const services = [
     ],
   },
   {
+    id: 'licencias-actividad-apertura',
     icon: FileText,
     number: '05',
     title: 'Licencias de Actividad y Apertura',
@@ -75,6 +80,7 @@ const services = [
     ],
   },
   {
+    id: 'direccion-obra',
     icon: UserCheck,
     number: '06',
     title: 'Dirección de Obra',
@@ -88,6 +94,7 @@ const services = [
     ],
   },
   {
+    id: 'estudios-tecnicos',
     icon: ClipboardCheck,
     number: '07',
     title: 'Estudios Técnicos',
@@ -101,6 +108,7 @@ const services = [
     ],
   },
   {
+    id: 'proyectos-industriales',
     icon: Factory,
     number: '08',
     title: 'Proyectos Industriales',
@@ -167,10 +175,13 @@ export default function Servicios() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="space-y-10 lg:space-y-12">
             {services?.map?.((service, index) => (
-              <AnimatedSection key={index}>
-                <div className={`grid md:grid-cols-2 gap-10 lg:gap-16 items-center ${
+              <AnimatedSection key={service.id}>
+                <div
+                  id={service.id}
+                  className={`grid scroll-mt-32 md:grid-cols-2 gap-10 lg:gap-16 items-center ${
                   index % 2 === 1 ? '' : ''
-                }`}>
+                }`}
+                >
                   {/* Image */}
                   <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl border border-charcoal/10 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                     <Image

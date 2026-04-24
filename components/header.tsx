@@ -41,19 +41,19 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-16 h-16 flex-shrink-0 rounded-full overflow-hidden border border-white/20 bg-white/10 shadow-sm">
+          <Link href="/" className="flex items-center gap-3 sm:gap-4">
+            <div className="relative h-[4.5rem] w-[4.5rem] flex-shrink-0 overflow-hidden rounded-full border border-white/25 bg-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.22)] sm:h-20 sm:w-20">
               <Image
                 src="/logo_proyectos_tecnicos.png"
                 alt="LRP Proyectos Técnicos"
                 fill
-                className="object-cover scale-110"
+                className="object-cover scale-[1.18]"
                 priority
               />
             </div>
             <div className="leading-tight hidden sm:block">
-              <span className="block text-white font-serif font-bold text-lg tracking-wide">LRP</span>
-              <span className="block text-white/50 font-sans text-xs uppercase tracking-widest" style={{ letterSpacing: '0.18em' }}>Proyectos Técnicos</span>
+              <span className="block text-white font-serif font-bold text-xl tracking-wide">LRP</span>
+              <span className="block text-white/60 font-sans text-[11px] uppercase tracking-widest" style={{ letterSpacing: '0.18em' }}>Proyectos Técnicos</span>
             </div>
           </Link>
 

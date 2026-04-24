@@ -24,14 +24,38 @@ type ContactInfo = {
 }
 
 const services = [
-  'Proyectos de Arquitectura y Edificación',
-  'Ingeniería Civil y Estructural',
-  'Instalaciones',
-  'Certificación Energética',
-  'Licencias de Actividad y Apertura',
-  'Dirección de Obra',
-  'Estudios Técnicos',
-  'Proyectos Industriales',
+  {
+    label: 'Proyectos de Arquitectura y Edificación',
+    href: '/servicios#proyectos-arquitectura-edificacion',
+  },
+  {
+    label: 'Ingeniería Civil y Estructural',
+    href: '/servicios#ingenieria-civil-estructural',
+  },
+  {
+    label: 'Instalaciones',
+    href: '/servicios#instalaciones',
+  },
+  {
+    label: 'Certificación Energética',
+    href: '/servicios#certificacion-energetica',
+  },
+  {
+    label: 'Licencias de Actividad y Apertura',
+    href: '/servicios#licencias-actividad-apertura',
+  },
+  {
+    label: 'Dirección de Obra',
+    href: '/servicios#direccion-obra',
+  },
+  {
+    label: 'Estudios Técnicos',
+    href: '/servicios#estudios-tecnicos',
+  },
+  {
+    label: 'Proyectos Industriales',
+    href: '/servicios#proyectos-industriales',
+  },
 ]
 
 export default function Footer() {
@@ -166,13 +190,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service}>
+                <li key={service.href}>
                   <Link
-                    href="/servicios"
+                    href={service.href}
                     className="text-white/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                   >
                     <span className="w-3 h-px bg-white/20 group-hover:bg-gold transition-all duration-300" />
-                    {service}
+                    {service.label}
                   </Link>
                 </li>
               ))}
