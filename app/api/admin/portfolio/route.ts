@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       imagenes: Array.isArray(imagenes) ? imagenes.map((item) => String(item)) : [],
       destacado: Boolean(destacado),
       publicado: publicado === undefined ? true : Boolean(publicado),
-      orden: orden === undefined ? 0 : Number(orden),
+      orden: orden === undefined ? undefined : Number(orden),
     })
 
     return NextResponse.json({ success: true, data: project }, { status: 201 })

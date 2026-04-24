@@ -50,7 +50,7 @@ export default async function AdminPortfolioDetailPage({ params }: { params: Par
             <p className="text-sm text-charcoal/70"><strong>Categoría:</strong> {project.categoria}</p>
             <p className="text-sm text-charcoal/70"><strong>Ubicación:</strong> {project.ubicacion}</p>
             <p className="text-sm text-charcoal/70"><strong>Año:</strong> {project.anio}</p>
-            <p className="text-sm text-charcoal/70"><strong>Orden:</strong> {project.orden}</p>
+            <p className="text-sm text-charcoal/70"><strong>Posición:</strong> {project.orden}</p>
             <p className="text-sm text-charcoal/70"><strong>Slug:</strong> {project.slug}</p>
             <div className="flex gap-2">
               <Badge variant={project.publicado ? 'default' : 'outline'}>

@@ -18,7 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { Eye, Image as ImageIcon, Pencil, Plus, Trash2, Upload, X } from 'lucide-react'
+import { ArrowDown, ArrowUp, Eye, Image as ImageIcon, Pencil, Plus, Trash2, Upload, X } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -54,6 +54,10 @@ type FormState = {
 }
 
 type PortfolioFormErrors = Partial<Record<keyof FormState, string>>
+
+type LoadProjectsOptions = {
+  preserveMessage?: boolean
+}
 
 const emptyForm: FormState = {
   titulo: '',
@@ -140,14 +144,66 @@ function validatePortfolioForm(form: FormState): PortfolioFormErrors {
     errors.imagenes = 'Todas las imágenes secundarias deben ser URLs válidas o rutas internas.'
   }
 
-  if (!Number.isInteger(orden) || orden < 0 || orden > 9999) {
-    errors.orden = 'El orden debe ser un número entero entre 0 y 9999.'
+  if (!Number.isInteger(orden) || orden < 1 || orden > 9999) {
+    errors.orden = 'La posición debe ser un número entero entre 1 y 9999.'
   }
 
   return errors
 }
 
-function normalizeForm(project?: PortfolioProject | null): FormState {
+function sortProjectsByDisplayOrder(projects: PortfolioProject[]) {
+  return [...projects].sort((a, b) => {
+    if (a.destacado !== b.destacado) {
+      return a.destacado ? -1 : 1
+    }
+
+    if (a.orden !== b.orden) {
+      return a.orden - b.orden
+    }
+
+    return b.id - a.id
+  })
+}
+
+function getAvailableOrderPositions(
+  projects: PortfolioProject[],
+  editingId: number | null,
+  isFeatured: boolean
+) {
+  const otherProjects = sortProjectsByDisplayOrder(
+    projects.filter((project) => project.id !== editingId)
+  )
+  const featuredCount = otherProjects.filter((project) => project.destacado).length
+  const totalCount = otherProjects.length + 1
+
+  if (isFeatured) {
+    return Array.from({ length: featuredCount + 1 }, (_, index) => index + 1)
+  }
+
+  const firstRegularPosition = featuredCount + 1
+  return Array.from(
+    { length: totalCount - featuredCount },
+    (_, index) => firstRegularPosition + index
+  )
+}
+
+function normalizeOrderValue(value: string, positions: number[]) {
+  if (positions.length === 0) {
+    return '1'
+  }
+
+  const parsedValue = Number(value)
+  const minPosition = positions[0]
+  const maxPosition = positions[positions.length - 1]
+
+  if (!Number.isInteger(parsedValue)) {
+    return String(maxPosition)
+  }
+
+  return String(Math.min(Math.max(parsedValue, minPosition), maxPosition))
+}
+
+function normalizeForm(project?: PortfolioProject | null, position?: number): FormState {
   if (!project) {
     return emptyForm
   }
@@ -163,7 +219,7 @@ function normalizeForm(project?: PortfolioProject | null): FormState {
     imagenes: (project.imagenes ?? []).join('\n'),
     destacado: Boolean(project.destacado),
     publicado: Boolean(project.publicado),
-    orden: String(project.orden ?? 0),
+    orden: String(position ?? project.orden ?? 1),
   }
 }
 
@@ -174,6 +230,7 @@ export default function PortfolioAdminPanel() {
   const [projects, setProjects] = useState<PortfolioProject[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [movingId, setMovingId] = useState<number | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -183,15 +240,68 @@ export default function PortfolioAdminPanel() {
   const [uploadingMain, setUploadingMain] = useState(false)
   const [uploadingGallery, setUploadingGallery] = useState(false)
 
+  const orderedProjects = useMemo(
+    () => sortProjectsByDisplayOrder(projects),
+    [projects]
+  )
+
+  const projectPositions = useMemo(
+    () => new Map(orderedProjects.map((project, index) => [project.id, index + 1])),
+    [orderedProjects]
+  )
+
   const editingProject = useMemo(
     () => projects.find((project) => project.id === editingId) ?? null,
     [projects, editingId]
   )
 
   const featuredCount = useMemo(
-    () => projects.filter((project) => project.destacado).length,
-    [projects]
+    () => orderedProjects.filter((project) => project.destacado).length,
+    [orderedProjects]
   )
+
+  const availableOrderPositions = useMemo(
+    () => getAvailableOrderPositions(projects, editingId, form.destacado),
+    [projects, editingId, form.destacado]
+  )
+
+  const normalizedFormOrder = useMemo(
+    () => normalizeOrderValue(form.orden, availableOrderPositions),
+    [form.orden, availableOrderPositions]
+  )
+
+  const orderHelpText = useMemo(() => {
+    if (form.destacado) {
+      const maxFeaturedPosition = availableOrderPositions[availableOrderPositions.length - 1] ?? 1
+
+      return maxFeaturedPosition === 1
+        ? 'Los proyectos destacados siempre van primero. Este ocupará la posición 1.'
+        : `Los proyectos destacados siempre van primero. Puedes elegir entre las posiciones 1 y ${maxFeaturedPosition}.`
+    }
+
+    const firstRegularPosition = availableOrderPositions[0] ?? 1
+
+    return firstRegularPosition > 1
+      ? `Los ${firstRegularPosition - 1} proyectos destacados quedan delante, así que este proyecto empieza a partir de la posición ${firstRegularPosition}.`
+      : 'Ahora mismo este proyecto puede ocupar cualquier posición disponible.'
+  }, [availableOrderPositions, form.destacado])
+
+  const getProjectPosition = (projectId: number) =>
+    projectPositions.get(projectId) ?? 1
+
+  const canMoveProjectUp = (project: PortfolioProject) => {
+    const currentPosition = getProjectPosition(project.id)
+    const minPosition = project.destacado ? 1 : featuredCount + 1
+
+    return currentPosition > minPosition
+  }
+
+  const canMoveProjectDown = (project: PortfolioProject) => {
+    const currentPosition = getProjectPosition(project.id)
+    const maxPosition = project.destacado ? featuredCount : orderedProjects.length
+
+    return currentPosition < maxPosition
+  }
 
   const canMarkAsFeatured =
     featuredCount < 2 || Boolean(editingProject?.destacado)
@@ -213,13 +323,23 @@ export default function PortfolioAdminPanel() {
 
   useEffect(() => {
     if (editingProject) {
-      setForm(normalizeForm(editingProject))
+      const currentPosition = projectPositions.get(editingProject.id) ?? 1
+      setForm(normalizeForm(editingProject, currentPosition))
     }
-  }, [editingProject])
+  }, [editingProject, projectPositions])
 
-  async function loadProjects() {
+  useEffect(() => {
+    if (normalizedFormOrder !== form.orden) {
+      setForm((current) => ({ ...current, orden: normalizedFormOrder }))
+    }
+  }, [form.orden, normalizedFormOrder])
+
+  async function loadProjects(options?: LoadProjectsOptions) {
     setLoading(true)
-    setMessage('')
+
+    if (!options?.preserveMessage) {
+      setMessage('')
+    }
 
     const response = await fetch('/api/admin/portfolio', {
       cache: 'no-store',
@@ -232,7 +352,9 @@ export default function PortfolioAdminPanel() {
     }
 
     const payload = await response.json()
-    setProjects(Array.isArray(payload?.data) ? payload.data : [])
+    setProjects(
+      sortProjectsByDisplayOrder(Array.isArray(payload?.data) ? payload.data : [])
+    )
     setLoading(false)
   }
 
@@ -245,7 +367,7 @@ export default function PortfolioAdminPanel() {
 
   function openEditDialog(project: PortfolioProject) {
     setEditingId(project.id)
-    setForm(normalizeForm(project))
+    setForm(normalizeForm(project, getProjectPosition(project.id)))
     setFormErrors({})
     setDialogOpen(true)
   }
@@ -261,10 +383,23 @@ export default function PortfolioAdminPanel() {
     event.preventDefault()
     setMessage('')
 
-    const validationErrors = validatePortfolioForm(form)
+    const nextForm = { ...form, orden: normalizedFormOrder }
+    const validationErrors = validatePortfolioForm(nextForm)
     setFormErrors(validationErrors)
 
     if (Object.keys(validationErrors).length > 0) {
+      return
+    }
+
+    const requestedOrder = Number(normalizedFormOrder)
+
+    if (!availableOrderPositions.includes(requestedOrder)) {
+      setFormErrors((current) => ({
+        ...current,
+        orden: form.destacado
+          ? 'Los proyectos destacados solo pueden ocupar las primeras posiciones.'
+          : 'Los proyectos no destacados deben colocarse después de los destacados.',
+      }))
       return
     }
 
@@ -291,7 +426,7 @@ export default function PortfolioAdminPanel() {
           .filter(Boolean),
         destacado: form.destacado,
         publicado: form.publicado,
-        orden: Number(form.orden),
+        orden: requestedOrder,
       }
 
       const response = await fetch(
@@ -310,14 +445,8 @@ export default function PortfolioAdminPanel() {
         return
       }
 
-      const nextProject = result?.data as PortfolioProject
-
-      setProjects((current) => {
-        const withoutEdited = current.filter((item) => item.id !== nextProject.id)
-        return [nextProject, ...withoutEdited].sort((a, b) => a.orden - b.orden)
-      })
-
       closeDialog()
+      await loadProjects({ preserveMessage: true })
       setMessage(editingId ? 'Proyecto actualizado correctamente.' : 'Proyecto creado correctamente.')
       router.refresh()
     } catch {
@@ -327,29 +456,70 @@ export default function PortfolioAdminPanel() {
     }
   }
 
+  async function moveProject(project: PortfolioProject, direction: 'up' | 'down') {
+    const currentPosition = getProjectPosition(project.id)
+    const nextPosition = direction === 'up' ? currentPosition - 1 : currentPosition + 1
+
+    if (direction === 'up' && !canMoveProjectUp(project)) {
+      return
+    }
+
+    if (direction === 'down' && !canMoveProjectDown(project)) {
+      return
+    }
+
+    try {
+      setMovingId(project.id)
+      setMessage('')
+
+      const response = await fetch(`/api/admin/portfolio/${project.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orden: nextPosition }),
+      })
+
+      const result = await response.json().catch(() => null)
+
+      if (!response.ok) {
+        setMessage(result?.error ?? 'No se pudo actualizar la posición del proyecto.')
+        return
+      }
+
+      await loadProjects({ preserveMessage: true })
+      setMessage('Posición actualizada correctamente.')
+      router.refresh()
+    } catch {
+      setMessage('No se pudo actualizar la posición del proyecto.')
+    } finally {
+      setMovingId(null)
+    }
+  }
+
   async function deleteProject(id: number) {
     const confirmed = window.confirm('¿Seguro que quieres eliminar este proyecto?')
     if (!confirmed) {
       return
     }
 
-    setDeletingId(id)
-    setMessage('')
+    try {
+      setDeletingId(id)
+      setMessage('')
 
-    const response = await fetch(`/api/admin/portfolio/${id}`, {
-      method: 'DELETE',
-    })
+      const response = await fetch(`/api/admin/portfolio/${id}`, {
+        method: 'DELETE',
+      })
 
-    if (!response.ok) {
+      if (!response.ok) {
+        setMessage('No se pudo eliminar el proyecto.')
+        return
+      }
+
+      await loadProjects({ preserveMessage: true })
+      setMessage('Proyecto eliminado correctamente.')
+      router.refresh()
+    } finally {
       setDeletingId(null)
-      setMessage('No se pudo eliminar el proyecto.')
-      return
     }
-
-    setProjects((current) => current.filter((project) => project.id !== id))
-    setDeletingId(null)
-    setMessage('Proyecto eliminado correctamente.')
-    router.refresh()
   }
 
   async function uploadFiles(files: FileList | null) {
@@ -457,6 +627,7 @@ export default function PortfolioAdminPanel() {
             <TableHeader>
               <TableRow>
                 <TableHead>Proyecto</TableHead>
+                <TableHead>Posición</TableHead>
                 <TableHead>Categoría</TableHead>
                 <TableHead>Ubicación</TableHead>
                 <TableHead>Año</TableHead>
@@ -467,81 +638,116 @@ export default function PortfolioAdminPanel() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="py-10 text-center text-charcoal/50">
+                  <TableCell colSpan={7} className="py-10 text-center text-charcoal/50">
                     Cargando proyectos...
                   </TableCell>
                 </TableRow>
-              ) : projects.length === 0 ? (
+              ) : orderedProjects.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="py-10 text-center text-charcoal/50">
+                  <TableCell colSpan={7} className="py-10 text-center text-charcoal/50">
                     No hay proyectos todavía.
                   </TableCell>
                 </TableRow>
               ) : (
-                projects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="h-14 w-14 overflow-hidden rounded-lg bg-charcoal/5 shrink-0">
-                          {project.imagenPrincipal ? (
-                            <img
-                              src={project.imagenPrincipal}
-                              alt={project.titulo}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-charcoal/30">
-                              <ImageIcon className="h-5 w-5" />
-                            </div>
-                          )}
+                orderedProjects.map((project) => {
+                  const currentPosition = getProjectPosition(project.id)
+
+                  return (
+                    <TableRow key={project.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div className="h-14 w-14 overflow-hidden rounded-lg bg-charcoal/5 shrink-0">
+                            {project.imagenPrincipal ? (
+                              <img
+                                src={project.imagenPrincipal}
+                                alt={project.titulo}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center text-charcoal/30">
+                                <ImageIcon className="h-5 w-5" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-medium text-charcoal">{project.titulo}</p>
+                            <p className="text-xs text-charcoal/45 truncate max-w-[280px]">{project.slug}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-charcoal">{project.titulo}</p>
-                          <p className="text-xs text-charcoal/45 truncate max-w-[280px]">{project.slug}</p>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <div className="min-w-[3.25rem] rounded-lg border border-charcoal/10 bg-charcoal/5 px-3 py-2 text-center text-sm font-semibold text-charcoal">
+                            #{currentPosition}
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => moveProject(project, 'up')}
+                              disabled={movingId === project.id || !canMoveProjectUp(project)}
+                              aria-label={`Subir ${project.titulo}`}
+                            >
+                              <ArrowUp className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() => moveProject(project, 'down')}
+                              disabled={movingId === project.id || !canMoveProjectDown(project)}
+                              aria-label={`Bajar ${project.titulo}`}
+                            >
+                              <ArrowDown className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>{project.categoria}</TableCell>
-                    <TableCell>{project.ubicacion}</TableCell>
-                    <TableCell>{project.anio}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant={project.publicado ? 'default' : 'outline'}>
-                          {project.publicado ? 'Publicado' : 'Oculto'}
-                        </Badge>
-                        {project.destacado ? <Badge variant="outline">Destacado</Badge> : null}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center justify-end gap-2">
-                        <Button asChild variant="ghost" size="icon" className="h-9 w-9">
-                          <Link href={`/admin/portfolio/${project.id}`} aria-label="Ver detalle del proyecto">
-                            <Eye className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9"
-                          onClick={() => openEditDialog(project)}
-                          aria-label="Editar proyecto"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 text-red-600 hover:text-red-700"
-                          onClick={() => deleteProject(project.id)}
-                          disabled={deletingId === project.id}
-                          aria-label="Eliminar proyecto"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
+                      </TableCell>
+                      <TableCell>{project.categoria}</TableCell>
+                      <TableCell>{project.ubicacion}</TableCell>
+                      <TableCell>{project.anio}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant={project.publicado ? 'default' : 'outline'}>
+                            {project.publicado ? 'Publicado' : 'Oculto'}
+                          </Badge>
+                          {project.destacado ? <Badge variant="outline">Destacado</Badge> : null}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button asChild variant="ghost" size="icon" className="h-9 w-9">
+                            <Link href={`/admin/portfolio/${project.id}`} aria-label="Ver detalle del proyecto">
+                              <Eye className="h-4 w-4" />
+                            </Link>
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9"
+                            onClick={() => openEditDialog(project)}
+                            aria-label="Editar proyecto"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9 text-red-600 hover:text-red-700"
+                            onClick={() => deleteProject(project.id)}
+                            disabled={deletingId === project.id}
+                            aria-label="Eliminar proyecto"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })
               )}
             </TableBody>
           </Table>
@@ -717,19 +923,22 @@ export default function PortfolioAdminPanel() {
             </label>
 
             <label className="space-y-2">
-              <span className="text-sm font-medium text-charcoal/70">Orden</span>
-              <input
-                type="number"
-                value={form.orden}
+              <span className="text-sm font-medium text-charcoal/70">Posición</span>
+              <select
+                value={normalizedFormOrder}
                 onChange={(event) => {
                   setForm((current) => ({ ...current, orden: event.target.value }))
                   setFormErrors((current) => ({ ...current, orden: undefined }))
                 }}
-                className="w-full rounded-md border border-charcoal/15 px-3 py-2 outline-none focus:border-gold"
-                min={0}
-                max={9999}
-                step={1}
-              />
+                className="w-full rounded-md border border-charcoal/15 bg-white px-3 py-2 outline-none focus:border-gold"
+              >
+                {availableOrderPositions.map((position) => (
+                  <option key={position} value={position}>
+                    Posición {position}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-charcoal/50">{orderHelpText}</p>
               {formErrors.orden ? <p className="text-xs text-red-600">{formErrors.orden}</p> : null}
             </label>
 
@@ -738,7 +947,10 @@ export default function PortfolioAdminPanel() {
                 <input
                   type="checkbox"
                   checked={form.destacado}
-                  onChange={(event) => setForm((current) => ({ ...current, destacado: event.target.checked }))}
+                  onChange={(event) => {
+                    setForm((current) => ({ ...current, destacado: event.target.checked }))
+                    setFormErrors((current) => ({ ...current, orden: undefined }))
+                  }}
                   disabled={!canMarkAsFeatured && !form.destacado}
                 />
                 Destacado
