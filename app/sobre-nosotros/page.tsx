@@ -171,13 +171,13 @@ export default function SobreNosotros() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid gap-16 items-center">
             <AnimatedSection>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
                 Experiencia Internacional 
               </h2>
               <p className="text-white text-lg mb-10 leading-relaxed max-w-xl">
-                Nuestra trayectoria nos ha llevado a desarrollar proyectos en más de 25 países, trabajando con clientes de diversos sectores y adaptándonos a normativas y contextos culturales variados.
+                Nuestra trayectoria nos ha llevado a desarrollar proyectos en diversos países, colaborando con clientes de distintos sectores y adaptándonos a normativas y contextos culturales variados.
               </p>
               <ul className="space-y-5">
                 {[
@@ -194,21 +194,7 @@ export default function SobreNosotros() {
               </ul>
             </AnimatedSection>
 
-            <AnimatedSection delay={0.2}>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { number: '25+', label: 'Países' },
-                  { number: '15+', label: 'Años' },
-                  { number: '500+', label: 'Proyectos' },
-                  { number: '98%', label: 'Satisfacción' },
-                ].map((stat, i) => (
-                  <div key={i} className="min-h-44 rounded-2xl bg-charcoal-800 border border-white/12 p-8 text-center flex flex-col items-center justify-center hover:border-gold/50 transition-colors duration-300">
-                    <p className="font-serif text-4xl font-bold text-gold mb-3">{stat.number}</p>
-                    <p className="text-white text-[11px] uppercase tracking-[0.16em]" style={{ letterSpacing: '0.15em' }}>{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </AnimatedSection>
+            {/* Estadísticas eliminadas por petición del cliente */}
           </div>
         </div>
       </section>
