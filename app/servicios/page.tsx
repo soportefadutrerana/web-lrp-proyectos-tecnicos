@@ -1,5 +1,5 @@
 import AnimatedSection from '@/components/animated-section'
-import { ArrowRight, Building2, Check, ClipboardCheck, Factory, FileText, HardHat, Leaf, UserCheck, Zap } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -10,115 +10,65 @@ export const metadata = {
 
 const services = [
   {
-    id: 'proyectos-arquitectura-edificacion',
-    icon: Building2,
-    number: '01',
-    title: 'Proyectos de Arquitectura y Edificación',
-    description: 'Diseño integral de edificaciones residenciales, comerciales e industriales. Proyectos básicos y de ejecución cumpliendo con toda la normativa vigente.',
-    image: 'https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg',
+    id: 'presupuestos-tecnicos',
+    emoji: '📐',
+    title: 'Elaboración de presupuestos técnicos',
+    description: 'Cálculo preciso de costes, mediciones de materiales y tiempos estimados para tu obra.',
+    image: 'https://images.pexels.com/photos/8296968/pexels-photo-8296968.jpeg',
     features: [
-      'Proyectos de obra nueva',
-      'Reformas y ampliaciones',
-      'Proyectos de rehabilitación',
-      'Diseño arquitectónico personalizado',
+      'Cálculo de costes de obra, reformas o instalaciones.',
+      'Mediciones de materiales.',
+      'Mano de obra, y tiempos estimados.',
     ],
   },
   {
-    id: 'ingenieria-civil-estructural',
-    icon: HardHat,
-    number: '02',
-    title: 'Ingeniería Civil y Estructural',
-    description: 'Cálculo de estructuras, cimentaciones y elementos estructurales. Análisis técnico especializado con software de última generación.',
-    image: 'https://plus.unsplash.com/premium_photo-1664474927853-900d5ee1fd80?fm=jpg&q=60&w=3000',
+    id: 'proyectos-tecnicos',
+    emoji: '🏗️',
+    title: 'Redacción de proyectos técnicos',
+    description: 'Documentación técnica completa y planos profesionales para tus proyectos.',
+    image: 'https://images.pexels.com/photos/5324972/pexels-photo-5324972.jpeg',
     features: [
-      'Cálculo de estructuras de hormigón',
-      'Estructuras metálicas',
-      'Estudios geotécnicos',
-      'Refuerzos estructurales',
+      'Memorias técnicas.',
+      'Planos.',
+      'Documentación para licencias.',
+      'Cumplimiento normativo.',
     ],
   },
   {
-    id: 'instalaciones',
-    icon: Zap,
-    number: '03',
-    title: 'Instalaciones',
-    description: 'Diseño y proyectos de instalaciones eléctricas, fontanería, climatización, telecomunicaciones y protección contra incendios.',
-    image: 'https://images.pexels.com/photos/28942196/pexels-photo-28942196.jpeg?cs=srgb&dl=pexels-magda-ehlers-pexels-28942196.jpg&fm=jpg',
+    id: 'licencias-tramites',
+    emoji: '📋',
+    title: 'Gestión de licencias y trámites',
+    description: 'Tramitación integral de licencias municipales y documentación oficial.',
+    image: 'https://images.pexels.com/photos/8482818/pexels-photo-8482818.jpeg',
     features: [
-      'Instalaciones eléctricas BT/MT',
-      'Fontanería y saneamiento',
-      'Climatización y ventilación',
-      'Sistemas contra incendios',
+      'Ayuntamientos.',
+      'Aperturas de negocios.',
+      'Legalizaciones de instalaciones.',
+      'Certificados técnicos.',
     ],
   },
   {
-    id: 'certificacion-energetica',
-    icon: Leaf,
-    number: '04',
-    title: 'Certificación Energética',
-    description: 'Certificados de eficiencia energética para edificios existentes y de nueva construcción. Auditorías energéticas y propuestas de mejora.',
-    image: 'https://plus.unsplash.com/premium_photo-1680206588056-e4b756405f81?fm=jpg&q=60&w=3000',
+    id: 'control-economico',
+    emoji: '💰',
+    title: 'Control económico de obras',
+    description: 'Seguimiento detallado de presupuestos y costes durante la ejecución.',
+    image: 'https://images.pexels.com/photos/6289171/pexels-photo-6289171.jpeg',
     features: [
-      'Certificados energéticos',
-      'Auditorías energéticas',
-      'Planes de mejora energética',
-      'Estudios de sostenibilidad',
+      'Comparación entre presupuesto inicial y coste real.',
+      'Certificaciones de obra.',
+      'Modificaciones y extras.',
     ],
   },
   {
-    id: 'licencias-actividad-apertura',
-    icon: FileText,
-    number: '05',
-    title: 'Licencias de Actividad y Apertura',
-    description: 'Tramitación integral de licencias municipales, declaraciones responsables y documentación necesaria para la apertura de negocios.',
-    image: 'https://images.pexels.com/photos/8731037/pexels-photo-8731037.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8731037.jpg&fm=jpg',
+    id: 'asesoramiento-cliente',
+    emoji: '🔍',
+    title: 'Asesoramiento al cliente',
+    description: 'Orientación técnica y profesional para optimizar tu inversión.',
+    image: 'https://images.pexels.com/photos/8815847/pexels-photo-8815847.jpeg',
     features: [
-      'Licencias de apertura',
-      'Declaraciones responsables',
-      'Cambios de titularidad',
-      'Asesoramiento normativo',
-    ],
-  },
-  {
-    id: 'direccion-obra',
-    icon: UserCheck,
-    number: '06',
-    title: 'Dirección de Obra',
-    description: 'Supervisión técnica completa del proceso constructivo. Control de calidad, seguridad y cumplimiento de plazos y presupuestos.',
-    image: 'https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=60&w=3000',
-    features: [
-      'Dirección de ejecución',
-      'Coordinación de seguridad',
-      'Control de calidad',
-      'Certificaciones finales de obra',
-    ],
-  },
-  {
-    id: 'estudios-tecnicos',
-    icon: ClipboardCheck,
-    number: '07',
-    title: 'Estudios Técnicos',
-    description: 'Informes periciales, tasaciones, inspecciones técnicas de edificios (ITE) y estudios especializados.',
-    image: 'https://images.pexels.com/photos/2451566/pexels-photo-2451566.jpeg?cs=srgb&dl=pexels-proxyclick-2451566.jpg&fm=jpg',
-    features: [
-      'Informes periciales',
-      'ITE (Inspección Técnica Edificios)',
-      'Peritaciones judiciales',
-      'Estudios de viabilidad',
-    ],
-  },
-  {
-    id: 'proyectos-industriales',
-    icon: Factory,
-    number: '08',
-    title: 'Proyectos Industriales',
-    description: 'Diseño y desarrollo de proyectos para naves industriales, almacenes y espacios productivos con todas las instalaciones necesarias.',
-    image: 'https://images.pexels.com/photos/3769292/pexels-photo-3769292.jpeg?cs=srgb&dl=pexels-timo-volz-837240-3769292.jpg&fm=jpg',
-    features: [
-      'Naves industriales',
-      'Proyectos de actividad',
-      'Instalaciones especiales',
-      'Adaptaciones normativas',
+      'Qué opción sale más rentable.',
+      'Cómo reducir costes.',
+      'Qué materiales convienen.',
     ],
   },
 ]
@@ -148,7 +98,7 @@ export default function Servicios() {
                 Nuestros Servicios
               </h1>
               <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
-                Cobertura tecnica integral para todas las fases del proyecto: diseno, calculo, tramitacion, direccion y certificacion.
+                Presupuestos, proyectos técnicos, gestión de licencias, control económico y asesoramiento profesional especializado.
               </p>
               <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
                 Solicitar asesoramiento
@@ -164,7 +114,7 @@ export default function Servicios() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="max-w-3xl">
             <p className="text-charcoal/60 text-xl leading-relaxed">
-              Ofrecemos un portfolio completo de servicios técnicos especializados para todas las fases de su proyecto, desde el diseño hasta la certificación final.
+              Ofrecemos una cobertura técnica integral especializada en proyectos técnicos, presupuestos, licencias y asesoramiento profesional para todas las fases de su obra.
             </p>
           </div>
         </div>
@@ -195,7 +145,7 @@ export default function Servicios() {
                   {/* Content */}
                   <div className={`max-w-xl ${index % 2 === 1 ? 'md:order-1 md:justify-self-start' : 'md:justify-self-end'}`}>
                     <div className="flex items-center gap-3 mb-6">
-                      <service.icon className="w-6 h-6 text-gold" />
+                      <span className="text-4xl">{service.emoji}</span>
                       <div className="h-px flex-1 bg-gold/20" />
                     </div>
                     <h2 className="font-serif text-3xl md:text-4xl font-bold text-charcoal mb-5 leading-tight">

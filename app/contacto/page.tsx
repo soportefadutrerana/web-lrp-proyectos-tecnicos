@@ -21,7 +21,7 @@ export default async function Contacto() {
       <section className="relative min-h-[66vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/8986038/pexels-photo-8986038.jpeg"
             alt="Contacto LRP"
             fill
             className="object-cover scale-[1.03]"

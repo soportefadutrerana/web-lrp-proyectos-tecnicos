@@ -15,7 +15,7 @@ export default async function Home() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/19963719/pexels-photo-19963719.jpeg"
             alt="Arquitectura moderna"
             fill
             className="object-cover scale-[1.03]"

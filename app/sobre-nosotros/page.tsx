@@ -15,7 +15,7 @@ export default function SobreNosotros() {
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://plus.unsplash.com/premium_photo-1661418218904-86c202e5493d?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/6614837/pexels-photo-6614837.jpeg"
             alt="Equipo LRP"
             fill
             className="object-cover scale-[1.03]"
