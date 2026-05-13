@@ -24,38 +24,13 @@ type ContactInfo = {
 }
 
 const services = [
-  {
-    label: 'Proyectos de Arquitectura y Edificación',
-    href: '/servicios#proyectos-arquitectura-edificacion',
-  },
-  {
-    label: 'Ingeniería Civil y Estructural',
-    href: '/servicios#ingenieria-civil-estructural',
-  },
-  {
-    label: 'Instalaciones',
-    href: '/servicios#instalaciones',
-  },
-  {
-    label: 'Certificación Energética',
-    href: '/servicios#certificacion-energetica',
-  },
-  {
-    label: 'Licencias de Actividad y Apertura',
-    href: '/servicios#licencias-actividad-apertura',
-  },
-  {
-    label: 'Dirección de Obra',
-    href: '/servicios#direccion-obra',
-  },
-  {
-    label: 'Estudios Técnicos',
-    href: '/servicios#estudios-tecnicos',
-  },
-  {
-    label: 'Proyectos Industriales',
-    href: '/servicios#proyectos-industriales',
-  },
+  { label: 'Proyectos de Arquitectura y Edificación', href: '/servicios#arquitectura-edificacion' },
+  { label: 'Ingeniería Civil y Estructural',          href: '/servicios#ingenieria-civil' },
+  { label: 'Instalaciones',                           href: '/servicios#instalaciones' },
+  { label: 'Dirección de Obra',                       href: '/servicios#direccion-obra' },
+  { label: 'Estudios Técnicos',                       href: '/servicios#estudios-tecnicos' },
+  { label: 'Elaboración de Presupuestos Técnicos',    href: '/servicios#presupuestos-tecnicos' },
+  { label: 'Control Económico de Obras',              href: '/servicios#control-economico' },
 ]
 
 export default function Footer() {

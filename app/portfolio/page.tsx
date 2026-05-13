@@ -23,7 +23,7 @@ export default async function Portfolio() {
       <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src={projects?.[0]?.imagenPrincipal ?? 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000'}
+            src="https://images.pexels.com/photos/3760529/pexels-photo-3760529.jpeg"
             alt="Portfolio LRP"
             fill
             className="object-cover scale-[1.03]"
@@ -125,29 +125,6 @@ export default async function Portfolio() {
         </div>
       </section>
 
-      <section className="bg-charcoal-800 py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
-            {[
-              { end: 500, suffix: '+', label: 'Proyectos Completados' },
-              { end: 25, suffix: '+', label: 'Países' },
-              { end: 1, suffix: 'M+ m²', label: 'Construidos' },
-              { end: 98, suffix: '%', label: 'Clientes Satisfechos' },
-            ].map((stat, i) => (
-              <AnimatedSection key={stat.label} delay={i * 0.1}>
-                <div className="rounded-2xl border border-white/10 bg-charcoal/95 text-center px-6 sm:px-8 py-8 sm:py-10">
-                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-2">
-                    <AnimatedCounter end={stat.end} suffix={stat.suffix} />
-                  </div>
-                  <p className="text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.16em]" style={{ letterSpacing: '0.15em' }}>
-                    {stat.label}
-                  </p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="bg-charcoal py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
