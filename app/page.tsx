@@ -116,85 +116,64 @@ export default async function Home() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="bg-white py-16">
+      <section className="bg-cream-100 py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
+
+          {/* Header */}
           <AnimatedSection>
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
               <div>
-                <p className="section-label">Lo Que Hacemos</p>
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="h-px w-10 bg-gold" />
+                  <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]">Lo Que Hacemos</span>
+                </div>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal leading-tight">
                   Nuestros Servicios
                 </h2>
               </div>
               <Link
                 href="/servicios"
-                className="inline-flex items-center gap-2 text-gold text-sm font-semibold uppercase tracking-widest group self-start md:self-auto"
-                style={{ letterSpacing: '0.15em' }}
+                className="inline-flex items-center gap-3 group self-start md:self-auto"
               >
-                Ver todos
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <span className="h-px w-8 bg-gold group-hover:w-12 transition-all duration-300" />
+                <span className="text-gold text-[11px] font-semibold uppercase tracking-[0.2em]">Ver todos</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-gold group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
             </div>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-charcoal/10">
+          {/* Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                icon: Building2,
-                number: '01',
-                title: 'Proyectos de Arquitectura',
-                description: 'Diseño integral de edificaciones residenciales, comerciales e industriales con los más altos estándares.',
-              },
-              {
-                icon: Ruler,
-                number: '02',
-                title: 'Ingeniería Civil',
-                description: 'Estructuras, cimentaciones y cálculos técnicos especializados con software de última generación.',
-              },
-              {
-                icon: FileCheck,
-                number: '03',
-                title: 'Certificación Energética',
-                description: 'Certificados de eficiencia energética, auditorías y planes de mejora para edificios.',
-              },
-              {
-                icon: Award,
-                number: '04',
-                title: 'Licencias de Actividad',
-                description: 'Tramitación integral de licencias municipales y permisos de apertura.',
-              },
-              {
-                icon: Globe,
-                number: '05',
-                title: 'Dirección de Obra',
-                description: 'Supervisión profesional, control de calidad y gestión técnica del proceso constructivo.',
-              },
-              {
-                icon: FileCheck,
-                number: '06',
-                title: 'Estudios Técnicos',
-                description: 'Informes periciales, ITE y estudios de viabilidad especializados.',
-              },
+              { icon: Building2, number: '01', title: 'Proyectos de Arquitectura', description: 'Diseño integral de edificaciones residenciales, comerciales e industriales con los más altos estándares.' },
+              { icon: Ruler,     number: '02', title: 'Ingeniería Civil',          description: 'Estructuras, cimentaciones y cálculos técnicos especializados con software de última generación.' },
+              { icon: FileCheck, number: '03', title: 'Certificación Energética',  description: 'Certificados de eficiencia energética, auditorías y planes de mejora para edificios.' },
+              { icon: Award,     number: '04', title: 'Licencias de Actividad',    description: 'Tramitación integral de licencias municipales y permisos de apertura.' },
+              { icon: Globe,     number: '05', title: 'Dirección de Obra',         description: 'Supervisión profesional, control de calidad y gestión técnica del proceso constructivo.' },
+              { icon: FileCheck, number: '06', title: 'Estudios Técnicos',         description: 'Informes periciales, ITE y estudios de viabilidad especializados.' },
             ].map((service, index) => (
               <AnimatedSection key={index} delay={index * 0.07}>
-                <div className="bg-white p-10 group hover:bg-charcoal transition-all duration-500 cursor-default h-full">
-                  <div className="flex items-start justify-between mb-8">
-                    <span className="font-serif text-[#b39a70] text-7xl font-bold group-hover:text-[#c8b088] transition-colors duration-500 leading-none">
+                <div className="group bg-white border border-charcoal/8 hover:border-gold/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all duration-500 p-8 h-full flex flex-col">
+                  <div className="flex items-start justify-between mb-6">
+                    <span className="font-serif text-5xl font-bold text-gold/25 group-hover:text-gold/50 leading-none transition-colors duration-500">
                       {service.number}
                     </span>
-                    <service.icon className="w-7 h-7 text-[#b39a70] group-hover:text-[#c8b088] transition-colors duration-500" />
+                    <div className="p-2.5 bg-cream rounded-sm">
+                      <service.icon className="w-5 h-5 text-gold/70" />
+                    </div>
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-charcoal group-hover:text-white mb-4 transition-colors duration-500">
+                  <h3 className="font-serif text-xl font-bold text-charcoal mb-3 leading-snug">
                     {service.title}
                   </h3>
-                  <p className="text-charcoal/70 group-hover:text-white/70 text-base leading-relaxed transition-colors duration-500">
+                  <p className="text-charcoal/55 text-sm leading-relaxed flex-1">
                     {service.description}
                   </p>
-                  <div className="mt-8 w-8 h-px bg-gold/30 group-hover:w-full group-hover:bg-gold/60 transition-all duration-700" />
+                  <div className="mt-6 w-8 h-px bg-gold/30 group-hover:w-full group-hover:bg-gold/50 transition-all duration-700" />
                 </div>
               </AnimatedSection>
             ))}
           </div>
+
         </div>
       </section>
 
