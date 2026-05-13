@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin, Phone } from 'lucide-react'
+import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -194,10 +194,7 @@ export default function Footer() {
                   <span className="text-sm">{contactInfo.email}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-white/60">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
-                <span className="text-sm">{contactInfo.telefono}</span>
-              </li>
+
               <li className="flex items-start gap-3 text-white/60">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
                 <span className="text-sm">{contactInfo.ubicacion}</span>

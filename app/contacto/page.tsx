@@ -1,7 +1,7 @@
 import AnimatedSection from '@/components/animated-section'
 import ContactForm from '@/components/contact-form'
 import { getContactInfo } from '@/lib/contact-info.service'
-import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { Clock, Mail, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -74,12 +74,6 @@ export default async function Contacto() {
                       label: 'Email',
                       value: contactInfo.email,
                       href: `mailto:${contactInfo.email}`,
-                    },
-                    {
-                      icon: Phone,
-                      label: 'Teléfono',
-                      value: contactInfo.telefono,
-                      href: undefined,
                     },
                     {
                       icon: MapPin,

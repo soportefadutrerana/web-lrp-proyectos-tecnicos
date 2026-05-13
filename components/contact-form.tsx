@@ -3,11 +3,49 @@
 import { CheckCircle, Send } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+const countries = [
+  { code: 'ES', name: 'España',            prefix: '+34',  flag: '🇪🇸' },
+  { code: 'MX', name: 'México',            prefix: '+52',  flag: '🇲🇽' },
+  { code: 'AR', name: 'Argentina',         prefix: '+54',  flag: '🇦🇷' },
+  { code: 'CO', name: 'Colombia',          prefix: '+57',  flag: '🇨🇴' },
+  { code: 'CL', name: 'Chile',             prefix: '+56',  flag: '🇨🇱' },
+  { code: 'PE', name: 'Perú',              prefix: '+51',  flag: '🇵🇪' },
+  { code: 'VE', name: 'Venezuela',         prefix: '+58',  flag: '🇻🇪' },
+  { code: 'EC', name: 'Ecuador',           prefix: '+593', flag: '🇪🇨' },
+  { code: 'BO', name: 'Bolivia',           prefix: '+591', flag: '🇧🇴' },
+  { code: 'PY', name: 'Paraguay',          prefix: '+595', flag: '🇵🇾' },
+  { code: 'UY', name: 'Uruguay',           prefix: '+598', flag: '🇺🇾' },
+  { code: 'CR', name: 'Costa Rica',        prefix: '+506', flag: '🇨🇷' },
+  { code: 'PA', name: 'Panamá',            prefix: '+507', flag: '🇵🇦' },
+  { code: 'DO', name: 'Rep. Dominicana',   prefix: '+1',   flag: '🇩🇴' },
+  { code: 'GT', name: 'Guatemala',         prefix: '+502', flag: '🇬🇹' },
+  { code: 'HN', name: 'Honduras',          prefix: '+504', flag: '🇭🇳' },
+  { code: 'SV', name: 'El Salvador',       prefix: '+503', flag: '🇸🇻' },
+  { code: 'NI', name: 'Nicaragua',         prefix: '+505', flag: '🇳🇮' },
+  { code: 'CU', name: 'Cuba',              prefix: '+53',  flag: '🇨🇺' },
+  { code: 'US', name: 'Estados Unidos',    prefix: '+1',   flag: '🇺🇸' },
+  { code: 'PT', name: 'Portugal',          prefix: '+351', flag: '🇵🇹' },
+  { code: 'FR', name: 'Francia',           prefix: '+33',  flag: '🇫🇷' },
+  { code: 'DE', name: 'Alemania',          prefix: '+49',  flag: '🇩🇪' },
+  { code: 'IT', name: 'Italia',            prefix: '+39',  flag: '🇮🇹' },
+  { code: 'GB', name: 'Reino Unido',       prefix: '+44',  flag: '🇬🇧' },
+  { code: 'NL', name: 'Países Bajos',      prefix: '+31',  flag: '🇳🇱' },
+  { code: 'BE', name: 'Bélgica',           prefix: '+32',  flag: '🇧🇪' },
+  { code: 'CH', name: 'Suiza',             prefix: '+41',  flag: '🇨🇭' },
+  { code: 'MA', name: 'Marruecos',         prefix: '+212', flag: '🇲🇦' },
+  { code: 'NG', name: 'Nigeria',           prefix: '+234', flag: '🇳🇬' },
+  { code: 'AE', name: 'Emiratos Árabes',   prefix: '+971', flag: '🇦🇪' },
+  { code: 'SA', name: 'Arabia Saudí',      prefix: '+966', flag: '🇸🇦' },
+  { code: 'QA', name: 'Qatar',             prefix: '+974', flag: '🇶🇦' },
+]
+
 type ContactFormProps = {
   initialAsunto?: string
 }
 
 export default function ContactForm({ initialAsunto = 'Proyecto nuevo' }: ContactFormProps) {
+  const [selectedCountry, setSelectedCountry] = useState(countries[0])
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -33,19 +71,24 @@ export default function ContactForm({ initialAsunto = 'Proyecto nuevo' }: Contac
     setError('')
 
     try {
+      const fd = new FormData()
+      fd.append('nombre', formData.nombre)
+      fd.append('email', formData.email)
+      fd.append('telefono', formData.telefono)
+      fd.append('asunto', formData.asunto)
+      fd.append('mensaje', formData.mensaje)
+      adjuntos.forEach(file => fd.append('adjuntos', file))
+
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          adjuntos: adjuntos?.map(file => file?.name ?? ''),
-        }),
+        body: fd,
       })
 
       if (!response?.ok) throw new Error('Error al enviar')
 
       setSubmitted(true)
       setFormData({ nombre: '', email: '', telefono: '', asunto: initialAsunto, mensaje: '' })
+      setPhoneNumber('')
       setAdjuntos([])
     } catch (err) {
       setError('Hubo un error al enviar el formulario. Por favor, inténtelo de nuevo.')
@@ -135,18 +178,38 @@ export default function ContactForm({ initialAsunto = 'Proyecto nuevo' }: Contac
 
       <div className="w-full grid md:grid-cols-2 gap-6">
         <div className="w-full">
-          <label htmlFor="telefono" className={labelClass} style={{ letterSpacing: '0.15em' }}>
+          <label className={labelClass} style={{ letterSpacing: '0.15em' }}>
             Teléfono
           </label>
-          <input
-            type="tel"
-            id="telefono"
-            name="telefono"
-            value={formData?.telefono ?? ''}
-            onChange={handleChange}
-            className={inputClass}
-            placeholder="+34 XXX XXX XXX"
-          />
+          <div className="flex gap-2 border-b border-charcoal/20 focus-within:border-gold transition-colors duration-300">
+            <select
+              value={selectedCountry.code}
+              onChange={e => {
+                const country = countries.find(c => c.code === e.target.value) ?? countries[0]
+                setSelectedCountry(country)
+                setFormData(prev => ({ ...prev, telefono: phoneNumber ? `${country.prefix} ${phoneNumber}` : '' }))
+              }}
+              className="bg-transparent text-sm text-charcoal focus:outline-none py-2.5 pr-1 cursor-pointer flex-shrink-0"
+            >
+              {countries.map(c => (
+                <option key={c.code} value={c.code}>
+                  {c.flag} {c.prefix}
+                </option>
+              ))}
+            </select>
+            <input
+              type="tel"
+              id="telefono"
+              value={phoneNumber}
+              onChange={e => {
+                const num = e.target.value.replace(/[^\d\s\-()]/g, '')
+                setPhoneNumber(num)
+                setFormData(prev => ({ ...prev, telefono: num ? `${selectedCountry.prefix} ${num}` : '' }))
+              }}
+              className="flex-1 bg-transparent py-2.5 text-charcoal placeholder:text-charcoal/30 text-sm focus:outline-none"
+              placeholder="XXX XXX XXX"
+            />
+          </div>
         </div>
 
         <div className="w-full">
