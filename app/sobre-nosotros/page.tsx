@@ -58,7 +58,7 @@ export default function SobreNosotros() {
             <AnimatedSection>
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
-                  src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyaminmellish-106399.jpg&fm=jpg"
+                  src="https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg"
                   alt="Nuestra historia"
                   fill
                   className="object-cover transition-transform duration-700 hover:scale-105"
