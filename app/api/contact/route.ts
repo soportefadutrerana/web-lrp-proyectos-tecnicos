@@ -4,11 +4,6 @@ import nodemailer from 'nodemailer'
 
 export const dynamic = 'force-dynamic'
 
-// Aumentar límite de body para adjuntos
-export const config = {
-  api: { bodyParser: false },
-}
-
 const prisma = new PrismaClient()
 
 const transporter = nodemailer.createTransport({
