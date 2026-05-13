@@ -11,85 +11,69 @@ export default async function Home() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-start overflow-hidden pt-20 sm:pt-24">
+      <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.pexels.com/photos/19963719/pexels-photo-19963719.jpeg"
             alt="Arquitectura moderna"
             fill
-            className="object-cover scale-[1.03]"
+            className="object-cover hero-bg"
             priority
           />
-          {/* Layered overlays for cleaner text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(201,168,76,0.18),transparent_42%)]" />
+          <div className="absolute inset-0 bg-charcoal/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/85 via-charcoal/50 to-charcoal/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent" />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-8 sm:pt-10 pb-14 sm:pb-16">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-20">
           <AnimatedSection>
-            <div className="max-w-4xl">
-              
+            <div className="max-w-3xl">
+
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block h-px w-10 bg-gold" />
+                <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                  Arquitectura · Ingeniería · Proyectos
+                </span>
+              </div>
+
               {/* Heading */}
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.98] mb-7 max-w-4xl text-balance">
-                Transformamos
-                <br />
-                <em className="not-italic text-gold">Ideas</em> en
-                <br />
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[82px] font-bold text-white leading-[1.02] mb-6" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)' }}>
+                Transformamos<br />
+                <em className="not-italic text-gold">Ideas</em> en<br />
                 Realidades
               </h1>
 
+              {/* Divider */}
+              <div className="w-16 h-0.5 bg-gold/70 mb-7" />
+
               {/* Subtext */}
-              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl mb-10 sm:mb-12 font-light leading-relaxed">
-                Especialistas en arquitectura, proyectos tecnicos e ingenieria, con una ejecucion precisa y presencia nacional e internacional.
+              <p className="text-white text-base sm:text-lg max-w-xl mb-10 font-light leading-relaxed" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}>
+                Especialistas en arquitectura, proyectos técnicos e ingeniería,
+                con ejecución precisa y presencia nacional e internacional.
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 mb-10">
-                <Link href="/servicios" className="btn-gold inline-flex items-center justify-center gap-2 min-w-[220px]">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/servicios" className="btn-gold inline-flex items-center justify-center gap-2.5">
                   Nuestros Servicios
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link href="/contacto" className="btn-outline-white inline-flex items-center justify-center gap-2 min-w-[220px]">
+                <Link href="/contacto" className="btn-outline-white inline-flex items-center justify-center gap-2.5">
                   Iniciar Proyecto
                 </Link>
               </div>
+
             </div>
           </AnimatedSection>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/35">
-          <span className="text-[10px] uppercase tracking-[0.24em]">Scroll</span>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/40">
+          <span className="text-[9px] uppercase tracking-[0.3em]">Scroll</span>
           <ChevronDown className="w-4 h-4 animate-bounce" />
-        </div>
-      </section>
-
-      {/* ── STATS BAR ── */}
-      <section className="bg-charcoal-800 py-12 sm:py-14">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5">
-            {[
-              { end: 15, suffix: '+', label: 'Años de Experiencia' },
-              { end: 500, suffix: '+', label: 'Proyectos Completados' },
-              { end: 98, suffix: '%', label: 'Clientes Satisfechos' },
-              { end: 25, suffix: '+', label: 'Países' },
-            ].map((stat, i) => (
-              <AnimatedSection key={i} delay={i * 0.1}>
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm text-center px-6 sm:px-8 py-8 sm:py-10 shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
-                  <div className="font-serif text-4xl md:text-5xl font-bold text-gold mb-2">
-                    <AnimatedCounter end={stat.end} suffix={stat.suffix} />
-                  </div>
-                  <p className="text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.16em]" style={{ letterSpacing: '0.15em' }}>
-                    {stat.label}
-                  </p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
         </div>
       </section>
 

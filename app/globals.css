@@ -105,6 +105,18 @@ html {
   margin-bottom: 1.5rem;
 }
 
+/* Hero Ken Burns */
+@keyframes kenburns {
+  0%   { transform: scale(1)    translate(0%, 0%); }
+  50%  { transform: scale(1.08) translate(-1.5%, -1%); }
+  100% { transform: scale(1)    translate(0%, 0%); }
+}
+
+.hero-bg {
+  animation: kenburns 18s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Premium button styles */
 .btn-gold {
   @apply bg-gold text-charcoal font-semibold px-8 py-4 tracking-wider uppercase text-sm transition-all duration-300;
