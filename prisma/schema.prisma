@@ -1,7 +1,5 @@
 generator client {
-    provider = "prisma-client-js"
-    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
-    output = "/home/ubuntu/lrp_proyectos_tecnicos/nextjs_space/node_modules/.prisma/client"
+    provider      = "prisma-client-js"
 }
 
 datasource db {
@@ -10,14 +8,64 @@ datasource db {
 }
 
 model ContactForm {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String
-  telefono  String?
-  mensaje   String   @db.Text
-  estado    String   @default("nuevo")
-  createdAt DateTime @default(now())
-  
-  @@index([createdAt])
-  @@index([estado])
+    id        Int      @id @default(autoincrement())
+    nombre    String
+    email     String
+    telefono  String?
+    mensaje   String   @db.Text
+    estado    String   @default("nuevo")
+    createdAt DateTime @default(now())
+
+    @@index([createdAt])
+    @@index([estado])
+}
+
+model PortfolioProject {
+    id               Int      @id @default(autoincrement())
+    titulo           String
+    slug             String   @unique
+    categoria        String
+    ubicacion        String
+    anio             Int
+    descripcion      String   @db.Text
+    imagenPrincipal  String
+    imagenes         String[]
+    destacado        Boolean  @default(false)
+    publicado        Boolean  @default(true)
+    orden            Int      @default(0)
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    @@index([publicado, orden])
+    @@index([categoria])
+    @@index([anio])
+}
+
+model AdminUser {
+    id           Int      @id @default(autoincrement())
+    nombre       String
+    email        String   @unique
+    passwordHash String
+    activo       Boolean  @default(true)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    @@index([activo])
+}
+
+model TeamMember {
+    id            Int      @id @default(autoincrement())
+    nombre        String
+    slug          String   @unique
+    puesto        String
+    bio           String   @db.Text
+    fotoUrl       String
+    especialidades String[]
+    activo        Boolean  @default(true)
+    orden         Int      @default(0)
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    @@index([activo, orden])
+    @@index([puesto])
 }

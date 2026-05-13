@@ -1,7 +1,7 @@
+import AnimatedSection from '@/components/animated-section'
+import { ArrowRight, Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Building2, HardHat, Zap, Leaf, FileText, UserCheck, Factory, ClipboardCheck, ArrowRight, Check } from 'lucide-react'
-import AnimatedSection from '@/components/animated-section'
 
 export const metadata = {
   title: 'Servicios | LRP Proyectos Técnicos',
@@ -10,107 +10,65 @@ export const metadata = {
 
 const services = [
   {
-    icon: Building2,
-    number: '01',
-    title: 'Proyectos de Arquitectura y Edificación',
-    description: 'Diseño integral de edificaciones residenciales, comerciales e industriales. Proyectos básicos y de ejecución cumpliendo con toda la normativa vigente.',
-    image: 'https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg',
+    id: 'presupuestos-tecnicos',
+    emoji: '📐',
+    title: 'Elaboración de presupuestos técnicos',
+    description: 'Cálculo preciso de costes, mediciones de materiales y tiempos estimados para tu obra.',
+    image: 'https://images.pexels.com/photos/8296968/pexels-photo-8296968.jpeg',
     features: [
-      'Proyectos de obra nueva',
-      'Reformas y ampliaciones',
-      'Proyectos de rehabilitación',
-      'Diseño arquitectónico personalizado',
+      'Cálculo de costes de obra, reformas o instalaciones.',
+      'Mediciones de materiales.',
+      'Mano de obra, y tiempos estimados.',
     ],
   },
   {
-    icon: HardHat,
-    number: '02',
-    title: 'Ingeniería Civil y Estructural',
-    description: 'Cálculo de estructuras, cimentaciones y elementos estructurales. Análisis técnico especializado con software de última generación.',
-    image: 'https://plus.unsplash.com/premium_photo-1664474927853-900d5ee1fd80?fm=jpg&q=60&w=3000',
+    id: 'proyectos-tecnicos',
+    emoji: '🏗️',
+    title: 'Redacción de proyectos técnicos',
+    description: 'Documentación técnica completa y planos profesionales para tus proyectos.',
+    image: 'https://images.pexels.com/photos/5324972/pexels-photo-5324972.jpeg',
     features: [
-      'Cálculo de estructuras de hormigón',
-      'Estructuras metálicas',
-      'Estudios geotécnicos',
-      'Refuerzos estructurales',
+      'Memorias técnicas.',
+      'Planos.',
+      'Documentación para licencias.',
+      'Cumplimiento normativo.',
     ],
   },
   {
-    icon: Zap,
-    number: '03',
-    title: 'Instalaciones',
-    description: 'Diseño y proyectos de instalaciones eléctricas, fontanería, climatización, telecomunicaciones y protección contra incendios.',
-    image: 'https://images.pexels.com/photos/28942196/pexels-photo-28942196.jpeg?cs=srgb&dl=pexels-magda-ehlers-pexels-28942196.jpg&fm=jpg',
+    id: 'licencias-tramites',
+    emoji: '📋',
+    title: 'Gestión de licencias y trámites',
+    description: 'Tramitación integral de licencias municipales y documentación oficial.',
+    image: 'https://images.pexels.com/photos/8482818/pexels-photo-8482818.jpeg',
     features: [
-      'Instalaciones eléctricas BT/MT',
-      'Fontanería y saneamiento',
-      'Climatización y ventilación',
-      'Sistemas contra incendios',
+      'Ayuntamientos.',
+      'Aperturas de negocios.',
+      'Legalizaciones de instalaciones.',
+      'Certificados técnicos.',
     ],
   },
   {
-    icon: Leaf,
-    number: '04',
-    title: 'Certificación Energética',
-    description: 'Certificados de eficiencia energética para edificios existentes y de nueva construcción. Auditorías energéticas y propuestas de mejora.',
-    image: 'https://plus.unsplash.com/premium_photo-1680206588056-e4b756405f81?fm=jpg&q=60&w=3000',
+    id: 'control-economico',
+    emoji: '💰',
+    title: 'Control económico de obras',
+    description: 'Seguimiento detallado de presupuestos y costes durante la ejecución.',
+    image: 'https://images.pexels.com/photos/6289171/pexels-photo-6289171.jpeg',
     features: [
-      'Certificados energéticos',
-      'Auditorías energéticas',
-      'Planes de mejora energética',
-      'Estudios de sostenibilidad',
+      'Comparación entre presupuesto inicial y coste real.',
+      'Certificaciones de obra.',
+      'Modificaciones y extras.',
     ],
   },
   {
-    icon: FileText,
-    number: '05',
-    title: 'Licencias de Actividad y Apertura',
-    description: 'Tramitación integral de licencias municipales, declaraciones responsables y documentación necesaria para la apertura de negocios.',
-    image: 'https://images.pexels.com/photos/8731037/pexels-photo-8731037.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8731037.jpg&fm=jpg',
+    id: 'asesoramiento-cliente',
+    emoji: '🔍',
+    title: 'Asesoramiento al cliente',
+    description: 'Orientación técnica y profesional para optimizar tu inversión.',
+    image: 'https://images.pexels.com/photos/8815847/pexels-photo-8815847.jpeg',
     features: [
-      'Licencias de apertura',
-      'Declaraciones responsables',
-      'Cambios de titularidad',
-      'Asesoramiento normativo',
-    ],
-  },
-  {
-    icon: UserCheck,
-    number: '06',
-    title: 'Dirección de Obra',
-    description: 'Supervisión técnica completa del proceso constructivo. Control de calidad, seguridad y cumplimiento de plazos y presupuestos.',
-    image: 'https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=60&w=3000',
-    features: [
-      'Dirección de ejecución',
-      'Coordinación de seguridad',
-      'Control de calidad',
-      'Certificaciones finales de obra',
-    ],
-  },
-  {
-    icon: ClipboardCheck,
-    number: '07',
-    title: 'Estudios Técnicos',
-    description: 'Informes periciales, tasaciones, inspecciones técnicas de edificios (ITE) y estudios especializados.',
-    image: 'https://images.pexels.com/photos/2451566/pexels-photo-2451566.jpeg?cs=srgb&dl=pexels-proxyclick-2451566.jpg&fm=jpg',
-    features: [
-      'Informes periciales',
-      'ITE (Inspección Técnica Edificios)',
-      'Peritaciones judiciales',
-      'Estudios de viabilidad',
-    ],
-  },
-  {
-    icon: Factory,
-    number: '08',
-    title: 'Proyectos Industriales',
-    description: 'Diseño y desarrollo de proyectos para naves industriales, almacenes y espacios productivos con todas las instalaciones necesarias.',
-    image: 'https://images.pexels.com/photos/3769292/pexels-photo-3769292.jpeg?cs=srgb&dl=pexels-timo-volz-837240-3769292.jpg&fm=jpg',
-    features: [
-      'Naves industriales',
-      'Proyectos de actividad',
-      'Instalaciones especiales',
-      'Adaptaciones normativas',
+      'Qué opción sale más rentable.',
+      'Cómo reducir costes.',
+      'Qué materiales convienen.',
     ],
   },
 ]
@@ -119,23 +77,34 @@ export default function Servicios() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.pexels.com/photos/4491829/pexels-photo-4491829.jpeg?cs=srgb&dl=pexels-ivan-s-4491829.jpg&fm=jpg"
             alt="Servicios LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/70 to-charcoal/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/28" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/88 via-charcoal/44 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <p className="section-label">Lo Que Ofrecemos</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
-              Nuestros Servicios
-            </h1>
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+                Nuestros Servicios
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Presupuestos, proyectos técnicos, gestión de licencias, control económico y asesoramiento profesional especializado.
+              </p>
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                Solicitar asesoramiento
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
@@ -145,50 +114,47 @@ export default function Servicios() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="max-w-3xl">
             <p className="text-charcoal/60 text-xl leading-relaxed">
-              Ofrecemos un portfolio completo de servicios técnicos especializados para todas las fases de su proyecto, desde el diseño hasta la certificación final.
+              Ofrecemos una cobertura técnica integral especializada en proyectos técnicos, presupuestos, licencias y asesoramiento profesional para todas las fases de su obra.
             </p>
           </div>
         </div>
       </section>
 
       {/* ── SERVICES LIST ── */}
-      <section className="bg-white">
+      <section className="bg-white pb-16 sm:pb-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="space-y-0 divide-y divide-charcoal/8">
+          <div className="space-y-10 lg:space-y-12">
             {services?.map?.((service, index) => (
-              <AnimatedSection key={index}>
-                <div className={`py-20 grid md:grid-cols-2 gap-12 lg:gap-20 items-center ${
+              <AnimatedSection key={service.id}>
+                <div
+                  id={service.id}
+                  className={`grid scroll-mt-32 md:grid-cols-2 gap-10 lg:gap-16 items-center ${
                   index % 2 === 1 ? '' : ''
-                }`}>
+                }`}
+                >
                   {/* Image */}
-                  <div className={`relative aspect-[4/3] overflow-hidden ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                  <div className={`relative aspect-[4/3] overflow-hidden rounded-2xl border border-charcoal/10 ${index % 2 === 1 ? 'md:order-2' : ''}`}>
                     <Image
                       src={service?.image ?? ''}
                       alt={service?.title ?? ''}
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-105"
                     />
-                    {/* Service number overlay */}
-                    <div className="absolute top-6 left-6 bg-charcoal/80 backdrop-blur-sm px-4 py-2">
-                      <span className="text-gold text-xs font-semibold uppercase tracking-widest" style={{ letterSpacing: '0.2em' }}>
-                        {service.number}
-                      </span>
-                    </div>
                   </div>
 
                   {/* Content */}
-                  <div className={index % 2 === 1 ? 'md:order-1' : ''}>
+                  <div className={`max-w-xl ${index % 2 === 1 ? 'md:order-1 md:justify-self-start' : 'md:justify-self-end'}`}>
                     <div className="flex items-center gap-3 mb-6">
-                      <service.icon className="w-6 h-6 text-gold" />
+                      <span className="text-4xl">{service.emoji}</span>
                       <div className="h-px flex-1 bg-gold/20" />
                     </div>
                     <h2 className="font-serif text-3xl md:text-4xl font-bold text-charcoal mb-5 leading-tight">
                       {service?.title ?? ''}
                     </h2>
-                    <p className="text-charcoal/55 text-lg mb-8 leading-relaxed">{service?.description ?? ''}</p>
-                    <ul className="space-y-3">
+                    <p className="text-charcoal/60 text-lg mb-8 leading-relaxed max-w-lg">{service?.description ?? ''}</p>
+                    <ul className="space-y-3 max-w-lg">
                       {service?.features?.map?.((feature, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-charcoal/70">
+                        <li key={idx} className="flex items-center gap-3 text-charcoal/75">
                           <Check className="w-4 h-4 text-gold flex-shrink-0" />
                           <span className="text-sm">{feature ?? ''}</span>
                         </li>

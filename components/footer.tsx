@@ -1,66 +1,164 @@
-import Link from 'next/link'
+'use client'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { ArrowUpRight, Check, Facebook, Instagram, Linkedin, LogOut, Mail, MapPin, Phone } from 'lucide-react'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram, ArrowUpRight } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+type ContactInfo = {
+  email: string
+  telefono: string
+  ubicacion: string
+  horario: string
+  legalTexto: string
+}
 
 const services = [
-  'Proyectos de Arquitectura',
-  'Ingeniería Civil',
-  'Certificación Energética',
-  'Licencias de Actividad',
-  'Dirección de Obra',
-  'Estudios Técnicos',
+  {
+    label: 'Proyectos de Arquitectura y Edificación',
+    href: '/servicios#proyectos-arquitectura-edificacion',
+  },
+  {
+    label: 'Ingeniería Civil y Estructural',
+    href: '/servicios#ingenieria-civil-estructural',
+  },
+  {
+    label: 'Instalaciones',
+    href: '/servicios#instalaciones',
+  },
+  {
+    label: 'Certificación Energética',
+    href: '/servicios#certificacion-energetica',
+  },
+  {
+    label: 'Licencias de Actividad y Apertura',
+    href: '/servicios#licencias-actividad-apertura',
+  },
+  {
+    label: 'Dirección de Obra',
+    href: '/servicios#direccion-obra',
+  },
+  {
+    label: 'Estudios Técnicos',
+    href: '/servicios#estudios-tecnicos',
+  },
+  {
+    label: 'Proyectos Industriales',
+    href: '/servicios#proyectos-industriales',
+  },
 ]
 
 export default function Footer() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false)
+  const [contactInfo, setContactInfo] = useState<ContactInfo>({
+    email: 'info@lrpproyectostecnicos.com',
+    telefono: '+34 XXX XXX XXX',
+    ubicacion: 'España',
+    horario: 'Lunes - Viernes: 9:00 - 18:00',
+    legalTexto: '',
+  })
+  const isAdmin = Boolean(session?.user)
+
+  useEffect(() => {
+    const loadContactInfo = async () => {
+      try {
+        const response = await fetch('/api/contact-info')
+        if (response.ok) {
+          const data = await response.json()
+          setContactInfo((current) => data?.data ?? current)
+        }
+      } catch (error) {
+        // Si hay error, mantiene los valores por defecto
+        console.error('Error cargando datos de contacto:', error)
+      }
+    }
+    loadContactInfo()
+  }, [])
+
+  function handleAdminAccess() {
+    if (isAdmin) {
+      setIsLogoutOpen(true)
+      return
+    }
+
+    router.push('/admin/login')
+  }
+
+  async function handleLogout() {
+    setIsLogoutOpen(false)
+    await signOut({ callbackUrl: '/' })
+  }
+
   return (
     <footer className="bg-charcoal-900 text-white">
       {/* Gold top line */}
       <div className="h-px bg-gold/60" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 mb-16">
 
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="relative w-52 h-14 mb-6">
-              <Image
-                src="/logo_proyectos_tecnicos.png"
-                alt="LRP Proyectos Técnicos"
-                fill
-                className="object-contain"
-              />
+            <div className="mb-6 flex items-center gap-3">
+              <div className="relative w-16 h-16 rounded-full overflow-hidden border border-white/20 bg-white/10 shadow-sm flex-shrink-0">
+                <Image
+                  src="/logo_proyectos_tecnicos.png"
+                  alt="LRP Proyectos Técnicos"
+                  fill
+                  className="object-cover scale-110"
+                />
+              </div>
+              <div className="leading-tight">
+                <span className="block text-white font-serif font-bold text-lg tracking-wide">LRP</span>
+                <span className="block text-white/50 font-sans text-[10px] uppercase tracking-widest" style={{ letterSpacing: '0.15em' }}>
+                  Proyectos Técnicos
+                </span>
+              </div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-8">
               Especialistas en arquitectura, proyectos técnicos e ingeniería con presencia nacional e internacional desde 2008.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="Instagram"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition-all duration-300"
+                className="w-10 h-10 border border-white/15 flex items-center justify-center text-white/40 hover:border-gold hover:text-gold hover:bg-gold/5 transition-all duration-300 group"
                 aria-label="Facebook"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-4 h-4 group-hover:scale-110 transition-transform" />
               </a>
             </div>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Navegación
             </h4>
             <ul className="space-y-3">
@@ -69,14 +167,14 @@ export default function Footer() {
                 { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
                 { href: '/servicios', label: 'Servicios' },
                 { href: '/portfolio', label: 'Portfolio' },
-                { href: '/contacto', label: 'Contacto' },
+                { href: '/equipo-tecnico', label: 'Equipo' },
               ].map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                   >
-                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
+                    <span className="w-3 h-px bg-white/20 group-hover:bg-gold transition-all duration-300" />
                     {item.label}
                   </Link>
                 </li>
@@ -86,18 +184,19 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Servicios
             </h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service}>
+                <li key={service.href}>
                   <Link
-                    href="/servicios"
-                    className="text-white/55 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-2 group"
+                    href={service.href}
+                    className="text-white/60 hover:text-gold text-sm transition-colors duration-300 flex items-center gap-3 group"
                   >
-                    <span className="w-4 h-px bg-white/20 group-hover:bg-gold group-hover:w-6 transition-all duration-300" />
-                    {service}
+                    <span className="w-3 h-px bg-white/20 group-hover:bg-gold transition-all duration-300" />
+                    {service.label}
                   </Link>
                 </li>
               ))}
@@ -106,26 +205,27 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-6">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/70 mb-6 flex items-center gap-2">
+              <span className="w-3 h-px bg-gold" />
               Contacto
             </h4>
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:info@lrpproyectostecnicos.com"
-                  className="flex items-start gap-3 text-white/55 hover:text-gold transition-colors duration-300 group"
+                  href={`mailto:${contactInfo.email}`}
+                  className="flex items-start gap-3 text-white/60 hover:text-gold transition-colors duration-300 group"
                 >
-                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 group-hover:text-gold" />
-                  <span className="text-sm">info@lrpproyectostecnicos.com</span>
+                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40 group-hover:text-gold" />
+                  <span className="text-sm">{contactInfo.email}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-white/55">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">+34 XXX XXX XXX</span>
+              <li className="flex items-start gap-3 text-white/60">
+                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
+                <span className="text-sm">{contactInfo.telefono}</span>
               </li>
-              <li className="flex items-start gap-3 text-white/55">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">España</span>
+              <li className="flex items-start gap-3 text-white/60">
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-white/40" />
+                <span className="text-sm">{contactInfo.ubicacion}</span>
               </li>
             </ul>
 
@@ -134,7 +234,7 @@ export default function Footer() {
                 href="/contacto"
                 className="inline-flex items-center gap-2 btn-outline-gold text-xs"
               >
-                Solicitar Presupuesto
+                Contáctanos
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -146,11 +246,60 @@ export default function Footer() {
           <p className="text-white/30 text-xs tracking-wide">
             © {new Date()?.getFullYear?.()} LRP Proyectos Técnicos. Todos los derechos reservados.
           </p>
-          <p className="text-white/20 text-xs">
-            Arquitectura · Ingeniería · Innovación
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-white/20 text-xs">
+              Arquitectura · Ingeniería · Innovación
+            </p>
+            <button
+              type="button"
+              onClick={handleAdminAccess}
+              aria-label={isAdmin ? 'Cerrar sesión de administrador' : 'Acceso administrador'}
+              title={isAdmin ? 'Cerrar sesión de administrador' : 'Acceso administrador'}
+              className={`inline-flex h-7 w-7 items-center justify-center rounded-full border transition-all duration-300 ${
+                isAdmin
+                  ? 'border-white/20 bg-white/5 text-white/55 hover:border-white/35 hover:text-white/80'
+                  : 'border-white/10 bg-white/5 text-white/18 hover:border-gold/50 hover:text-white/55'
+              }`}
+            >
+              {status === 'loading' ? (
+                <span className="h-2.5 w-2.5 rounded-full border border-white/35 border-t-transparent animate-spin" />
+              ) : isAdmin ? (
+                <Check className="h-4 w-4" strokeWidth={2.5} />
+              ) : (
+                <span className="h-2 w-2 rounded-full bg-current" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
+
+      <Dialog open={isLogoutOpen} onOpenChange={setIsLogoutOpen}>
+        <DialogContent className="border-white/10 bg-charcoal-900 text-white sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-white">Cerrar sesi&oacute;n de administrador</DialogTitle>
+            <DialogDescription className="text-white/60">
+              Vas a salir de la sesi&oacute;n actual. Si contin&uacute;as, volver&aacute;s al estado p&uacute;blico.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <button
+              type="button"
+              onClick={() => setIsLogoutOpen(false)}
+              className="inline-flex h-10 items-center justify-center rounded-md border border-white/10 px-4 text-sm text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn-gold inline-flex h-10 items-center justify-center gap-2 px-4 text-sm"
+            >
+              <LogOut className="h-4 w-4" />
+              Cerrar sesi&oacute;n
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </footer>
   )
 }

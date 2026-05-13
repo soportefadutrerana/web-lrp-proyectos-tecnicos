@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 export async function POST(request: NextRequest) {
   try {
     const body = await request?.json?.()
-    const { nombre, email, telefono, mensaje } = body ?? {}
+    const { nombre, email, telefono, asunto, mensaje, adjuntos } = body ?? {}
 
     // Validación básica
     if (!nombre || !email || !mensaje) {
@@ -27,13 +27,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const asuntoText = asunto ? `\n\nMotivo de contacto: ${String(asunto)}` : ''
+    const adjuntosArray = Array.isArray(adjuntos) ? adjuntos.filter(Boolean) : []
+    const adjuntosText = adjuntosArray.length > 0
+      ? `\n\nAdjuntos seleccionados: ${adjuntosArray.join(', ')}`
+      : ''
+
     // Guardar en base de datos
     const contactForm = await prisma?.contactForm?.create?.({
       data: {
         nombre: nombre ?? '',
         email: email ?? '',
         telefono: telefono ?? null,
-        mensaje: mensaje ?? '',
+        mensaje: `${mensaje ?? ''}${asuntoText}${adjuntosText}`,
         estado: 'nuevo',
       },
     })

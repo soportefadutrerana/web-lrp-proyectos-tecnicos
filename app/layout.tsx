@@ -1,8 +1,9 @@
+import Footer from '@/components/footer'
+import Header from '@/components/header'
+import AppSessionProvider from '@/components/session-provider'
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/header'
-import Footer from '@/components/footer'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,8 +25,9 @@ export const metadata: Metadata = {
   description: 'Empresa especializada en arquitectura, proyectos técnicos e ingeniería civil a nivel nacional e internacional. Servicios profesionales de certificación energética, dirección de obra, licencias y estudios técnicos.',
   keywords: ['arquitectura', 'ingeniería', 'proyectos técnicos', 'certificación energética', 'dirección de obra', 'licencias de actividad'],
   icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
+    icon: '/logo_proyectos_tecnicos.png',
+    shortcut: '/logo_proyectos_tecnicos.png',
+    apple: '/logo_proyectos_tecnicos.png',
   },
   openGraph: {
     title: 'LRP Proyectos Técnicos | Arquitectura, Proyectos e Ingeniería',
@@ -46,9 +48,11 @@ export default function RootLayout({
         <script src="https://apps.abacus.ai/chatllm/appllm-lib.js"></script>
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <AppSessionProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+        </AppSessionProvider>
       </body>
     </html>
   )

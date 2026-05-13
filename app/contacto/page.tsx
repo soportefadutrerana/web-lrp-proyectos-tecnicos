@@ -1,92 +1,107 @@
-import Image from 'next/image'
-import ContactForm from '@/components/contact-form'
-import { Mail, Phone, MapPin, Clock } from 'lucide-react'
 import AnimatedSection from '@/components/animated-section'
+import ContactForm from '@/components/contact-form'
+import { getContactInfo } from '@/lib/contact-info.service'
+import { Clock, Mail, MapPin, Phone } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export const metadata = {
   title: 'Contacto | LRP Proyectos Técnicos',
   description: 'Contacte con nosotros para su proyecto de arquitectura o ingeniería. Estamos disponibles para atenderle.',
 }
 
-export default function Contacto() {
+export const dynamic = 'force-dynamic'
+
+export default async function Contacto() {
+  const contactInfo = await getContactInfo()
+
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[55vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[66vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://plus.unsplash.com/premium_photo-1664299768059-8577ded2de8e?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/8986038/pexels-photo-8986038.jpeg"
             alt="Contacto LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_76%_18%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-14 sm:py-18 w-full">
           <AnimatedSection>
-            <p className="section-label">Hablemos</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
-              Contacto
-            </h1>
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+                Contacto
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Cuentenos su necesidad tecnica y le responderemos con una propuesta clara, viable y alineada con sus objetivos.
+              </p>
+              <Link href="#formulario-contacto" className="btn-gold inline-flex items-center gap-2">
+                Ir al formulario
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* ── CONTACT SECTION ── */}
-      <section className="bg-white">
+      <section className="bg-cream py-20 sm:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-5 gap-0">
+          <div className="grid lg:grid-cols-5 gap-0 overflow-hidden rounded-3xl border border-charcoal/10 bg-white shadow-[0_18px_40px_rgba(13,13,13,0.08)]">
 
             {/* Left: Info */}
-            <div className="lg:col-span-2 bg-charcoal py-20 px-10 lg:px-12">
+            <div className="lg:col-span-2 bg-charcoal-900 py-20 px-8 sm:px-10 lg:px-12">
               <AnimatedSection>
-                <p className="section-label">Información</p>
                 <h2 className="font-serif text-3xl font-bold text-white mb-10 leading-tight">
                   Estamos aquí para ayudarle
                 </h2>
 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {[
                     {
                       icon: Mail,
                       label: 'Email',
-                      value: 'info@lrpproyectostecnicos.com',
-                      href: 'mailto:info@lrpproyectostecnicos.com',
+                      value: contactInfo.email,
+                      href: `mailto:${contactInfo.email}`,
                     },
                     {
                       icon: Phone,
                       label: 'Teléfono',
-                      value: '+34 XXX XXX XXX',
+                      value: contactInfo.telefono,
                       href: undefined,
                     },
                     {
                       icon: MapPin,
                       label: 'Ubicación',
-                      value: 'España',
+                      value: contactInfo.ubicacion,
                       href: undefined,
                     },
                     {
                       icon: Clock,
                       label: 'Horario',
-                      value: 'Lunes – Viernes: 9:00 – 18:00',
+                      value: contactInfo.horario,
                       href: undefined,
                     },
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-5">
-                      <div className="w-10 h-10 border border-gold/30 flex items-center justify-center flex-shrink-0">
+                    <div key={i} className="flex items-start gap-5 rounded-2xl border border-white/10 bg-white/5 p-5">
+                      <div className="w-10 h-10 bg-gold/10 border border-gold/25 flex items-center justify-center flex-shrink-0">
                         <item.icon className="w-4 h-4 text-gold" />
                       </div>
                       <div>
-                        <p className="text-white/30 text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
+                        <p className="text-white text-xs uppercase tracking-widest mb-1" style={{ letterSpacing: '0.15em' }}>
                           {item.label}
                         </p>
                         {item.href ? (
-                          <a href={item.href} className="text-white/70 hover:text-gold transition-colors text-sm">
+                          <a href={item.href} className="text-cream hover:text-gold transition-colors text-sm">
                             {item.value}
                           </a>
                         ) : (
-                          <p className="text-white/70 text-sm">{item.value}</p>
+                          <p className="text-cream text-sm">{item.value}</p>
                         )}
                       </div>
                     </div>
@@ -94,21 +109,23 @@ export default function Contacto() {
                 </div>
 
                 <div className="mt-14 pt-8 border-t border-white/10">
-                  <p className="text-white/25 text-xs leading-relaxed">
-                    Los datos proporcionados serán almacenados de forma segura y utilizados únicamente para responder a su consulta. Puede solicitar su eliminación en cualquier momento.
+                  <p className="text-white/60 text-xs leading-relaxed">
+                    {contactInfo.legalTexto}
                   </p>
                 </div>
               </AnimatedSection>
             </div>
 
             {/* Right: Form */}
-            <div className="lg:col-span-3 py-20 px-8 lg:px-16 bg-cream">
-              <AnimatedSection delay={0.15}>
-                <p className="section-label">Formulario</p>
-                <h2 className="font-serif text-3xl font-bold text-charcoal mb-10 leading-tight">
+            <div id="formulario-contacto" className="lg:col-span-3 py-20 px-6 sm:px-8 lg:px-12 bg-cream flex items-center">
+              <AnimatedSection delay={0.15} className="w-full">
+                <p className="text-gold text-sm sm:text-base font-semibold uppercase tracking-[0.2em] mb-3">Formulario</p>
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-charcoal mb-7 leading-tight">
                   Envíenos un mensaje
                 </h2>
-                <ContactForm />
+                <div className="w-full">
+                  <ContactForm initialAsunto="Proyecto nuevo" />
+                </div>  
               </AnimatedSection>
             </div>
           </div>

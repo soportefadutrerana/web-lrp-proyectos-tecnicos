@@ -1,7 +1,7 @@
+import AnimatedSection from '@/components/animated-section'
+import { ArrowRight, Award, CheckCircle, Eye, Target } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, Target, Eye, Award, ArrowRight } from 'lucide-react'
-import AnimatedSection from '@/components/animated-section'
 
 export const metadata = {
   title: 'Sobre Nosotros | LRP Proyectos Técnicos',
@@ -12,29 +12,40 @@ export default function SobreNosotros() {
   return (
     <div>
       {/* ── HERO ── */}
-      <section className="relative h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://plus.unsplash.com/premium_photo-1661418218904-86c202e5493d?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/6614837/pexels-photo-6614837.jpeg"
             alt="Equipo LRP"
             fill
-            className="object-cover"
+            className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/65 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(201,168,76,0.14),transparent_42%)]" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pb-20 w-full">
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <p className="section-label">Nuestra Empresa</p>
-            <h1 className="font-serif text-5xl md:text-7xl font-bold text-white leading-tight">
+            <div className="max-w-4xl">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
               Sobre Nosotros
-            </h1>
+              </h1>
+              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+                Desde 2008 desarrollamos proyectos de arquitectura e ingenieria con una metodologia rigurosa, enfoque innovador y vision internacional.
+              </p>
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                Hablemos de su proyecto
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </AnimatedSection>
         </div>
       </section>
 
       {/* ── HISTORIA ── */}
-      <section className="bg-white py-28">
+      <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <AnimatedSection>
@@ -75,16 +86,16 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── PRINCIPLES ── */}
-      <section className="bg-cream py-28">
+      <section className="bg-cream py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <AnimatedSection>
             <p className="section-label">Nuestros Fundamentos</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-16 max-w-xl leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-12 max-w-xl leading-tight">
               Principios que guían nuestro trabajo
             </h2>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-px bg-charcoal/10">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 icon: Target,
@@ -113,25 +124,25 @@ export default function SobreNosotros() {
               },
             ].map((item, index) => (
               <AnimatedSection key={index} delay={index * 0.12}>
-                <div className="bg-white p-10 h-full group hover:bg-charcoal transition-all duration-500">
+                <div className="h-full rounded-2xl border border-charcoal/10 bg-white p-10 group hover:border-gold/30 hover:bg-charcoal transition-all duration-500">
                   <div className="flex items-start justify-between mb-8">
-                    <span className="font-serif text-gold/25 text-5xl font-bold leading-none group-hover:text-gold/40 transition-colors duration-500">
+                    <span className="font-serif text-[#b39a70] text-6xl font-bold leading-none tracking-tight group-hover:text-[#c8b088] transition-colors duration-500">
                       {item.number}
                     </span>
-                    <item.icon className="w-6 h-6 text-gold/50 group-hover:text-gold transition-colors duration-500" />
+                    <item.icon className="w-6 h-6 text-[#b39a70] group-hover:text-[#c8b088] transition-colors duration-500" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-charcoal group-hover:text-white mb-5 transition-colors duration-500">
                     {item.title}
                   </h3>
                   {item.description && (
-                    <p className="text-charcoal/55 group-hover:text-white/45 leading-relaxed text-sm transition-colors duration-500">
+                    <p className="text-charcoal/60 group-hover:text-white/75 leading-relaxed text-sm transition-colors duration-500">
                       {item.description}
                     </p>
                   )}
                   {item.values && (
-                    <ul className="space-y-3">
+                    <ul className="space-y-3 mt-4">
                       {item.values.map((value, vi) => (
-                        <li key={vi} className="flex items-center gap-3 text-charcoal/60 group-hover:text-white/50 transition-colors duration-500">
+                        <li key={vi} className="flex items-center gap-3 text-charcoal/60 group-hover:text-white/75 transition-colors duration-500">
                           <CheckCircle className="w-4 h-4 text-gold flex-shrink-0" />
                           <span className="text-sm">{value}</span>
                         </li>
@@ -146,7 +157,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── INTERNATIONAL EXPERIENCE ── */}
-      <section className="relative py-28 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
@@ -154,18 +165,19 @@ export default function SobreNosotros() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-charcoal/88" />
+          <div className="absolute inset-0 bg-charcoal/94" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/88 to-charcoal/96" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(201,168,76,0.12),transparent_38%)]" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid gap-16 items-center">
             <AnimatedSection>
-              <p className="section-label">Alcance Global</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
-                Experiencia Internacional
+                Experiencia Internacional 
               </h2>
-              <p className="text-white/55 text-lg mb-10 leading-relaxed">
-                Nuestra trayectoria nos ha llevado a desarrollar proyectos en más de 25 países, trabajando con clientes de diversos sectores y adaptándonos a normativas y contextos culturales variados.
+              <p className="text-white text-lg mb-10 leading-relaxed max-w-xl">
+                Nuestra trayectoria nos ha llevado a desarrollar proyectos en diversos países, colaborando con clientes de distintos sectores y adaptándonos a normativas y contextos culturales variados.
               </p>
               <ul className="space-y-5">
                 {[
@@ -182,31 +194,17 @@ export default function SobreNosotros() {
               </ul>
             </AnimatedSection>
 
-            <AnimatedSection delay={0.2}>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { number: '25+', label: 'Países' },
-                  { number: '15+', label: 'Años' },
-                  { number: '500+', label: 'Proyectos' },
-                  { number: '98%', label: 'Satisfacción' },
-                ].map((stat, i) => (
-                  <div key={i} className="border border-white/15 p-8 text-center hover:border-gold/50 transition-colors duration-300">
-                    <p className="font-serif text-4xl font-bold text-gold mb-2">{stat.number}</p>
-                    <p className="text-white/40 text-xs uppercase tracking-widest" style={{ letterSpacing: '0.15em' }}>{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </AnimatedSection>
+            {/* Estadísticas eliminadas por petición del cliente */}
           </div>
         </div>
       </section>
 
       {/* ── TEAM ── */}
-      <section className="bg-white py-28">
+      <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <AnimatedSection>
             <p className="section-label">Nuestros Profesionales</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-16 leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal mb-12 leading-tight">
               Nuestro Equipo
             </h2>
           </AnimatedSection>
@@ -231,7 +229,7 @@ export default function SobreNosotros() {
             ].map((role, index) => (
               <AnimatedSection key={index} delay={index * 0.12}>
                 <div className="bg-cream p-10 h-full group hover:bg-charcoal transition-all duration-500">
-                  <span className="font-serif text-gold/25 text-5xl font-bold leading-none block mb-6 group-hover:text-gold/40 transition-colors duration-500">
+                  <span className="font-serif text-[#b39a70] text-5xl font-bold leading-none block mb-6 group-hover:text-[#c8b088] transition-colors duration-500">
                     {role.icon}
                   </span>
                   <h3 className="font-serif text-2xl font-bold text-charcoal group-hover:text-white mb-4 transition-colors duration-500">
@@ -248,7 +246,7 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="bg-charcoal py-24">
+      <section className="bg-charcoal py-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
           <AnimatedSection>
             <div className="w-12 h-px bg-gold mx-auto mb-8" />
