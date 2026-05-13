@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: adminpassword
       POSTGRES_DB: lrp_proyectos
     ports:
-      - "5432:5432"
+      - "5435:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -16,6 +16,26 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  app:
+    build: .
+    container_name: lrp_proyectos_app
+    restart: unless-stopped
+    ports:
+      - "3026:3000"
+    environment:
+      DATABASE_URL: postgresql://admin:adminpassword@db:5432/lrp_proyectos?schema=public
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURE: ${SMTP_SECURE}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      CONTACT_EMAIL: ${CONTACT_EMAIL}
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   postgres_data:
