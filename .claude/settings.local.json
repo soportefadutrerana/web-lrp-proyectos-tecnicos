@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker-compose up *)",
+      "Bash(docker start *)",
+      "Bash(docker exec *)",
+      "Bash(npx prisma *)",
+      "Bash(npm ls *)",
+      "Bash(./node_modules/.bin/prisma migrate *)",
+      "Bash(npm install *)",
+      "Bash(tail -f /tmp/npm_install.log 2>/dev/null || true)",
+      "Read(//tmp/**)",
+      "Bash(./node_modules/.bin/prisma generate *)",
+      "Bash(pnpm --version)",
+      "Bash(pnpm install *)",
+      "Bash(wmic logicaldisk *)"
+    ]
+  }
+}
