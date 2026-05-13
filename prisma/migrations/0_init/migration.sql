@@ -93,14 +93,3 @@ CREATE INDEX "TeamMember_activo_orden_idx" ON "TeamMember"("activo", "orden");
 
 -- CreateIndex
 CREATE INDEX "TeamMember_puesto_idx" ON "TeamMember"("puesto");
-
-┌─────────────────────────────────────────────────────────┐
-│  Update available 6.7.0 -> 7.8.0                        │
-│                                                         │
-│  This is a major update - please follow the guide at    │
-│  https://pris.ly/d/major-version-upgrade                │
-│                                                         │
-│  Run the following to update                            │
-│    npm i --save-dev prisma@latest                       │
-│    npm i @prisma/client@latest                          │
-└─────────────────────────────────────────────────────────┘
