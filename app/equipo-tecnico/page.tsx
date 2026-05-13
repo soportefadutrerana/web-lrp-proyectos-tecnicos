@@ -23,7 +23,7 @@ export default async function EquipoTecnicoPage() {
       <section className="relative min-h-[60vh] flex items-center overflow-hidden pt-20 sm:pt-24">
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1485081669829-bacb8c7bb1f3?fm=jpg&q=80&w=3000"
+            src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
             alt="Equipo técnico"
             fill
             className="object-cover"
