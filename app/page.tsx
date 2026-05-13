@@ -78,28 +78,39 @@ export default async function Home() {
       </section>
 
       {/* ── INTRO STRIP ── */}
-      <section className="bg-cream py-16 border-y border-charcoal/10">
+      <section className="bg-cream py-24 border-y border-charcoal/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center rounded-2xl bg-white/80 ring-1 ring-charcoal/10 px-8 py-10 md:px-12 md:py-12 shadow-[0_12px_35px_rgba(0,0,0,0.06)]">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+
+            {/* Left */}
             <AnimatedSection>
-              <p className="section-label">Quiénes Somos</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-charcoal-900 leading-tight mb-6">
-                Más de 15 años construyendo el futuro
+              <div className="flex items-center gap-3 mb-8">
+                <span className="h-px w-10 bg-gold" />
+                <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]">Quiénes Somos</span>
+              </div>
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal leading-[1.05] mb-0">
+                Más de 15 años<br />construyendo<br />
+                <em className="not-italic text-gold">el futuro</em>
               </h2>
             </AnimatedSection>
+
+            {/* Right */}
             <AnimatedSection delay={0.15}>
-              <p className="text-charcoal/80 text-lg leading-relaxed mb-6">
-                LRP Proyectos Técnicos nació con la visión de ofrecer servicios integrales de arquitectura e ingeniería con los más altos estándares de calidad. Hoy somos referentes en el sector, con proyectos en más de 25 países.
-              </p>
-              <Link
-                href="/sobre-nosotros"
-                className="inline-flex items-center gap-2 text-gold text-sm font-semibold uppercase tracking-widest group"
-                style={{ letterSpacing: '0.15em' }}
-              >
-                Conocer nuestra historia
-                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
+              <div className="border-l border-gold/40 pl-10">
+                <p className="text-charcoal/65 text-lg font-light leading-relaxed mb-10">
+                  LRP Proyectos Técnicos nació con la visión de ofrecer servicios integrales de arquitectura e ingeniería con los más altos estándares de calidad. Hoy somos referentes en el sector, con proyectos en más de 25 países.
+                </p>
+                <Link
+                  href="/sobre-nosotros"
+                  className="inline-flex items-center gap-3 group"
+                >
+                  <span className="h-px w-8 bg-gold group-hover:w-12 transition-all duration-300" />
+                  <span className="text-gold text-[11px] font-semibold uppercase tracking-[0.2em]">Conocer nuestra historia</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-gold group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </Link>
+              </div>
             </AnimatedSection>
+
           </div>
         </div>
       </section>

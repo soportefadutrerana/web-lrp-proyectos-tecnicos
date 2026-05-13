@@ -21,21 +21,28 @@ export default function SobreNosotros() {
             className="object-cover scale-[1.03]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/72 to-charcoal/25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(201,168,76,0.14),transparent_42%)]" />
+          <div className="absolute inset-0 bg-charcoal/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/60 via-charcoal/25 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <div className="max-w-4xl">
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
-              Sobre Nosotros
+            <div className="max-w-3xl">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block h-px w-10 bg-gold" />
+                <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                  Nuestra Historia · Misión · Valores
+                </span>
+              </div>
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.02] mb-6" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)' }}>
+                Sobre Nosotros
               </h1>
-              <p className="text-white text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
-                Desde 2008 desarrollamos proyectos de arquitectura e ingenieria con una metodologia rigurosa, enfoque innovador y vision internacional.
+              <div className="w-16 h-0.5 bg-gold/70 mb-7" />
+              <p className="text-white text-base sm:text-lg max-w-xl font-light leading-relaxed mb-10" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}>
+                Desde 2008 desarrollamos proyectos de arquitectura e ingeniería con metodología rigurosa, enfoque innovador y visión internacional.
               </p>
-              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+              <Link href="/contacto" className="btn-gold inline-flex items-center gap-2.5">
                 Hablemos de su proyecto
                 <ArrowRight className="w-4 h-4" />
               </Link>
@@ -157,44 +164,38 @@ export default function SobreNosotros() {
       </section>
 
       {/* ── INTERNATIONAL EXPERIENCE ── */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <section className="relative py-24 overflow-hidden bg-charcoal-900">
+        <div className="absolute inset-0 z-0 opacity-100">
           <Image
             src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?fm=jpg&q=80&w=3000"
             alt="Experiencia internacional"
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-charcoal/94" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/88 to-charcoal/96" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(201,168,76,0.12),transparent_38%)]" />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-charcoal/60 to-charcoal/30 z-[1]" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="grid gap-16 items-center">
+          <div className="max-w-2xl">
             <AnimatedSection>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
-                Experiencia Internacional 
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block h-px w-10 bg-gold" />
+                <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]">
+                  Presencia Global
+                </span>
+              </div>
+
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.05] mb-6">
+                Experiencia Internacional
               </h2>
-              <p className="text-white text-lg mb-10 leading-relaxed max-w-xl">
+
+              <div className="w-12 h-0.5 bg-gold mb-8" />
+
+              <p className="text-white/75 text-lg font-light leading-relaxed mb-12 max-w-xl">
                 Nuestra trayectoria nos ha llevado a desarrollar proyectos en diversos países, colaborando con clientes de distintos sectores y adaptándonos a normativas y contextos culturales variados.
               </p>
-              <ul className="space-y-5">
-                {[
-                  'Proyectos en Europa, América Latina, África y Medio Oriente',
-                  'Experiencia en normativas internacionales y locales',
-                  'Equipo multidisciplinar con visión global',
-                  'Colaboración con socios estratégicos internacionales',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-4 text-white/60">
-                    <div className="w-1.5 h-1.5 bg-gold rounded-full mt-2 flex-shrink-0" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </AnimatedSection>
 
-            {/* Estadísticas eliminadas por petición del cliente */}
+            </AnimatedSection>
           </div>
         </div>
       </section>

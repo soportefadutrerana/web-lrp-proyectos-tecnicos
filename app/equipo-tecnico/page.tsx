@@ -29,21 +29,28 @@ export default async function EquipoTecnicoPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/75 to-charcoal/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/45 to-charcoal/10" />
+          <div className="absolute inset-0 bg-charcoal/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/60 via-charcoal/25 to-transparent" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
           <AnimatedSection>
-            <div className="max-w-4xl">
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-[0.98] mb-6">
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-3 mb-8">
+                <span className="block h-px w-10 bg-gold" />
+                <span className="text-gold text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                  Profesionales · Expertos · Comprometidos
+                </span>
+              </div>
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-[1.02] mb-6" style={{ textShadow: '0 2px 20px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.4)' }}>
                 Equipo Técnico
               </h1>
-              <p className="text-white/90 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-9">
+              <div className="w-16 h-0.5 bg-gold/70 mb-7" />
+              <p className="text-white text-base sm:text-lg max-w-xl font-light leading-relaxed mb-10" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}>
                 Nuestro equipo profesional acompaña cada proyecto con criterio técnico y visión práctica.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/contacto" className="btn-gold inline-flex items-center gap-2">
+                <Link href="/contacto" className="btn-gold inline-flex items-center gap-2.5">
                   Contactar con el equipo
                   <ArrowRight className="w-4 h-4" />
                 </Link>
